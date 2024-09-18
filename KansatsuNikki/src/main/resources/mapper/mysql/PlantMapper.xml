@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="plant.spring.repository.PlantMapper">
+
+<!-- ユーザーの植物数取得 -->
+<select id="getCount" resultType="Integer">
+	select
+		count(*)
+	from
+		plants
+	where
+		users_id = #{id}
+	and is_deleted = 0
+</select>
+
+<!-- ユーザーの植物一覧データを取得 -->
+<select id="findMany" resultType="Plants">
+	select
+		plants.name
+		,plants.detail
+		,plantfiles.file_path
+	from
+		plants
+	left join
+		plantfiles
+	on
+		plants.id = plantfiles.plants_id
+	and plantfiles.display_order = 1
+	where
+		plants.users_id = #{id}
+	and is_deleted = 0
+</select>
+
+
+
+
+</mapper>

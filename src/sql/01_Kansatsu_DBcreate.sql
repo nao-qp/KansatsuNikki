@@ -63,6 +63,7 @@ CREATE TABLE plantfiles (
 CREATE TABLE diaries (
     id INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
     plants_id INT NOT NULL COMMENT '植物データID',
+    users_id INT NOT NULL COMMENT 'ユーザーID',
     observation_date DATE COMMENT '観察日',
     detail VARCHAR(1000) COMMENT '記録',
     is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT '削除フラグ',

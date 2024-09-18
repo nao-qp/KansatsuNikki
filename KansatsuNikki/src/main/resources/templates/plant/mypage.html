@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorate="~{layout/layout}">
+<head>
+</head>
+<body>
+<div layout:fragment="content">
+	<!--プロフィール-->
+	<div class="row profile">
+		<div class="col-md-2">
+			<div class="row">
+				<!--画像-->
+				<div class="col-md-12 d-flex justify-content-center">
+					<div class ="img-container m-2">
+						<img th:src="@{#{profileFilePath} + ${profile.getFilePath}}" alt="ProfileImage">
+					</div>
+				</div>
+				<!--ニックネーム-->
+				<div class="col-md-12 d-flex justify-content-center">
+					<p th:text="${profile.getNickname}"></p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-2">
+			<!--植物数-->
+			<div class="row">
+				<div class="col-12 d-flex justify-content-center">
+					<p th:text="#{plantCount}"></p>
+				</div>
+				<div class="col-12 d-flex justify-content-center">
+					<p th:text="${plantCount}"></p>
+				</div>
+			</div>
+			<!--観察日記数-->
+			<div class="row">
+				<div class="col-12 d-flex justify-content-center">
+					<p th:text="#{diaryCount}"></p>
+				</div>
+				<div class="col-12 d-flex justify-content-center">
+					<p th:text="${diaryCount}"></p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-8">
+			<p th:text="${profile.profile}"></p>
+		</div>
+		
+	</div>
+	
+	<!--追加ボタン＆検索-->
+	<div class="row my-2 d-flex justify-content-between">
+		<!-- 植物追加ボタン -->
+		<div class="col-md-1  d-flex align-items-center">
+			<a class="icon-container" th:href="@{/plant/add}">
+				<img src="/images/plusicon.png" alt="アイコン" class="img-fluid icon" />
+			</a>
+		</div>
+		<!-- 検索 -->
+		<div class ="col-md-4">
+			<form class="d-flex" role="search">
+		        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+		        <button class="btn btn-outline-success" type="submit">Search</button>
+      		</form>
+		</div>
+	</div>
+	
+	<!--植物一覧-->
+	<div class="row my-2">
+		<div class="col-md-3 mb-4" th:each="plant : ${plantList}">
+			<div class="card">
+				 <img th:src="@{#{plantFilePath} + ${plant.filePath}}" class="card-img-top" alt="plantImage">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${plant.name}"></h5>
+                    </div>
+			</div>
+		</div>
+	</div>
+	<p>まいぺーじ</p>
+	
+</div>
+</body>
+</html>

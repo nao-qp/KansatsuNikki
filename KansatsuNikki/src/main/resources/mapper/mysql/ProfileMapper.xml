@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="plant.spring.repository.ProfileMapper">
+
+<!-- プロフィール情報1件取得 -->
+<select id="findOne" resultType="Profiles">
+ 	select
+ 		profiles.nickname
+ 		,profiles.profile
+ 		,profiles.file_path
+ 	from
+ 		users
+ 	left join
+ 		profiles
+ 	on
+ 		users.id = profiles.users_id
+ 	where
+ 		users.id = #{id}
+</select>
+</mapper>

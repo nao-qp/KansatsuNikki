@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+.profile {
+	background-color: #CCFF99;
+}
+
+/* 丸画像 */
+/* マイページプロフィール画像 */
+
+.img-container {
+	width: 100px; /* 円の直径 */
+    height: 100px; /* 円の直径 */
+    border-radius: 50%; /* 円形にする */
+    overflow: hidden; /* コンテナからはみ出した部分を隠す */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.icon-container {
+    width: 30px;    /* 幅は自動で調整 */
+    cursor: pointer; /* マウスカーソルを指の形にする */
+}
+
+.icon-container:hover .icon {
+    opacity: 0.5; /* ホバー時の不透明度 */
+}
