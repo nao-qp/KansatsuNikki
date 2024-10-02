@@ -5,6 +5,16 @@
 <!-- Mapperとxmlのマッピング -->
 <mapper namespace="plant.spring.repository.ProfileMapper">
 
+<!-- プロフィール初期データ1件作成 -->
+<insert id="insertOne">
+	insert into profiles (
+		users_id
+		,nickname)
+		values (
+			#{id}
+			,#{nickname})
+</insert>
+
 <!-- プロフィール情報1件取得 -->
 <select id="findOne" resultType="Profiles">
  	select

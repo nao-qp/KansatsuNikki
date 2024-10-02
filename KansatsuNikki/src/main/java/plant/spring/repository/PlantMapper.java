@@ -15,4 +15,6 @@ public interface PlantMapper {
 	/** ユーザーの植物一覧データを取得 */
 	public List<Plants> findMany(Integer id);
 	
+	/** 植物1件登録 */
+	public int insertOne(Plants plant);
 }

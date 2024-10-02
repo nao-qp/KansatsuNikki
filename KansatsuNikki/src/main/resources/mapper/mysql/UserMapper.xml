@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="plant.spring.repository.UserMapper">
+
+<!-- アカウント1件登録 -->
+<insert id="insertOne">
+	insert into users (
+		account
+		,pass
+		)
+		values (
+			#{account}
+			,#{pass}
+		)
+</insert>
+
+<!-- ログインユーザー情報取得 -->
+<select id="findLoginUser" resultType="Users">
+	select
+		*
+	from
+		users
+	where
+		account = #{account}
+	and is_deleted = 0
+</select>
+
+</mapper>

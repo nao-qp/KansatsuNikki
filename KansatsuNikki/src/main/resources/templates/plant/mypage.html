@@ -13,7 +13,7 @@
 				<!--画像-->
 				<div class="col-md-12 d-flex justify-content-center">
 					<div class ="img-container m-2">
-						<img th:src="@{#{profileFilePath} + ${profile.getFilePath}}" alt="ProfileImage">
+						<img th:src="${profile.filePath != null && !profile.filePath.trim().isEmpty()} ? @{#{profileFilePath} + ${profile.filePath}} : '/images/profileImage.png'" alt="ProfileImage">
 					</div>
 				</div>
 				<!--ニックネーム-->
@@ -55,7 +55,7 @@
 		<!-- 植物追加ボタン -->
 		<div class="col-md-1  d-flex align-items-center">
 			<a class="icon-container" th:href="@{/plant/add}">
-				<img src="/images/plusicon.png" alt="アイコン" class="img-fluid icon" />
+				<img src="/images/plusicon.png" alt="#{plusIcon}" class="img-fluid" />
 			</a>
 		</div>
 		<!-- 検索 -->
@@ -71,7 +71,7 @@
 	<div class="row my-2">
 		<div class="col-md-3 mb-4" th:each="plant : ${plantList}">
 			<div class="card">
-				 <img th:src="@{#{plantFilePath} + ${plant.filePath}}" class="card-img-top" alt="plantImage">
+				 <img th:src="${plant.filePath != null && !plant.filePath.trim().isEmpty()} ? @{#{plantFilePath} + ${plant.filePath}} : '/images/plantImage.png'" class="card-img-top" alt="plantImage">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${plant.name}"></h5>
                     </div>

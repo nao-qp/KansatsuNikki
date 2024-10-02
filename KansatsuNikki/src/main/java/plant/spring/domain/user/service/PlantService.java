@@ -12,4 +12,7 @@ public interface PlantService {
 	/**  ユーザーの植物一覧データを取得 */
 	public List<Plants> findMany(Integer id);
 	
+	/** 植物1件登録 */
+	public int addPlant(Plants plant);
+	
 }

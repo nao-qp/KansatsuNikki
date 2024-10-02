@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorate="~{layout/layout}">
+<head>
+</head>
+<body>
+<div layout:fragment="content">
+	<form class="mt-3 col-md-10" id="" method="post" th:action="@{/plant/add}" th:object="${addPlantForm}" enctype="multipart/form-data">
+		<!--植物写真-->
+		<div class="row">
+			<div class="col-12">
+				
+				
+				<!--プラスボタン-->
+				<div class="col-md-1">
+					<!--写真選択ダイアログを開く-->
+					<a class="icon-container" id="add-photo-button">
+						<img src="/images/plusicon.png" alt="#{plusIcon}" class="img-fluid"/>
+					</a>
+				</div>
+				
+				 <!-- 隠れたファイル入力 -->
+            <input type="file" id="file-input" th:field="*{files}" accept="image/*" style="display: none;" multiple>
+            
+			</div>
+			
+			
+			<!-- 選択した写真を表示するエリア -->
+<div class="row" id="photo-preview-container" style="margin-top: 20px;"></div>
+
+<script>
+    document.getElementById('add-photo-button').onclick = function() {
+        document.getElementById('file-input').click();  // ファイル入力をクリック
+    };
+
+    document.getElementById('file-input').onchange = function(event) {
+        const files = event.target.files;
+        const container = document.getElementById('photo-preview-container');
+        container.innerHTML = '';  // 既存のプレビューをクリア
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;  // 画像データのURL
+                img.classList.add('img-fluid', 'col-md-3', 'mb-2');  // Bootstrapクラスを適用
+                container.appendChild(img);  // 画像をプレビューエリアに追加
+            };
+
+            reader.readAsDataURL(file);  // 画像ファイルをDataURLとして読み込む
+        }
+    };
+</script>
+			
+			
+			
+		</div>
+		<!--入力欄-->
+		<div class="row d-flex justify-content-center">
+			
+				<!--植物の名前-->
+				<label th:for="name" th:text="#{plantName}"></label>
+				<input type="text" class="form-control mb-3 mt-1" th:field="*{name}" th:placeholder="#{plantNamePlaceholder}">
+				<!--詳細-->
+				<label th:for="detial" th:text="#{plantDetail}"></label>
+				<textarea class="form-control mb-4 mt-1" th:field="*{detail}" th:placeholder="#{plantDetailPlaceholder}"
+					rows="5" style="resize: vertical;"></textarea>
+				<!--登録ボタン-->
+				<div class="mb-3 row d-flex justify-content-center">
+					<input type="submit" class="btn btn-success" th:value="#{plantRegister}"/>
+				</div>
+		</div>
+	</form>
+	
+</div>
+</body>
+</html>

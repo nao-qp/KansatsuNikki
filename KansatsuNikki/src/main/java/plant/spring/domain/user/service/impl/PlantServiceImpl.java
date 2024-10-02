@@ -24,4 +24,9 @@ public class PlantServiceImpl implements PlantService {
 	public List<Plants> findMany(Integer id) {
 		return mapper.findMany(id);
 	}
+	
+	@Override
+	public int addPlant(Plants plant) {
+		return mapper.insertOne(plant);
+	}
 }

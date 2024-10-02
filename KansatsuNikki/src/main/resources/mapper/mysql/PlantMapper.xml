@@ -34,7 +34,19 @@
 	and is_deleted = 0
 </select>
 
-
-
+<!-- 植物1件登録 -->
+<!-- AUTO_INCREMENTで生成されたidをINSERT後にPlantsのidに取得する -->
+<insert id="insertOne" parameterType="Plants" useGeneratedKeys="true" keyProperty="id">
+	insert into plants (
+		users_id
+		,name
+		,detail
+		)
+		values (
+			#{usersId}
+			,#{name}
+			,#{detail}
+		)
+</insert>
 
 </mapper>

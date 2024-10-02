@@ -36,10 +36,10 @@ CREATE TABLE profiles (
 
 CREATE TABLE plants (
     id INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
-    users_id INT COMMENT 'ユーザーID',
+    users_id INT NOT NULL COMMENT 'ユーザーID',
     name VARCHAR(30) COMMENT '植物名',
     detail VARCHAR(1000) COMMENT '植物詳細',
-    is_deleted TINYINT COMMENT '削除フラグ',
+    is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT '削除フラグ',
     create_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
     update_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
     PRIMARY KEY(id),

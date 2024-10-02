@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <!-- Mapperとxmlのマッピング -->
+<mapper namespace="plant.spring.repository.PlantMapper">
+
+<!-- 植物画像データ1件登録 -->
+<insert id="insertOne" parameterType="PlantFiles" useGeneratedKeys="true" keyProperty="id">
+	insert into plantfiles (
+		plants_id
+		,display_order
+		,file_path
+		)
+		values (
+			#{plantsId}
+			,#{displayOrder}
+			,#{filePath}
+		)
+</insert>
+
+</mapper>

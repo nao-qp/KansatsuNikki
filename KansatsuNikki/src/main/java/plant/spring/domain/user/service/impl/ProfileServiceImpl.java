@@ -13,9 +13,15 @@ public class ProfileServiceImpl implements ProfileService {
 	@Autowired
 	private ProfileMapper mapper;
 
+	/** プロフィール初期データ1件作成 */
+	@Override
+	public int addProfile(Integer id, String nickname) {
+		return mapper.insertOne(id, nickname);
+	}
+	
 	/** プロフィール情報1件取得 */
 	@Override
-	public Profiles findOne(Integer id) {
+	public Profiles getProfile(Integer id) {
 		return mapper.findOne(id);
 	}
 

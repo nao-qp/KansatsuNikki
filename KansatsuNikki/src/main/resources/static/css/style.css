@@ -22,11 +22,13 @@
     object-fit: cover;
 }
 
+
+/* プラスアイコン */
 .icon-container {
-    width: 30px;    /* 幅は自動で調整 */
+    width: 30px;
     cursor: pointer; /* マウスカーソルを指の形にする */
 }
 
-.icon-container:hover .icon {
+.icon-container:hover {
     opacity: 0.5; /* ホバー時の不透明度 */
 }

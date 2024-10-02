@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorate="~{layout/layout}">
+<head>
+</head>
+<body>
+<div layout:fragment="content">
+	<div class="row  d-flex justify-content-center">
+		<div class="col-md-3">
+			<!--ログイン-->
+			<div class="row">
+				<h2 class="text-center" th:text="#{login}"></h2>
+			</div>
+			<!--エラーメッセージ-->
+			<p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"
+				 th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+				 class="text-danger text-center mt-3"></p>
+			<div class="row">
+			<!-- 入力フォーム -->
+				<form class="mt-3" id="login-form" method="post" th:action="@{/user/login}" th:object="${loginForm}">
+					<!--アカウントID-->
+					<div class="mb-3 row d-flex justify-content-center align-items-center">
+					  <div class="col">
+					    <input type="text" class="form-control" th:field="*{account}" th:placeholder="#{account}"/>
+					  </div>
+					</div>
+					<!--パスワード-->
+					<div class="mb-5 row d-flex justify-content-center">
+					    <div class="col">
+					      <input type="password" class="form-control" th:field="*{pass}" th:placeholder="#{pass}"/>
+				 	    </div>
+					</div>
+					<!--ログインボタン-->
+					<div class="mb-3 row d-flex justify-content-center">
+						<input type="submit" class="btn btn-success" th:value="#{login}"/>
+					</div>
+				</form>
+			
+			</div>
+			<!-- 新規登録リンク -->
+			<div class="row text-center">
+				<a class="text-decoration-none" href="/user/signup" th:text="#{doSignup}"></a>
+			</div>
+		</div>
+	</div>
+	
+</div>
+</body>
+</html>
