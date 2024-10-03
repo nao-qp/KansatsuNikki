@@ -16,7 +16,7 @@ import plant.spring.domain.user.service.UserService;
 //→→→→使用しない方向で。
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-	
+
 	@Autowired
 	private UserService userService;
 

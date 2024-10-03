@@ -25,44 +25,44 @@ public class SignupController {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserApplicationService userApplicationService;
-	
+
 	//新規登録ページ表示
 	@GetMapping("/user/signup")
 	public String getSignup(Model model, SignupForm form, Locale locale) {
 		return "user/signup";
 	}
-	
+
 	//新規登録処理
 	@PostMapping("/user/signup")
 	public String postSignup(Model model,
 			@ModelAttribute @Validated SignupForm form, BindingResult bindingResult,
 			Locale locale) {
-		
+
 		//入力チェック結果
 		if(bindingResult.hasErrors()) {
 			//NG:ユーザー登録画面に戻ります
 			return getSignup(model, form, locale);
 		}
-		
+
 		log.info(form.toString());
-		
+
 		//formをクラスに変換
 		Users user = modelMapper.map(form, Users.class);
-		
+
 		//ユーザー登録
 		try {
 			//新規登録、プロフィール初期データ登録、認証、マイページ表示
 			return registerUser(user, locale);
-			
+
 			//※自動認証後、mypage表示が失敗するため後で確認。
-			
-			
+
+
 			//////////認証情報確認//////////
 			// 現在のユーザーの認証情報を取得
 //			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -74,13 +74,13 @@ public class SignupController {
 //			    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities(); // 権限
 //
 //			    System.out.println(username);
-//			    
+//
 //			    // 権限の表示
 //			    authorities.forEach(authority -> System.out.println("Authority: " + authority.getAuthority()));
 //			}
 			//////////////////////////////
-			
-			
+
+
 		} catch (DataIntegrityViolationException e) {
 			//accountが重複した場合
 			model.addAttribute("errorMessage", "このアカウントIDはすでに使用されています。別のアカウントIDをお試しください。");
@@ -88,15 +88,15 @@ public class SignupController {
 			return getSignup(model, form, locale);
 		}
 
-		
+
 	}
-	
+
 	//新規登録、プロフィール初期データ登録、認証、マイページ表示
 	public String registerUser(Users user, Locale locale) {
 		userApplicationService.registerNewUser(user, locale);
 		//作成されたユーザーデータのIDを取得
 		Integer usersId = userService.getLoginUser(user.getAccount()).getId();
-		
+
 		return "redirect:/plant/mypage/" + usersId;
 	}
 

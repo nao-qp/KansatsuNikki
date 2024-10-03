@@ -13,21 +13,23 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper mapper;
-	
+
 	@Autowired
 	private PasswordEncoder encoder;
-	
+
 	/** アカウント1件登録 */
+	@Override
 	public int signup(Users user) {
-		
+
 		//パスワード暗号化
 		String rawPassword = user.getPass();
 		user.setPass(encoder.encode(rawPassword));
-		
+
 		return mapper.insertOne(user);
 	}
-	
+
 	/** ログインユーザー情報取得 */
+	@Override
 	public Users getLoginUser(String account) {
 		return mapper.findLoginUser(account);
 	}

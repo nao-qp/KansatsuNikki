@@ -8,7 +8,7 @@ public class PlantFiles {
 	private Integer plantsId;
 	private Integer displayOrder;
 	private String filePath;
-	
+
 	public PlantFiles(Integer plantsId, Integer displayOrder, String filePath) {
 		this.plantsId = plantsId;
 		this.displayOrder = displayOrder;

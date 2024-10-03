@@ -1,2 +1,5 @@
 #管理しないファイル
 *.drawio.bkp
+# uploads フォルダ内のすべてのファイルを無視
+/KansatsuNikki/src/main/resources/static/uploads/*
+

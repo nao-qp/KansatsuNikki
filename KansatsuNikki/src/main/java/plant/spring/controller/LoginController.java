@@ -16,5 +16,5 @@ public class LoginController {
 	public String getLogin(Model model, LoginForm form, Locale locale) {
 		return "user/login";
 	}
-	
+
 }

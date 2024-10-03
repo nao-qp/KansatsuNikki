@@ -18,23 +18,23 @@ import plant.spring.domain.user.service.UserService;
 
 @Service
 public class UserApplicationService {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private ProfileService profileService;
-	
+
 	@Autowired
 	private MessageSource messageSource;
-	
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
 	public Users registerNewUser(Users user, Locale locale) {
 		//自動ログイン用パス退避
 		String loginPass = user.getPass();
-		
+
         // ユーザーをデータベースに保存
 		int result = userService.signup(user);
 
@@ -46,7 +46,7 @@ public class UserApplicationService {
 			String nickname = messageSource.getMessage("nickname", null, locale);
 			profileService.addProfile(usersId, nickname);
 		}
-		
+
         // 自動ログイン処理
         authenticateUser(user.getAccount(), loginPass);
 
@@ -63,18 +63,18 @@ public class UserApplicationService {
 		    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities(); // 権限
 
 		    System.out.println(username);
-		    
+
 		    // 権限の表示
 		    authorities.forEach(authority -> System.out.println("Authority: " + authority.getAuthority()));
 		}
 		//////////////////////////////
-        
-        
+
+
         return user;
     }
 
     private void authenticateUser(String username, String password) {
-        UsernamePasswordAuthenticationToken authenticationToken = 
+        UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);

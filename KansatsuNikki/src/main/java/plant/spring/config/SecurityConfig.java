@@ -22,15 +22,15 @@ public class SecurityConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-		
+
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector) {
         return new MvcRequestMatcher.Builder(introspector);
     }
-	
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        
+
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .requestMatchers(mvc.pattern("/user/signup")).permitAll()
@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/plant/mypage",true)
                 .permitAll()
         );
-        
+
         // CSRF 対策を無効に設定 (一時的)
         http.csrf(csrf -> csrf
                 .disable()
@@ -57,22 +57,22 @@ public class SecurityConfig {
 
         return http.build();
     }
-    
-    
+
+
     //新規登録後、ユーザー認証を行う
 //    @Bean
 //    AuthenticationManager authManager(HttpSecurity http) throws Exception {
-//        AuthenticationManagerBuilder authenticationManagerBuilder = 
+//        AuthenticationManagerBuilder authenticationManagerBuilder =
 //                http.getSharedObject(AuthenticationManagerBuilder.class);
 //        // ユーザー詳細サービスやパスワードエンコーダーを設定
 //        // authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 //
 //        return authenticationManagerBuilder.build();
 //    }
-    
+
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-    
+
 }

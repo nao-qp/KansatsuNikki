@@ -11,7 +11,7 @@ public class DiaryServiceImpl implements DiaryService {
 
 	@Autowired
 	private DiaryMapper mapper;
-	
+
 	@Override
 	public Integer getCount(Integer id) {
 		return mapper.getCount(id);

@@ -14,17 +14,17 @@ public class PlantServiceImpl implements PlantService {
 
 	@Autowired
 	private PlantMapper mapper;
-	
+
 	@Override
 	public Integer getCount(Integer id) {
 		return mapper.getCount(id);
 	}
-	
+
 	@Override
 	public List<Plants> findMany(Integer id) {
 		return mapper.findMany(id);
 	}
-	
+
 	@Override
 	public int addPlant(Plants plant) {
 		return mapper.insertOne(plant);

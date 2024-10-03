@@ -3,7 +3,7 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
  <!-- Mapperとxmlのマッピング -->
-<mapper namespace="plant.spring.repository.PlantMapper">
+<mapper namespace="plant.spring.repository.PlantFileMapper">
 
 <!-- 植物画像データ1件登録 -->
 <insert id="insertOne" parameterType="PlantFiles" useGeneratedKeys="true" keyProperty="id">
@@ -18,5 +18,14 @@
 			,#{filePath}
 		)
 </insert>
+
+<!-- 植物画像データ1件更新 -->
+<update id="updateOne">
+	update plantfiles
+	set
+		file_path = #{fileName}
+	where
+		id = #{id}
+</update>
 
 </mapper>

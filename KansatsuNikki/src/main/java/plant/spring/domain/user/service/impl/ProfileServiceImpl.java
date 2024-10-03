@@ -18,7 +18,7 @@ public class ProfileServiceImpl implements ProfileService {
 	public int addProfile(Integer id, String nickname) {
 		return mapper.insertOne(id, nickname);
 	}
-	
+
 	/** プロフィール情報1件取得 */
 	@Override
 	public Profiles getProfile(Integer id) {

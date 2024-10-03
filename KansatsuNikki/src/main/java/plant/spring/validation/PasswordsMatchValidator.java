@@ -13,11 +13,11 @@ public class PasswordsMatchValidator implements ConstraintValidator<PasswordsMat
 
     @Override
     public boolean isValid(SignupForm form, ConstraintValidatorContext context) {
-    	
+
         if (form == null || form.getPass() == null || form.getConfirmPass() == null) {
             return true; // Null チェックは外部で行う
         }
-        
+
         // パスワードと確認用パスワードが一致するかをチェック
         return form.getPass().equals(form.getConfirmPass());
     }

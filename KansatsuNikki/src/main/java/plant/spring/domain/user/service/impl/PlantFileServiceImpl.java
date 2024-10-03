@@ -12,9 +12,16 @@ public class PlantFileServiceImpl implements PlantFileService {
 
 	@Autowired
 	private PlantFileMapper mapper;
-	
+
+	/** 植物画像データ1件登録 **/
 	@Override
 	public int addPlantFile(PlantFiles plantFile) {
 		return mapper.insertOne(plantFile);
+	}
+
+	/** 植物画像データ1件更新 **/
+	@Override
+	public void editPlantFile(Integer id, String fileName) {
+		mapper.updateOne(id, fileName);
 	}
 }
