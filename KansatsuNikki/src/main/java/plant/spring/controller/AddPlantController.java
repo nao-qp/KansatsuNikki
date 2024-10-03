@@ -1,9 +1,9 @@
 package plant.spring.controller;
 
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -134,11 +134,23 @@ public class AddPlantController {
 //                    return "error";  // エラーページに遷移する場合
 //                }
 //                
-                
+        		//ファイルアップロード処理
                 try {
-//                    Path path = Paths.get("path/to/destination/" + file.getOriginalFilename());
-                	Path path = Paths.get(uploadDir + fileName);
-                    Files.copy(file.getInputStream(), path);
+                // デフォルトのファイルシステムを取得
+                Path uploadDirPath = FileSystems.getDefault().getPath(uploadDir);
+                
+                // resolveメソッドを使用してファイル名を結合
+                Path filePath = uploadDirPath.resolve(fileName);
+					Files.copy(file.getInputStream(), filePath);
+				} catch (IOException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+                
+//                try {
+////                    Path path = Paths.get("path/to/destination/" + file.getOriginalFilename());
+//                	Path path = Paths.get(uploadDir + fileName);
+//                    Files.copy(file.getInputStream(), path);
                     
 //                    //アップロード先に移動完了したか確認
 //                    if (Files.exists(path)) {
@@ -146,18 +158,18 @@ public class AddPlantController {
                     	
 //                    }
                     
-                    int attempts = 0;
-                    while (!Files.exists(path) && attempts < 10) {
-                        Thread.sleep(1000); // 1000ミリ秒待機
-                        attempts++;
-                    }
-                    
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
+//                    int attempts = 0;
+//                    while (!Files.exists(path) && attempts < 10) {
+//                        Thread.sleep(1000); // 1000ミリ秒待機
+//                        attempts++;
+//                    }
+//                    
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//					// TODO 自動生成された catch ブロック
+//					e.printStackTrace();
+//				}
                 
                 
                 
