@@ -1,9 +1,7 @@
 package plant.spring.controller;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -124,87 +122,21 @@ public class AddPlantController {
         		String fileName = sb.toString();
         		
                 // 新しいファイルパスを作成
-//                File destinationFile = new File(uploadDir + fileName);
-//                try {
-//                    // ファイルを保存
-//                    file.transferTo(destinationFile);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    model.addAttribute("error", "ファイルのアップロード中にエラーが発生しました。");
-//                    return "error";  // エラーページに遷移する場合
-//                }
-//                
-        		//ファイルアップロード処理
+                File destinationFile = new File(uploadDir + fileName);
                 try {
-                // デフォルトのファイルシステムを取得
-                Path uploadDirPath = FileSystems.getDefault().getPath(uploadDir);
+                    // ファイルを保存
+                    file.transferTo(destinationFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    model.addAttribute("error", "ファイルのアップロード中にエラーが発生しました。");
+                    return "error";  // エラーページに遷移する場合
+                }
                 
-                // resolveメソッドを使用してファイル名を結合
-                Path filePath = uploadDirPath.resolve(fileName);
-					Files.copy(file.getInputStream(), filePath);
-				} catch (IOException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
-                
-//                try {
-////                    Path path = Paths.get("path/to/destination/" + file.getOriginalFilename());
-//                	Path path = Paths.get(uploadDir + fileName);
-//                    Files.copy(file.getInputStream(), path);
-                    
-//                    //アップロード先に移動完了したか確認
-//                    if (Files.exists(path)) {
-//                    	System.out.println("ファイルのアップロードが成功しました。");
-                    	
-//                    }
-                    
-//                    int attempts = 0;
-//                    while (!Files.exists(path) && attempts < 10) {
-//                        Thread.sleep(1000); // 1000ミリ秒待機
-//                        attempts++;
-//                    }
-//                    
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (InterruptedException e) {
-//					// TODO 自動生成された catch ブロック
-//					e.printStackTrace();
-//				}
-                
-                
-                
-//                try {
-//                	Thread.sleep(10000); // 10秒(1万ミリ秒)間だけ処理を止める
-//                } catch (InterruptedException e) {
-//                }
-                
-//             // ファイルが存在するか確認
-//                if (!destinationFile.exists()) {
-//                    model.addAttribute("error", "ファイルの保存に失敗しました。");
-//                    return "error";  // エラーページに遷移する場合
-//                }
-                
-//                Path path = Paths.get(destinationFile.getAbsolutePath());
-//                if (Files.exists(path)) {
-//                    System.out.println("ファイルが存在します。");
-//                    redirectMypage = "redirect:/plant/mypage";
-//                    
-//                } else {
-//                    System.out.println("ファイルが存在しません。");
-//                }
-                
-                
-//                if (destinationFile.length() > 0) {
-//                    System.out.println("ファイルが正常に保存されました。サイズ: " + destinationFile.length() + " bytes");
-//                } else {
-//                    System.out.println("ファイルが保存されていません、またはサイズが0です。");
-//                }
-                
-//              try {
-//            	Thread.sleep(1000); // 1秒(1万ミリ秒)間だけ処理を止める
-//            } catch (InterruptedException e) {
-//            }
-                
+        		
+              try {
+            	Thread.sleep(3000); // 3秒(3000ミリ秒)間だけ処理を止める
+            } catch (InterruptedException e) {
+            }
                 
                 //// 植物画像ファイルの名前を更新する ////
         		//植物画像データ更新
@@ -212,10 +144,6 @@ public class AddPlantController {
 
             }
         }
-
-
-
-
 
 		//登録後、植物一覧（マイページ）に遷移
 //		return "redirect:/plant/mypage";
