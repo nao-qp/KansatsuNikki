@@ -24,11 +24,24 @@
 
 
 /* プラスアイコン */
+.icon-container img {
+	width: 30px;
+}
+
 .icon-container {
-    width: 30px;
+	border: 2px dotted #CCFF99;
     cursor: pointer; /* マウスカーソルを指の形にする */
+    height: 100px;
 }
 
 .icon-container:hover {
     opacity: 0.5; /* ホバー時の不透明度 */
+}
+
+
+/**** 植物追加画面 ****/
+/* 写真エリア */
+.photo-erea {
+	width: 200px;
+	height: 200px;
 }
