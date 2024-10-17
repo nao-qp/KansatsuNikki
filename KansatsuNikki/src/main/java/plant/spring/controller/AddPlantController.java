@@ -9,6 +9,7 @@ import java.util.Locale;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +42,9 @@ public class AddPlantController {
 	@Autowired
 	private PlantFileService plantFileService;
 
+	@Autowired
+	private MessageSource messageSource;
+	
 	//画像ディレクトリ取得
 	@Value("${app.upload-static-dir}")
 	private String uploadStaticDir;			//ディレクトリ
@@ -65,9 +69,6 @@ public class AddPlantController {
 			@ModelAttribute @Validated AddPlantForm form, BindingResult bindingResult,
 			Locale locale) {
 
-		
-//		String redirectMypage = "";
-		
 		//入力チェック結果
 		if (bindingResult.hasErrors()) {
 			//NG:植物追加画面に戻る
@@ -76,6 +77,11 @@ public class AddPlantController {
 
 		log.info(form.toString());
 
+		//登録ボタン制御
+		//フォーム送信時にボタンに「処理中」と表示する
+		String btnProcessing = messageSource.getMessage("btnProcessing", null, locale);
+		model.addAttribute("btnProcessing", btnProcessing);
+		
 		//formをクラスに変換
 		Plants plant = modelMapper.map(form, Plants.class);
 
@@ -89,17 +95,22 @@ public class AddPlantController {
 
 		// アップロードディレクトリのパスを指定
 		String uploadDir = uploadStaticDir + uploadDirPlant;
-
+		
+		//画像表示順設定
+    	int displayOrder = 1;
+    	
 		//ファイルがある場合
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
-
+            	
             	//// 植物画像データを作成する ////
             	//PlantsテーブルにAUTO_INCREMENTで生成されたidを取得
         		Integer plantsId = plant.getId();
 
         		//植物ファイルのインスタンス作成
-        		PlantFiles plantFile = new PlantFiles(plantsId, 1, "defaultFileName");
+        		PlantFiles plantFile = new PlantFiles(plantsId, displayOrder, "defaultFileName");
+        		//画像表示順更新
+        		displayOrder += 1;
 
         		//植物画像データ登録
         		//ファイル名は一時的に設定
@@ -131,13 +142,7 @@ public class AddPlantController {
                     model.addAttribute("error", "ファイルのアップロード中にエラーが発生しました。");
                     return "error";  // エラーページに遷移する場合
                 }
-                
-        		
-              try {
-            	Thread.sleep(3000); // 3秒(3000ミリ秒)間だけ処理を止める
-            } catch (InterruptedException e) {
-            }
-                
+
                 //// 植物画像ファイルの名前を更新する ////
         		//植物画像データ更新
         		plantFileService.editPlantFile(plantFilesId, fileName);
@@ -145,9 +150,14 @@ public class AddPlantController {
             }
         }
 
+      //更新直後のマイページリダイレクト時に更新した画像が取得できないので時間を置く
+        try {
+      	Thread.sleep(3000); // 3秒(3000ミリ秒)間だけ処理を止める
+	    } catch (InterruptedException e) {
+	    }
+	
 		//登録後、植物一覧（マイページ）に遷移
-//		return "redirect:/plant/mypage";
-//        return redirectMypage;
-        return "redirect:/plant/mypage?timestamp=" + System.currentTimeMillis();
+		return "redirect:/plant/mypage";
+
 	}
 }

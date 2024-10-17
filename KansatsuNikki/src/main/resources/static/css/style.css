@@ -28,7 +28,8 @@
 	width: 30px;
 }
 
-.icon-container {
+/* 画像追加ボタン */
+.fileplus-container {
 	border: 2px dotted #CCFF99;
     cursor: pointer; /* マウスカーソルを指の形にする */
     height: 100px;
@@ -39,9 +40,31 @@
 }
 
 
+/* 画像削除ボタン */
+.remove-btn {
+	border: none;
+	background: transparent;
+	padding: 0;
+	z-index: 1;
+}
+
+.remove-btn img {
+	width: 20px;
+	opacity: 0.5; /* 透明 */
+}
+
+.remove-btn img:hover {
+	opacity: 0.8; /* ホバー時透明度を下げる */
+}
+
 /**** 植物追加画面 ****/
 /* 写真エリア */
 .photo-erea {
 	width: 200px;
 	height: 200px;
+	overflow: hidden;	/* 枠からはみ出た部分を隠す */
+}
+
+.photo-erea img {
+	object-fit: cover;	/* 画像を枠内に収める */
 }
