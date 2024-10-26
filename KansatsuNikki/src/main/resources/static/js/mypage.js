@@ -5,12 +5,16 @@
 
 let itemIdToDelete;
 
-function showDeleteModal(itemId) {
+function showDeleteModal(itemId, deletePlantName) {
     itemIdToDelete = itemId;
    var modalElement = document.getElementById('deleteModal');
     
     // Bootstrapのモーダルインスタンスを作成
     var modal = new bootstrap.Modal(modalElement);
+    
+    // 植物の名前を設定
+    
+    
     
     // モーダルを表示
     modal.show();

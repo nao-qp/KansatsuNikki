@@ -19,7 +19,8 @@
 <!-- ユーザーの植物一覧データを取得 -->
 <select id="findMany" resultType="Plants">
 	select
-		plants.name
+		plants.id
+		,plants.name
 		,plants.detail
 		,plantfiles.file_path
 	from

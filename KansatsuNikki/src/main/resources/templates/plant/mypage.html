@@ -74,7 +74,10 @@
 		<div class="col-md-3 mb-4 col-plant" th:each="plant : ${plantList}">
 			<div class="card">
 				<!-- 削除ボタン(削除確認モーダル表示) -->
+				<img class="delete-plant" th:onclick="'showDeleteModal(' + ${plant.id} + ', \'' +  ${plant.name} + '\')'" alt="deleteplant" src="/images/deleteicon.png">
+				<!--
 				<img class="delete-plant" th:onclick="'showDeleteModal(' + ${plant.id} + ')'" alt="deleteplant" src="/images/deleteicon.png">
+				-->
 				<!-- 削除処理 -->
 				<form th:id="'deleteForm' + ${plant.id}" th:action="@{/plant/delete/{id}(id=${plant.id})}" method="post" style="display:none;">
                 	<input type="hidden" name="_method" value="delete"/>
@@ -96,7 +99,7 @@
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title">削除確認</h5>
+	        <h5 class="modal-title" id="plantNameToDelete"></h5>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
 	      <div class="modal-body">
