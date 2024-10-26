@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import jakarta.servlet.http.HttpServletResponse;
 import plant.spring.domain.user.model.Plants;
 import plant.spring.domain.user.model.Profiles;
 import plant.spring.domain.user.service.DiaryService;
@@ -43,7 +43,7 @@ public class MyPageController {
 	
 	//植物一覧表示（マイページ）
 	@GetMapping("/plant/mypage")
-	public String getMyPage(Model model, Locale locale, HttpServletResponse response) {
+	public String getMyPage(Model model, Locale locale) {
 
 		// 現在のユーザーの認証情報を取得
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -122,5 +122,27 @@ public class MyPageController {
 
 		return "plant/mypage";
 	}
+	
+	//植物削除処理
+	@PostMapping("/plant/delete/{id}")
+	public String deletePlant(Model model, @PathVariable("id") Integer id, Locale locale) {
+		
+		////削除処理前に、認証情報を確認////
+		// 現在のユーザーの認証情報を取得
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        //認証情報がない場合は、ログインページにリダイレクトする
+        if (authentication == null) {
+        	 return "redirect:/user/login";
+        }
+		
+        //植物削除（deleteフラグを1に更新）
+        plantService.deletePlant(id);
+        
+        
+		//削除実行後、植物一覧へリダイレクト
+		return "redirect:/plant/mypage";
+	}
+	
 
 }

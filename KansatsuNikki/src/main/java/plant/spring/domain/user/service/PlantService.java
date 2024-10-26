@@ -15,4 +15,7 @@ public interface PlantService {
 	/** 植物1件登録 */
 	public int addPlant(Plants plant);
 
+	//** 植物1件削除 */
+	public int deletePlant(Integer id);
+	
 }

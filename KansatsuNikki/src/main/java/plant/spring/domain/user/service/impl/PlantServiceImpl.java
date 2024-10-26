@@ -29,4 +29,9 @@ public class PlantServiceImpl implements PlantService {
 	public int addPlant(Plants plant) {
 		return mapper.insertOne(plant);
 	}
+	
+	@Override
+	public int deletePlant(Integer id) {
+		return mapper.updateDelOne(id);
+	}
 }

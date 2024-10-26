@@ -17,4 +17,8 @@ public interface PlantMapper {
 
 	/** 植物1件登録 */
 	public int insertOne(Plants plant);
+	
+	//** 植物1件削除 */
+	public int updateDelOne(Integer id);
+	
 }

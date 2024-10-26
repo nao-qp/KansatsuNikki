@@ -35,7 +35,7 @@
 </select>
 
 <!-- 植物1件登録 -->
-<!-- AUTO_INCREMENTで生成されたidをINSERT後にPlantsのidに取得する -->
+<!-- AUTO_INCREMENTで生成されたidをINSERT後にinsert対象データPlantsオブジェクトのidに設定する -->
 <insert id="insertOne" parameterType="Plants" useGeneratedKeys="true" keyProperty="id">
 	insert into plants (
 		users_id
@@ -48,5 +48,14 @@
 			,#{detail}
 		)
 </insert>
+
+<!-- 植物1件削除 -->
+<update id="updateDelOne">
+	update plants
+	set
+		is_deleted = 1
+	where
+		id = #{id}
+</update>
 
 </mapper>

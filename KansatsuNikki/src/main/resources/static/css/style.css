@@ -39,7 +39,32 @@
     opacity: 0.5; /* ホバー時の不透明度 */
 }
 
+/**** マイページ ****/
 
+/* 植物削除ゴミ箱アイコン */
+.delete-plant {
+	width: 25px;
+	opacity: 0.8;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+.delete-plant:hover {
+	opacity: 1;
+}
+
+/* 植物デフォルト画像 */
+.img-70 {
+	width: 70%;
+	padding: 10px;
+	display: block;
+    margin: 0 auto; /* 中央に配置 */
+}
+
+
+
+/**** 植物追加画面 ****/
 /* 画像削除ボタン */
 .remove-btn {
 	border: none;
@@ -57,7 +82,6 @@
 	opacity: 0.8; /* ホバー時透明度を下げる */
 }
 
-/**** 植物追加画面 ****/
 /* 写真エリア */
 .photo-erea {
 	width: 200px;
