@@ -54,6 +54,18 @@
 	opacity: 1;
 }
 
+/* 植物削除モーダル植物名 */
+.modal-title-plant {
+	text-align: center;
+}
+
+.position-static {
+    position: static !important;
+}
+
+
+
+
 /* 植物デフォルト画像 */
 .img-70 {
 	width: 70%;

@@ -74,10 +74,7 @@
 		<div class="col-md-3 mb-4 col-plant" th:each="plant : ${plantList}">
 			<div class="card">
 				<!-- 削除ボタン(削除確認モーダル表示) -->
-				<img class="delete-plant" th:onclick="'showDeleteModal(' + ${plant.id} + ', \'' +  ${plant.name} + '\')'" alt="deleteplant" src="/images/deleteicon.png">
-				<!--
-				<img class="delete-plant" th:onclick="'showDeleteModal(' + ${plant.id} + ')'" alt="deleteplant" src="/images/deleteicon.png">
-				-->
+				<img class="delete-plant" th:data-name="${plant.name}" th:onclick="'showDeleteModal(' + ${plant.id} + ', ' + this.dataset.name + ')'" alt="deleteplant" src="/images/deleteicon.png">
 				<!-- 削除処理 -->
 				<form th:id="'deleteForm' + ${plant.id}" th:action="@{/plant/delete/{id}(id=${plant.id})}" method="post" style="display:none;">
                 	<input type="hidden" name="_method" value="delete"/>
@@ -98,12 +95,13 @@
 	<div class="modal" tabindex="-1" id="deleteModal">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="plantNameToDelete"></h5>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
+			<div class="modal-header d-flex justify-content-center position-relative">
+				<h5 class="mb-0 text-success" id="plantNameToDelete"></h5>
+	        	<button type="button" class="btn-close m-2 position-absolute end-0" data-bs-dismiss="modal" aria-label="Close"></button>
+	      	</div>
 	      <div class="modal-body">
-	        <p>本当に削除しますか？</p>
+	        <p th:text="#{deleteMessage1}" class="text-center"></p>
+	        <p th:text="#{deleteMessage2}" class="text-center"></p>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
