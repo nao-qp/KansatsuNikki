@@ -4,6 +4,26 @@
 	background-color: #CCFF99;
 }
 
+a {
+	text-decoration: none;
+}
+
+.image-container {
+	width: 100%;
+	height: auto;
+	object-fit: contain;
+}
+
+.image-container img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain; 
+}
+
+.circular-image {
+	border-radius: 50%;
+}
+
 /* 丸画像 */
 /* マイページプロフィール画像 */
 
@@ -104,3 +124,21 @@
 .photo-erea img {
 	object-fit: cover;	/* 画像を枠内に収める */
 }
+
+
+/**** 植物詳細画面 ****/
+.profile-img-mini {
+	width: 40px;
+	height: 40px;
+}
+
+.plant-img {
+	width: 128px;
+	height: 128px;
+}
+
+
+
+
+
+

@@ -5,6 +5,7 @@
 
 let itemIdToDelete;
 
+//モーダル表示
 function showDeleteModal(itemId, deletePlantName) {
     itemIdToDelete = itemId;
    var modalElement = document.getElementById('deleteModal');
@@ -22,7 +23,8 @@ function showDeleteModal(itemId, deletePlantName) {
     modal.show();
 }
 
-//モーダルの削除ボタンから削除処理のForm
+
+//モーダルの削除ボタンから削除処理のFormのsubmitを実行
 document.getElementById('confirmDeleteButton').onclick = function() {
     document.getElementById('deleteForm' + itemIdToDelete).submit();
 };
