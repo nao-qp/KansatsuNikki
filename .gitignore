@@ -3,3 +3,5 @@
 # uploads フォルダ内のすべてのファイルを無視
 /KansatsuNikki/src/main/resources/static/uploads/*
 
+#Macフォルダ管理隠しファイル
+.DS_Store
