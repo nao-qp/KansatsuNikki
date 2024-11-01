@@ -12,11 +12,14 @@ a {
 	width: 100%;
 	height: auto;
 	object-fit: contain;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .image-container img {
 	max-width: 100%;
-	max-height: 100%;
+	max-height: auto;
 	object-fit: contain; 
 }
 
@@ -133,8 +136,8 @@ a {
 }
 
 .plant-img {
-	width: 128px;
-	height: 128px;
+	width: 300px;
+	height: 300px;
 }
 
 
