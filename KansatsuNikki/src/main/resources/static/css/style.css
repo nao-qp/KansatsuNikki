@@ -47,8 +47,15 @@ a {
 
 
 /* プラスアイコン */
-.icon-container img {
+.icon-container {
 	width: 30px;
+	height: 30px;
+}
+
+.icon-container img {
+	max-width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 /* 画像追加ボタン */
@@ -136,11 +143,14 @@ a {
 }
 
 .plant-img {
-	width: 300px;
-	height: 300px;
+	width: 250px;
+	height: 250px;
 }
 
-
+.diary-img {
+	width: 200px;
+	height: 200px;
+}
 
 
 

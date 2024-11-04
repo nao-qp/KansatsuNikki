@@ -31,7 +31,7 @@
 	<!-- 植物情報 -->
 	<div class="row py-3">
 		<!-- 植物写真 -->
-		<div class="col-auto p-0 image-container plant-img" >
+		<div class="col-auto p-0 border image-container plant-img" >
 			<img src="/images/plantImage.png">
 			
 		</div>
@@ -40,14 +40,27 @@
 		<!-- 植物詳細情報 -->
 		<div class="col m-0">
 			<!-- 名前 -->
-			<div class="row">
-				<p>パキラ</p>
+			<div class="row m-0 lh-2">
+				<p class="col-11 m-0 lh-lg fs-4 text-success fw-bold">パキラ</p>
+				<!-- 植物編集ボタン -->
+				<div class="col-1 p-0 d-flex align-items-center justify-content-center">
+					<a class="icon-container" th:href="@{/plant/edit}">
+						<img src="/images/editicon.png" alt="#{editIcon}" class="img-fluid">
+					</a>
+				</div>
+				
 			</div>
 			<!-- 詳細 -->
-			<div class="row">
-				<div>
-					
+			<div class="row m-0 d-flex justify-content-between">
+				<p class="col m-0 text-body-secondary">詳細</p>
+				<div class="col d-flex justify-content-end">
+					<p class="m-0 text-end me-3">yyyy-MM-dd</p>
+					<p class="m-0 text-end">更新：yyyy-MM-dd</p>
 				</div>
+				
+
+			</div>
+			<div class="row m-0">
 				<p>パキラの詳細</p>
 			</div>
 
@@ -57,28 +70,28 @@
 	
 	
 
+	<!-- 観察日記追加ボタン -->
+	<div class="row mb-2 d-flex justify-content-end">
+		<div class="d-flex pe-4 align-items-center justify-content-end">
+			<a class="icon-container" th:href="@{/diary/add}">
+				<img src="/images/plusicon.png" alt="#{plusIcon}" class="img-fluid">
+			</a>
+		</div>
+	</div>
 	<!-- 観察日記一覧 -->
 	<div class="row">
-		<div class="row">
+		<div class="row p-0 mb-3 border">
 			<!-- 写真 -->
-			<div class="col-3">
+			<div class="col-3 p-0 image-container diary-img">
 				<img src="/images/plantImage.png">
-				<p>写真</p>
 			</div>
 			<!-- 日記文章 -->
-			<div class="col-9">
+			<div class="col-9 border-start">
 				<p>日記</p>
 			</div>
 		</div>
-		
-		
-		
-		
-		
-		
 	</div>
 
-	
 	
 	
 	
