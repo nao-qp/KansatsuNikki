@@ -34,4 +34,15 @@ public class PlantServiceImpl implements PlantService {
 	public int deletePlant(Integer id) {
 		return mapper.updateDelOne(id);
 	}
+
+	@Override
+	public int getUserId(Integer id) {
+		return mapper.findOneUserId(id);
+	}
+	
+	@Override
+	public Plants getPlant(Integer id) {
+		return mapper.findOne(id);
+	}
+	
 }

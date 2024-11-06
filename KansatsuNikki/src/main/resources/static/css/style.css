@@ -8,21 +8,24 @@ a {
 	text-decoration: none;
 }
 
+/* 画像を中央に表示する */
 .image-container {
-	width: 100%;
-	height: auto;
-	object-fit: contain;
+/*	width: 100%;*/
+/*	height: auto;*/
+/*	object-fit: contain;*/
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.image-container img {
-	max-width: 100%;
-	max-height: auto;
-	object-fit: contain; 
+/* 画像を枠に合わせる */
+.image-container img, a {
+	width: 100%;
+	height: 100%;
+	object-fit: cover; 		/* containにすると円の場合、楕円になる */
 }
 
+/* 画像を円形にする */
 .circular-image {
 	border-radius: 50%;
 }
@@ -30,18 +33,18 @@ a {
 /* 丸画像 */
 /* マイページプロフィール画像 */
 
-.img-container {
+.prof-img-container {
 	width: 100px; /* 円の直径 */
     height: 100px; /* 円の直径 */
-    border-radius: 50%; /* 円形にする */
+    
     overflow: hidden; /* コンテナからはみ出した部分を隠す */
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.img-container img {
-    width: 100%;
-    height: 100%;
+.prof-img-container img {
+/*    max-width: 100%;*/
+/*    max-height: 100%;*/
     object-fit: cover;
 }
 
@@ -54,15 +57,20 @@ a {
 
 .icon-container img {
 	max-width: 100%;
-	height: 100%;
+	height: auto;
 	object-fit: cover;
 }
 
 /* 画像追加ボタン */
-.fileplus-container {
+.fileplus-area {
 	border: 2px dotted #CCFF99;
     cursor: pointer; /* マウスカーソルを指の形にする */
+    width: 100%;
     height: 100px;
+}
+fileplus-area img {
+	width: 30px;
+	height: 30px;
 }
 
 .icon-container:hover {
@@ -137,7 +145,7 @@ a {
 
 
 /**** 植物詳細画面 ****/
-.profile-img-mini {
+.prof-img-container-mini {
 	width: 40px;
 	height: 40px;
 }

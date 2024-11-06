@@ -11,18 +11,20 @@
 	<!-- アカウント情報 -->
 	<div class="row d-flex align-items-center">
 		<!-- プロフアイコン -->
-		<div class="col-3 px-0 image-container profile-img-mini">
-			<img class="circular-image" src="/images/profileImage.png">
-			
+		<div class="col-3 px-0 prof-img-container-mini">
+			<a class="image-container"th:href="@{/plant/other/{id}(id=${UserId})}">
+				<img class="circular-image" th:src="${profile.filePath != null && !profile.filePath.trim().isEmpty()} ? 
+							@{${uploadDirProfile} + ${profile.filePath}} : '/images/profileImage.png'" alt="ProfileImage">
+			</a>
 		</div>
 		<div class="col-9">
 			<!-- ニックネーム -->
 			<div class="row">
-				<p class="m-0">ニックネーム</p>
+				<p class="m-0" th:text="${profile.getNickname}"></p>
 			</div>
 			<!-- 植物数など -->
 			<div class="row">
-				<p class="m-0">植物 999,999  観察日記 999,999</p>
+				<p class="m-0" th:text="${plantDiaryCount}"></p>
 			</div>
 		</div>
 		
@@ -32,16 +34,15 @@
 	<div class="row py-3">
 		<!-- 植物写真 -->
 		<div class="col-auto p-0 border image-container plant-img" >
-			<img src="/images/plantImage.png">
-			
+			<img th:src="${plant.filePath != null && !plant.filePath.trim().isEmpty()} ? 
+					@{${uploadDirPlant} + ${plant.filePath}} : '/images/plantImage.png'">
 		</div>
-		
-		
+
 		<!-- 植物詳細情報 -->
 		<div class="col m-0">
 			<!-- 名前 -->
 			<div class="row m-0 lh-2">
-				<p class="col-11 m-0 lh-lg fs-4 text-success fw-bold">パキラ</p>
+				<p class="col-11 m-0 lh-lg fs-4 text-success fw-bold" th:text="${plant.name}">パキラ</p>
 				<!-- 植物編集ボタン -->
 				<div class="col-1 p-0 d-flex align-items-center justify-content-center">
 					<a class="icon-container" th:href="@{/plant/edit}">
@@ -52,16 +53,16 @@
 			</div>
 			<!-- 詳細 -->
 			<div class="row m-0 d-flex justify-content-between">
-				<p class="col m-0 text-body-secondary">詳細</p>
+				<p class="col m-0 text-body-secondary" th:text="#{plantDetail}"></p>
 				<div class="col d-flex justify-content-end">
-					<p class="m-0 text-end me-3">yyyy-MM-dd</p>
-					<p class="m-0 text-end">更新：yyyy-MM-dd</p>
+					<p class="m-0 text-end me-3" th:text="${plant.createDateTime}">yyyy-MM-dd</p>
+					<p class="m-0 text-end" th:text="#{update} + ${plant.createDateTime}"></p>
 				</div>
 				
 
 			</div>
 			<div class="row m-0">
-				<p>パキラの詳細</p>
+				<p th:text="${plant.detail}"></p>
 			</div>
 
 		</div>

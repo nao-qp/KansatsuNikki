@@ -16,4 +16,15 @@
 	and is_deleted = 0
 </select>
 
+<!-- 観察日記1件取得 -->
+<select id="findOne" resultType="Diaries">
+	select
+		*
+	from
+		diaries
+	where
+		plants_id = #{id}
+	and is_deleted = 0
+</select>
+
 </mapper>

@@ -60,7 +60,7 @@ public class MyPageController {
 		Profiles profile = profileService.getProfile(currentUserId);
 		model.addAttribute("profile", profile);
 		//プロフィール画像保存先ディレクトリ設定
-		model.addAttribute("uploadDirProfilet", uploadDirProfilel);
+		model.addAttribute("uploadDirProfile", uploadDirProfilel);
 		
 		//ユーザーの植物数取得
 		Integer plantCount = plantService.getCount(currentUserId);
@@ -104,7 +104,7 @@ public class MyPageController {
 		Profiles profile = profileService.getProfile(id);
 		model.addAttribute("profile", profile);
 		//プロフィール画像保存先ディレクトリ設定
-		model.addAttribute("uploadDirProfilet", uploadDirProfilel);
+		model.addAttribute("uploadDirProfile", uploadDirProfilel);
 				
 		//ユーザーの植物数取得
 		Integer plantCount = plantService.getCount(id);

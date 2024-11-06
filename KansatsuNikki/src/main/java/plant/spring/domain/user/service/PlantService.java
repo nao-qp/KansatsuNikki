@@ -18,4 +18,9 @@ public interface PlantService {
 	//** 植物1件削除 */
 	public int deletePlant(Integer id);
 	
+	//** 植物IDからユーザーIDを取得 */
+	public int getUserId(Integer id);
+	
+	//** 植物1件取得 */
+	public Plants getPlant(Integer id);
 }

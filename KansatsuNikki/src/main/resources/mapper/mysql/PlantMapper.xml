@@ -59,4 +59,36 @@
 		id = #{id}
 </update>
 
+<!-- 植物IDからユーザーIDを取得 -->
+<select id="findOneUserId" resultType="Integer">
+	select
+		users_id
+	from
+		plants
+	where
+		id = #{id}
+	and is_deleted = 0
+</select>
+
+<!-- 植物1件取得 -->
+<select id="findOne" resultType="Plants">
+	select
+		plants.id
+		,plants.name
+		,plants.detail
+		,plants.create_date_time
+		,plants.update_date_time
+		,plantfiles.file_path
+	from
+		plants
+	left join
+		plantfiles
+	on
+		plants.id = plantfiles.plants_id
+	and plantfiles.display_order = 1
+	where
+		plants.id = #{id}
+	and is_deleted = 0
+</select>
+
 </mapper>

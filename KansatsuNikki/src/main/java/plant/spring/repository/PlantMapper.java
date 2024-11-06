@@ -21,4 +21,9 @@ public interface PlantMapper {
 	//** 植物1件削除 */
 	public int updateDelOne(Integer id);
 	
+	//** 植物IDからユーザーIDを取得 */
+	public int findOneUserId(Integer id);
+	
+	//** 植物1件取得 */
+	public Plants findOne(Integer id);
 }
