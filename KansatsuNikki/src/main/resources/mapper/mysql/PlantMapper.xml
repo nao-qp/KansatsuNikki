@@ -88,7 +88,7 @@
 	and plantfiles.display_order = 1
 	where
 		plants.id = #{id}
-	and is_deleted = 0
+	and plants.is_deleted = 0
 </select>
 
 </mapper>

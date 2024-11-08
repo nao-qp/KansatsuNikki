@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<div layout:fragment="content">
+	<!-- アカウント情報 -->
+	<div class="row d-flex align-items-center">
+		<!-- プロフアイコン -->
+		<div class="col-3 px-0 prof-img-container-mini">
+			<a class="image-container"th:href="@{/plant/other/{id}(id=${UserId})}">
+				<img class="circular-image" th:src="${profile.filePath != null && !profile.filePath.trim().isEmpty()} ? 
+							@{${uploadDirProfile} + ${profile.filePath}} : '/images/profileImage.png'" alt="ProfileImage">
+			</a>
+		</div>
+		<div class="col-9">
+			<!-- ニックネーム -->
+			<div class="row">
+				<p class="m-0" th:text="${profile.getNickname}"></p>
+			</div>
+			<!-- 植物数など -->
+			<div class="row">
+				<p class="m-0" th:text="${plantDiaryCount}"></p>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 植物名前 -->
+	<div class="row d-flex justify-content-center">
+		<p class="col-11 m-0 lh-lg fs-4 text-success fw-bold text-center" th:text="${diary.name}"></p>
+	</div>
+	
+	<!-- 観察日記写真 -->
+	<div class="row d-flex justify-content-center mb-2">
+		<div class="col-auto p-0 border image-container plant-img" >
+			<img th:src="${diary.filePath != null && !diary.filePath.trim().isEmpty()} ? 
+							@{${uploadDirDiary} + ${diary.filePath}} : '/images/plantImage.png'">
+		</div>
+	</div>
+	
+	<!-- 日付情報 -->
+	<div class="row d-flex justify-content-center">
+		<div class="container-center">
+			<p class="col fs-4 mb-1" th:text="${diary.observationDate}"></p>
+			<div class="col d-flex justify-content-end align-items-center">
+				<p class="m-0 text-end me-3 " th:text="${diary.createDateTime}"></p>
+				<p class="m-0 text-end" th:text="#{update} + ${diary.updateDateTime}"></p>
+			</div>
+		</div>
+	</div>
+	<!-- 記録＆編集ボタン -->
+	<div class="row d-flex justify-content-center">
+		<div class="container-center">
+			<p class="col fs-4 mb-1" th:text="#{record}"></p>
+			<div class="col mb-1 pb-1 d-flex align-items-center justify-content-end">
+				<a class="icon-container" th:href="@{/diary/add}">
+					<img src="/images/editicon.png" alt="#{editIcon}" class="img-fluid">
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 記録内容 -->
+	<div class="row d-flex justify-content-center">
+		<div class="container-center">
+			<p class="diary-text" th:text="${diary.detail}"></p>
+		</div>
+	</div>
+	
+	
+</div>
+</body>
+</html>

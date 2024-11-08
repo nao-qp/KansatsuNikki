@@ -11,4 +11,8 @@ public class Diaries {
 	private LocalDate observationDate;
 	private String detail;
 	private boolean deleted;
+	private String filePath;
+	private LocalDate createDateTime;
+	private LocalDate updateDateTime;
+	private String name;			/* 植物名 */
 }

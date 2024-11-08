@@ -1,6 +1,5 @@
 package plant.spring.controller;
 
-import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import plant.spring.domain.user.model.Diaries;
-import plant.spring.domain.user.model.Plants;
 import plant.spring.domain.user.model.Profiles;
 import plant.spring.domain.user.service.DiaryService;
 import plant.spring.domain.user.service.PlantService;
 import plant.spring.domain.user.service.ProfileService;
 
 @Controller
-public class PlantDetailController {
+public class DiaryDetailController {
 
 	@Autowired
 	private ProfileService profileService;
@@ -34,26 +32,19 @@ public class PlantDetailController {
 	//画像ディレクトリ取得
 	@Value("${app.upload-dir-profile}")
 	private String uploadDirProfilel;		//プロフィール画像
-	@Value("${app.upload-dir-plant}")
-	private String uploadDirPlant;		//植物画像
 	@Value("${app.upload-dir-diary}")
 	private String uploadDirDiary;		//観察日記画像
-		
-	//植物詳細表示
-	@GetMapping("/plant/detail/{id}")
+	
+	//観察日記詳細表示
+	@GetMapping("/diary/detail/{id}")
 	public String getDetail(Model model, Locale locale, @PathVariable("id") Integer id) {
 		
 		////ユーザー情報取得
         //植物IDからユーザーIDを取得する
-        Integer UserId = plantService.getUserId(id);
+        Integer UserId = diaryService.getUserId(id);
         model.addAttribute("UserId", UserId);
         
-      //TODO:現在ログインしているユーザーかどうかで編集ボタンを表示するかどうか判定する
-     // 現在のユーザーの認証情報を取得
-//      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//      Integer currentUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
-         
-		//ニックネーム
+        //ニックネーム
         Profiles profile = profileService.getProfile(UserId);
         model.addAttribute("profile", profile);
         
@@ -81,24 +72,17 @@ public class PlantDetailController {
   		sb.append(diaryCount);
   		String plantDiaryCount = sb.toString();
   		model.addAttribute("plantDiaryCount", plantDiaryCount);
+        
+  		//観察日記情報取得
+  		Diaries diary = diaryService.getDiary(id);
+  		model.addAttribute("diary", diary);
   		
-		////植物情報
-  		//植物画像保存先ディレクトリ設定
-  		model.addAttribute("uploadDirPlant", uploadDirPlant);
-  		
-		//植物情報取得
-		Plants plant = plantService.getPlant(id);
-  		model.addAttribute("plant", plant);
-
-		////観察日記情報
   		//観察日記画像保存先ディレクトリ設定
   		model.addAttribute("uploadDirDiary", uploadDirDiary);
   		
-  		//観察日記一覧取得
-		List<Diaries> diaries = diaryService.getDiaries(id);
-  		model.addAttribute("diaries", diaries);
   		
-		return "plant/detail";
+		return "diary/detail";
 	}
-
+	
+	
 }

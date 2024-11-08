@@ -16,15 +16,67 @@
 	and is_deleted = 0
 </select>
 
-<!-- 観察日記1件取得 -->
-<select id="findOne" resultType="Diaries">
+<!-- 観察日記一覧取得 -->
+<select id="findMany" resultType="Diaries">
 	select
-		*
+		diaries.id
+		,diaries.plants_id
+		,diaries.users_id
+		,diaries.observation_date
+		,diaries.detail
+		,diaries.create_date_time
+		,diaries.update_date_time
+		,diaryfiles.file_path
 	from
 		diaries
+	left join
+		diaryfiles
+	on diaries.id = diaryfiles.diaries_id
+	and diaryfiles.display_order = 1
 	where
 		plants_id = #{id}
 	and is_deleted = 0
 </select>
+
+<!-- 観察日記IDからユーザーIDを取得 -->
+<select id="findOneUserId" resultType="Integer">
+	select
+		users_id
+	from
+		diaries
+	where
+		id = #{id}
+	and is_deleted = 0
+</select>
+
+<!-- 観察日記1件取得 -->
+<select id="findOne" resultType="Diaries">
+	select
+		diaries.id
+		,diaries.plants_id
+		,diaries.users_id
+		,diaries.observation_date
+		,diaries.detail
+		,diaries.create_date_time
+		,diaries.update_date_time
+		,diaryfiles.file_path
+		,plants.name
+	from
+		diaries
+	left join
+		diaryfiles
+	on
+		diaries.id = diaryfiles.diaries_id
+	and diaryfiles.display_order = 1
+	left join
+		plants
+	on
+		diaries.plants_id = plants.id
+	and plants.is_deleted = 0
+	where
+		diaries.id = #{id}
+	and diaries.is_deleted = 0
+</select>
+
 
 </mapper>

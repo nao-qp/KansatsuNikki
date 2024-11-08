@@ -80,15 +80,17 @@ fileplus-area img {
 /**** マイページ ****/
 
 /* 植物削除ゴミ箱アイコン */
-.delete-plant {
+.delete-icon {
 	width: 25px;
+	height: 25px;
 	opacity: 0.8;
 	position: absolute;
 	top: 5px;
 	right: 5px;
+	padding: 0;
 }
 
-.delete-plant:hover {
+.delete-icon:hover {
 	opacity: 1;
 }
 
@@ -160,6 +162,24 @@ fileplus-area img {
 	height: 200px;
 }
 
+.diary {
+	color: black;
+}
 
+.diary-detail {
+	&:hover {
+		background-color: #F0FFF0;
+	}
+}
+/* 子要素を画面中央に配置 */
+.container-center {
+	display: flex;
+	justify-content: center;
+	width: 900px;		/* 観察日記詳細記録情報部分幅 */
+}
+
+.diary-text {
+	width: 100%;
+}
 
 

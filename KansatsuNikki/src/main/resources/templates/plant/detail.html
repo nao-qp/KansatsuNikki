@@ -4,7 +4,8 @@
  layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<!-- JS読込 -->
+<script th:src="@{/js/detail.js}" defer></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -42,7 +43,7 @@
 		<div class="col m-0">
 			<!-- 名前 -->
 			<div class="row m-0 lh-2">
-				<p class="col-11 m-0 lh-lg fs-4 text-success fw-bold" th:text="${plant.name}">パキラ</p>
+				<p class="col-11 m-0 lh-lg fs-4 text-success fw-bold" th:text="${plant.name}"></p>
 				<!-- 植物編集ボタン -->
 				<div class="col-1 p-0 d-flex align-items-center justify-content-center">
 					<a class="icon-container" th:href="@{/plant/edit}">
@@ -55,22 +56,16 @@
 			<div class="row m-0 d-flex justify-content-between">
 				<p class="col m-0 text-body-secondary" th:text="#{plantDetail}"></p>
 				<div class="col d-flex justify-content-end">
-					<p class="m-0 text-end me-3" th:text="${plant.createDateTime}">yyyy-MM-dd</p>
+					<p class="m-0 text-end me-3" th:text="${plant.createDateTime}"></p>
 					<p class="m-0 text-end" th:text="#{update} + ${plant.createDateTime}"></p>
 				</div>
-				
-
 			</div>
 			<div class="row m-0">
 				<p th:text="${plant.detail}"></p>
 			</div>
-
 		</div>
-
 	</div>
 	
-	
-
 	<!-- 観察日記追加ボタン -->
 	<div class="row mb-2 d-flex justify-content-end">
 		<div class="d-flex pe-4 align-items-center justify-content-end">
@@ -81,21 +76,51 @@
 	</div>
 	<!-- 観察日記一覧 -->
 	<div class="row">
-		<div class="row p-0 mb-3 border">
-			<!-- 写真 -->
-			<div class="col-3 p-0 image-container diary-img">
-				<img src="/images/plantImage.png">
+		<a class="diary" th:href="@{/diary/detail/{id}(id=${diary.id})}" th:each="diary : ${diaries}">
+			<div class="row p-0 mb-3 border position-relative">
+				<!-- 削除ボタン(削除確認モーダル表示) -->
+				<img class="delete-icon" th:data-name="${diary.observationDate}" 
+						th:onclick="'showDeleteModal(' + ${diary.id} + ', ' + this.dataset.observationDate + '); event.preventDefault();'" 
+						alt="deletediary" src="/images/deleteicon.png">
+				<!-- 削除処理 -->
+				<form th:id="'deleteForm' + ${diary.id}" th:action="@{/diary/delete/{id}(id=${diary.id})}" 
+						method="post" style="display:none;">
+                	<input type="hidden" name="_method" value="delete"/>
+            	</form>
+				<!-- 写真 -->
+				<div class="col-auto p-0 image-container diary-img">
+					<img th:src="${diary.filePath != null && !diary.filePath.trim().isEmpty()} ? 
+							@{${uploadDirDiary} + ${diary.filePath}} : '/images/plantImage.png'">
+				</div>
+				<!-- 日記文章 -->
+				<div class="col border-start diary-detail">
+					<p class="fs-4 mb-1" th:text="${diary.observationDate}"></p>
+					<p class="m-0 pb-1" th:text="${diary.detail}"></p>
+				</div>
 			</div>
-			<!-- 日記文章 -->
-			<div class="col-9 border-start">
-				<p>日記</p>
-			</div>
-		</div>
+		</a>
 	</div>
 
-	
-	
-	
+
+	<!-- モーダル -->
+	<div class="modal" tabindex="-1" id="deleteModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header d-flex justify-content-center position-relative">
+				<h5 class="mb-0 text-success" id="diaryToDelete"></h5>
+	        	<button type="button" class="btn-close m-2 position-absolute end-0" data-bs-dismiss="modal" aria-label="Close"></button>
+	      	</div>
+	      <div class="modal-body">
+	        <p th:text="#{deleteMessage1}" class="text-center"></p>
+	        <p th:text="#{deleteMessage2}" class="text-center"></p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+	        <button type="button" class="btn btn-primary" id="confirmDeleteButton">削除</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </div>
 </body>
 </html>
