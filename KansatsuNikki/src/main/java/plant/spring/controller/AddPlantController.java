@@ -58,7 +58,7 @@ public class AddPlantController {
 	//植物追加画面を表示
 	@GetMapping("/plant/add")
 	public String getAddPlant(Model model, AddPlantForm form, Locale locale) {
-		return "plant/addplant";
+		return "plant/add";
 	}
 
 	//植物登録処理

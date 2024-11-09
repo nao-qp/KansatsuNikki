@@ -50,7 +50,6 @@
 						<img src="/images/editicon.png" alt="#{editIcon}" class="img-fluid">
 					</a>
 				</div>
-				
 			</div>
 			<!-- 詳細 -->
 			<div class="row m-0 d-flex justify-content-between">
@@ -69,7 +68,7 @@
 	<!-- 観察日記追加ボタン -->
 	<div class="row mb-2 d-flex justify-content-end">
 		<div class="d-flex pe-4 align-items-center justify-content-end">
-			<a class="icon-container" th:href="@{/diary/add}">
+			<a class="icon-container" th:href="@{/diary/add/{id}(id=${plant.id})}">
 				<img src="/images/plusicon.png" alt="#{plusIcon}" class="img-fluid">
 			</a>
 		</div>
