@@ -8,6 +8,7 @@ import lombok.Data;
 public class Diaries {
 	private Integer id;
 	private Integer plantsId;
+	private Integer usersId;
 	private LocalDate observationDate;
 	private String detail;
 	private boolean deleted;

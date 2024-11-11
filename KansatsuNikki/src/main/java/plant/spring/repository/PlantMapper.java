@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import plant.spring.domain.user.model.Diaries;
 import plant.spring.domain.user.model.Plants;
 
 @Mapper
@@ -26,4 +27,7 @@ public interface PlantMapper {
 	
 	//** 植物1件取得 */
 	public Plants findOne(Integer id);
+	
+	/** 観察日記1件登録 */
+	public int addDiary(Diaries diary);
 }

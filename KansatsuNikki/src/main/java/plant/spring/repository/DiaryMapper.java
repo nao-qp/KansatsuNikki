@@ -21,4 +21,6 @@ public interface DiaryMapper {
 	/** 観察日記1件取得 */
 	public Diaries findOne(Integer id);
 	
+	/** 観察日記1件登録 */
+	public int insertOne(Diaries diary);
 }

@@ -35,4 +35,8 @@ public class DiaryServiceImpl implements DiaryService {
 		return mapper.findOne(id);
 	}
 	
+	@Override
+	public int addDiary(Diaries diary) {
+		return mapper.insertOne(diary);
+	}
 }

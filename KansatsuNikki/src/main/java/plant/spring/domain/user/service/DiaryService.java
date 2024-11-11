@@ -17,4 +17,7 @@ public interface DiaryService {
 	
 	/** 観察日記1件取得 */
 	public Diaries getDiary(Integer id);
+	
+	/** 観察日記1件登録 */
+	public int addDiary(Diaries diary);
 }

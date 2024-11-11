@@ -78,5 +78,21 @@
 	and diaries.is_deleted = 0
 </select>
 
+<!-- 観察日記1件登録 -->
+<!-- AUTO_INCREMENTで生成されたidをINSERT後にinsert対象データDiariesオブジェクトのidに設定する -->
+<insert id="insertOne" parameterType="Diaries" useGeneratedKeys="true" keyProperty="id">
+	insert into diaries (
+		plants_id
+		,users_id
+		,observation_date
+		,detail
+		)
+		values (
+			#{plantsId}
+			,#{usersId}
+			,#{observationDate}
+			,#{detail}
+		)
+</insert>
 
 </mapper>

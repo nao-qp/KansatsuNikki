@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<!-- Mapperとxmlのマッピング -->
+<mapper namespace="plant.spring.repository.DiaryFileMapper">
+
+<!-- 観察日記画像データ1件登録 -->
+<insert id="insertOne" parameterType="DiaryFiles" useGeneratedKeys="true" keyProperty="id">
+	insert into plantfiles (
+		diaries_id
+		,display_order
+		,file_path
+		)
+		values (
+			#{diariesId}
+			,#{displayOrder}
+			,#{filePath}
+		)
+</insert>
+
+<!-- 観察日記画像データ1件更新 -->
+<update id="updateOne">
+	update diaryfiles
+	set
+		file_path = #{fileName}
+	where
+		id = #{id}
+</update>
+
+</mapper>

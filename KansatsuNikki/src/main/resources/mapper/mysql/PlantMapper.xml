@@ -74,6 +74,7 @@
 <select id="findOne" resultType="Plants">
 	select
 		plants.id
+		,plants.users_id
 		,plants.name
 		,plants.detail
 		,plants.create_date_time
