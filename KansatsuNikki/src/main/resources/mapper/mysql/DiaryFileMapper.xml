@@ -7,7 +7,7 @@
 
 <!-- 観察日記画像データ1件登録 -->
 <insert id="insertOne" parameterType="DiaryFiles" useGeneratedKeys="true" keyProperty="id">
-	insert into plantfiles (
+	insert into diaryfiles (
 		diaries_id
 		,display_order
 		,file_path

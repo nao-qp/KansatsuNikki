@@ -5,13 +5,13 @@ import org.springframework.stereotype.Service;
 
 import plant.spring.domain.user.model.DiaryFiles;
 import plant.spring.domain.user.service.DiaryFileService;
-import plant.spring.repository.DiaryFileMpper;
+import plant.spring.repository.DiaryFileMapper;
 
 @Service
 public class DiaryFileServiceImpl implements DiaryFileService {
 	
 	@Autowired
-	private DiaryFileMpper mapper;
+	private DiaryFileMapper mapper;
 
 	/** 観察日記画像データ1件登録 **/
 	@Override

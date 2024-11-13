@@ -23,4 +23,7 @@ public interface DiaryMapper {
 	
 	/** 観察日記1件登録 */
 	public int insertOne(Diaries diary);
+	
+	/** 観察日記1件削除 */
+	public int updateDelOne(Integer id);
 }

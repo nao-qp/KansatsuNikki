@@ -1,5 +1,7 @@
 package plant.spring.domain.user.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +25,11 @@ public class PlantFileServiceImpl implements PlantFileService {
 	@Override
 	public void editPlantFile(Integer id, String fileName) {
 		mapper.updateOne(id, fileName);
+	}
+	
+	/** 植物画像データ一覧取得 **/
+	@Override
+	public List<PlantFiles> getPlantFiles(Integer id) {
+		return mapper.findMany(id);
 	}
 }

@@ -118,10 +118,11 @@ public class AddDiaryController {
 
 		//認証情報からidを取得し、植物データに追加
 		diary.setUsersId(user.getId());
+		//植物IDをリクエストパラメータから設定
+		diary.setPlantsId(id);
 
 		//観察日記登録
 		diaryService.addDiary(diary);
-
 		
 		// アップロードディレクトリのパスを指定
 		String uploadDir = uploadStaticDir + uploadDirDiaryt;
@@ -189,7 +190,7 @@ public class AddDiaryController {
 		
 		
 		//植物詳細画面へ
-		return "redirect:/";
+		return "redirect:/plant/detail/{id}";
 		
 	}
 	

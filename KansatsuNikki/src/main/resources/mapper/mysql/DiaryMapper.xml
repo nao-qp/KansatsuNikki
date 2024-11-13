@@ -95,4 +95,12 @@
 		)
 </insert>
 
+<!-- 観察日記1件削除 -->
+<update id="updateDelOne">
+	update Diaries
+	set
+		is_deleted = 1
+	where
+		id = #{id}
+</update>
 </mapper>

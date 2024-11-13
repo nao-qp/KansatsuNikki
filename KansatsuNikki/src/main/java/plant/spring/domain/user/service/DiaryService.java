@@ -20,4 +20,7 @@ public interface DiaryService {
 	
 	/** 観察日記1件登録 */
 	public int addDiary(Diaries diary);
+	
+	/** 観察日記1件削除 */
+	public int deleteDiary(Integer id);
 }

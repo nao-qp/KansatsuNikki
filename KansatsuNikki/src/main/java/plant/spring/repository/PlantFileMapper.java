@@ -1,5 +1,7 @@
 package plant.spring.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,5 +15,7 @@ public interface PlantFileMapper {
 
 	/** 植物画像データ1件更新 **/
 	public void updateOne(@Param("id") Integer id, @Param("fileName") String fileName);
-
+	
+	/** 植物画像データ一覧取得 */
+	public List<PlantFiles> findMany(Integer id);
 }

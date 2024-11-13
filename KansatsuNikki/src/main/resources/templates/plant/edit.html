@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorate="~{layout/layout}">
+<head>
+<!-- JS読込 -->
+<script>
+	const 
+</script>
+</head>
+<body>
+<div layout:fragment="content">
+	<p>植物編集画面</p>
+	<form class="mt-3 col-md-10" id="addplant-form" method="post" th:action="@{/plant/add}" th:object="${addPlantForm}" enctype="multipart/form-data">
+		
+		<div class="row">
+		    <div class="col-12">
+			     <!-- 選択した写真を表示するエリア -->
+			    <div class="row my-2" id="photo-preview-container" style="display:none;">
+			        <div class="d-flex justify-content-center">
+			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-0">
+			                <img id="img-0" th:src="${filePath}" class="img-fluid" style="display:none;" />
+			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
+								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
+							</button>
+			            </div>
+			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-1">
+			                <img id="img-1" class="img-fluid" style="display:none;" />
+			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
+								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
+							</button>
+			            </div>
+			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-2">
+			                <img id="img-2" class="img-fluid" style="display:none;" />
+			               <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
+								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
+							</button>
+			            </div>
+			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-3">
+			                <img id="img-3" class="img-fluid" style="display:none;" />
+			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
+								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
+							</button>
+			            </div>
+			        </div>
+			    </div>
+			
+			    <!-- 画像追加ボタンエリア -->
+			    <div class="row my-2 d-flex justify-content-center align-items-center">
+			        <div class="p-0 fileplus-area d-flex justify-content-center align-items-center" id="add-photo-button">
+						<div class="icon-container">
+							<img src="/images/plusicon.png" alt="#{plusIcon}" class="img-fluid" />
+						</div>
+			        </div>
+			    </div>
+			
+			    <!-- 隠れたファイル入力 -->
+			    <input type="file" id="file-input" th:field="*{files}" accept="image/*" style="display: none;" multiple>
+		
+		    </div>
+		</div>
+			
+		<!--入力欄-->
+		<div class="row d-flex justify-content-center">
+			
+				<!--植物の名前-->
+				<label th:for="name" th:text="#{plantName}"></label>
+				<input type="text" class="form-control mb-3 mt-1" th:field="*{name}" th:placeholder="#{plantNamePlaceholder}">
+				<!--詳細-->
+				<label th:for="detial" th:text="#{plantDetail}"></label>
+				<textarea class="form-control mb-4 mt-1" th:field="*{detail}" th:placeholder="#{plantDetailPlaceholder}"
+					rows="5" style="resize: vertical;"></textarea>
+				<!--登録ボタン-->
+				<div class="mb-3 row d-flex justify-content-center">
+					<button id="update-btn" type="submit" class="btn btn-success" th:text="#{plantRegister}"></button>
+				</div>
+		</div>
+	</form>
+	
+</div>
+</body>
+</html>

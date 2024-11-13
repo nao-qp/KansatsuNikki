@@ -46,7 +46,7 @@
 				<p class="col-11 m-0 lh-lg fs-4 text-success fw-bold" th:text="${plant.name}"></p>
 				<!-- 植物編集ボタン -->
 				<div class="col-1 p-0 d-flex align-items-center justify-content-center">
-					<a class="icon-container" th:href="@{/plant/edit}">
+					<a class="icon-container" th:href="@{/plant/edit/{id}(id=${plant.id})}">
 						<img src="/images/editicon.png" alt="#{editIcon}" class="img-fluid">
 					</a>
 				</div>
@@ -82,7 +82,8 @@
 						th:onclick="'showDeleteModal(' + ${diary.id} + ', ' + this.dataset.observationDate + '); event.preventDefault();'" 
 						alt="deletediary" src="/images/deleteicon.png">
 				<!-- 削除処理 -->
-				<form th:id="'deleteForm' + ${diary.id}" th:action="@{/diary/delete/{id}(id=${diary.id})}" 
+				<form th:id="'deleteForm' + ${diary.id}" 
+						th:action="@{/diary/delete/{plantsId}/{id}(plantsId=${plant.id}, id=${diary.id})}" 
 						method="post" style="display:none;">
                 	<input type="hidden" name="_method" value="delete"/>
             	</form>

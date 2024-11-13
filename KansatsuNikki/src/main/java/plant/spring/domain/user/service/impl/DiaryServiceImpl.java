@@ -39,4 +39,9 @@ public class DiaryServiceImpl implements DiaryService {
 	public int addDiary(Diaries diary) {
 		return mapper.insertOne(diary);
 	}
+	
+	@Override
+	public int deleteDiary(Integer id) {
+		return mapper.updateDelOne(id);
+	}
 }

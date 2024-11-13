@@ -28,4 +28,24 @@
 		id = #{id}
 </update>
 
+<!-- 植物画像データ一覧取得 -->
+<select id="findMany" resultType="PlantFiles">
+	select
+		plantfiles.id
+		,plantfiles.plants_id
+		,plantfiles.display_order
+		,plantfiles.file_path
+	from
+		plants
+	join
+		plantfiles
+	on
+		plants.id = plantfiles.plants_id
+	where
+		plants.id = #{id}
+	and is_deleted = 0
+	order by
+		plantfiles.display_order
+</select>
+
 </mapper>

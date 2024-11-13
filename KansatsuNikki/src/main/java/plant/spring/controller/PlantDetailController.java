@@ -6,10 +6,13 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import plant.spring.domain.user.model.Diaries;
 import plant.spring.domain.user.model.Plants;
@@ -99,6 +102,27 @@ public class PlantDetailController {
   		model.addAttribute("diaries", diaries);
   		
 		return "plant/detail";
+	}
+	
+	//観察日記削除処理
+	@PostMapping("/diary/delete/{plantsId}/{id}")
+	public String deleteDiary(Model model, Locale locale, @PathVariable("plantsId") Integer plantsId, @PathVariable("id") Integer id) {
+		
+		////削除処理前に、認証情報を確認////
+		// 現在のユーザーの認証情報を取得
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        //認証情報がない場合は、ログインページにリダイレクトする
+        if (authentication == null) {
+        	 return "redirect:/user/login";
+        }
+		
+        //観察日記削除（deleteフラグを1に更新）
+        diaryService.deleteDiary(id);
+        
+        
+		//削除実行後、植物詳細画面へリダイレクト
+		return "redirect:/plant/detail/{plantsId}";
 	}
 
 }
