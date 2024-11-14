@@ -4,8 +4,9 @@
  layout:decorate="~{layout/layout}">
 <head>
 <!-- JS読込 -->
+<script th:src="@{/js/edit.js}" defer></script>
 <script>
-	const 
+	const slotNum = /*[[${slotNum}]]*/'4'
 </script>
 </head>
 <body>
@@ -17,31 +18,37 @@
 		    <div class="col-12">
 			     <!-- 選択した写真を表示するエリア -->
 			    <div class="row my-2" id="photo-preview-container" style="display:none;">
-			        <div class="d-flex justify-content-center">
-			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-0">
-			                <img id="img-0" th:src="${filePath}" class="img-fluid" style="display:none;" />
+			        <div class="d-flex justify-content-center" >
+						<!-- 画像スロット -->
+			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" 
+			            		th:each="filePath : ${filePathList}">
+			                <img th:src="${filePath}" class="img-fluid" 
+			                		th:attr="style=${!filePath.isEmpty()} ? 'display:block;' : 'display:none;'" />
 			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
 								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
 							</button>
 			            </div>
-			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-1">
-			                <img id="img-1" class="img-fluid" style="display:none;" />
-			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
-								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
-							</button>
-			            </div>
-			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-2">
-			                <img id="img-2" class="img-fluid" style="display:none;" />
-			               <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
-								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
-							</button>
-			            </div>
-			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-3">
-			                <img id="img-3" class="img-fluid" style="display:none;" />
-			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
-								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
-							</button>
-			            </div>
+			            
+			           
+			            
+<!--			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-1">-->
+<!--			                <img id="img-1" class="img-fluid" style="display:none;" />-->
+<!--			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">-->
+<!--								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />-->
+<!--							</button>-->
+<!--			            </div>-->
+<!--			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-2">-->
+<!--			                <img id="img-2" class="img-fluid" style="display:none;" />-->
+<!--			               <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">-->
+<!--								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />-->
+<!--							</button>-->
+<!--			            </div>-->
+<!--			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-3">-->
+<!--			                <img id="img-3" class="img-fluid" style="display:none;" />-->
+<!--			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">-->
+<!--								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />-->
+<!--							</button>-->
+<!--			            </div>-->
 			        </div>
 			    </div>
 			

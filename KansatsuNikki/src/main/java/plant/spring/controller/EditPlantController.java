@@ -1,5 +1,6 @@
 package plant.spring.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,11 +64,27 @@ public class EditPlantController {
 		
 		//画像データ取得
 		List<PlantFiles> plantFiles = plantFileService.getPlantFiles(id);
+		//植物画像のリストをスロットの数だけ作成する
+		List<String> filePathList = new ArrayList<>();
 		
-		for(PlantFiles plantFile: plantFiles) {
-			String filePath = uploadDirPlant + plantFile.getFilePath();
-			model.addAttribute("img", filePath);
+		int slotNum = 4;
+		model.addAttribute("slotNum", slotNum);
+		for (int i = 0; i < slotNum; i++) {
+			if (plantFiles.size() > i) {
+				filePathList.add(uploadDirPlant + plantFiles.get(i).getFilePath());
+			} else {
+				//画像データがない場合は空のスロットを表示するために空でセットする
+				filePathList.add("");
+			}
 		}
+		model.addAttribute("filePathList", filePathList);
+		
+		
+		
+//		for(PlantFiles plantFile: plantFiles) {
+//			String filePath = uploadDirPlant + plantFile.getFilePath();
+//			model.addAttribute("filePath", filePath);
+//		}
 		
 		return "plant/edit";
 	}
