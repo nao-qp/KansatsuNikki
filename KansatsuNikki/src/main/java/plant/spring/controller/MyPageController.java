@@ -26,10 +26,8 @@ public class MyPageController {
 
 	@Autowired
 	private ProfileService profileService;
-
 	@Autowired
 	private PlantService plantService;
-
 	@Autowired
 	private DiaryService diaryService;
 

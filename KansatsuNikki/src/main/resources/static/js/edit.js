@@ -25,9 +25,14 @@ function setStyleBlockFunction() {
 		photoPreviewContainer.style.display = 'block';
 		
 		//バツボタン表示設定
+		//既存データを表示した各スロットに対して設定していく
 		blockSlots.forEach((photoSlot) => {
+			const imgSlot = photoSlot;
+			const img = imgSlot.querySelector('img');
 			const removeBtn = photoSlot.querySelector('.remove-btn');
 			removeBtn.style.display = 'block';
+			// バツボタンのクリックイベントを設定
+			removeBtn.onclick = () => removeBtnClick(img, imgSlot, removeBtn);
 		});
 	}
 	
@@ -88,24 +93,25 @@ fileInput.addEventListener('change', function(event) {
                   //fileInput.value = ''; // 読み込み完了後にリセット
             };
 			
-            // バツボタンのクリックイベント
-            removeBtn.onclick = function() {
-                img.style.display = 'none'; // 画像を非表示
-                imgSlot.style.display = 'none'; // スロットを非表示
-                removeBtn.style.display = 'none'; // バツボタンを非表示
-                imagesSelected = false; // 画像が選択されていないフラグを立てる
-
-				//無効にしていた追加ボタンを元に戻す
-				addPhotoBtn.style.pointerEvents = 'auto'; // ボタンを有効にする
-    			addPhotoBtn.style.opacity = '1'; // 見た目を初期値にする
-					
-
-                // TODO:画像を詰める処理（Ver.2以降実装検討）
-                //①style.display === 'block'のものを取得
-                //②スロットを一度空にする。
-                //③①で取得した要素を詰め直す。
-                
-            };
+            // バツボタンのクリックイベントを設定
+            removeBtn.onclick = () => removeBtnClick(img, imgSlot, removeBtn);
+//            removeBtn.onclick = function() {
+//                img.style.display = 'none'; // 画像を非表示
+//                imgSlot.style.display = 'none'; // スロットを非表示
+//                removeBtn.style.display = 'none'; // バツボタンを非表示
+////                imagesSelected = false; // 画像が選択されていないフラグを立てる
+//
+//				//無効にしていた追加ボタンを元に戻す
+//				addPhotoBtn.style.pointerEvents = 'auto'; // ボタンを有効にする
+//    			addPhotoBtn.style.opacity = '1'; // 見た目を初期値にする
+//					
+//
+//                // TODO:画像を詰める処理（Ver.2以降実装検討）
+//                //①style.display === 'block'のものを取得
+//                //②スロットを一度空にする。
+//                //③①で取得した要素を詰め直す。
+//                
+//            };
             
             //(※1)画像ファイル読み込み
             reader.readAsDataURL(file); // 画像ファイルをDataURLとして読み込む
@@ -113,5 +119,16 @@ fileInput.addEventListener('change', function(event) {
         }
     });
 });
+
+ // バツボタンクリック時の動作
+ function removeBtnClick(img, imgSlot, removeBtn) {
+	img.style.display = 'none'; // 画像を非表示
+    imgSlot.style.display = 'none'; // スロットを非表示
+    removeBtn.style.display = 'none'; // バツボタンを非表示
+    
+	//無効にしていた追加ボタンを元に戻す
+	addPhotoBtn.style.pointerEvents = 'auto'; // ボタンを有効にする
+	addPhotoBtn.style.opacity = '1'; // 見た目を初期値にする
+ };
 
 

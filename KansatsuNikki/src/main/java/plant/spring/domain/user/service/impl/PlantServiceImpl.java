@@ -45,4 +45,10 @@ public class PlantServiceImpl implements PlantService {
 		return mapper.findOne(id);
 	}
 	
+	@Override
+	public int editPlant(Plants plant) {
+		return mapper.updateOne(plant);
+	}
+	
+	
 }

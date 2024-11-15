@@ -30,4 +30,7 @@ public interface PlantMapper {
 	
 	/** 観察日記1件登録 */
 	public int addDiary(Diaries diary);
+	
+	//** 植物1件更新 */
+	public int updateOne(Plants plant);
 }

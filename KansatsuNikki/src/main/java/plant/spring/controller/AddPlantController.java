@@ -35,13 +35,10 @@ public class AddPlantController {
 
 	@Autowired
 	private ModelMapper modelMapper;
-
 	@Autowired
 	private PlantService plantService;
-
 	@Autowired
 	private PlantFileService plantFileService;
-
 	@Autowired
 	private MessageSource messageSource;
 	

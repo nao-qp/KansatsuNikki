@@ -12,7 +12,7 @@
 <body>
 <div layout:fragment="content">
 	<p>植物編集画面</p>
-	<form class="mt-3 col-md-10" id="addplant-form" method="post" th:action="@{/plant/add}" th:object="${addPlantForm}" enctype="multipart/form-data">
+	<form class="mt-3 col-md-10" id="addplant-form" method="post" th:action="@{/plant/edit/{id}(id=${plant.id})}" th:object="${addPlantForm}" enctype="multipart/form-data">
 		
 		<div class="row">
 		    <div class="col-12">

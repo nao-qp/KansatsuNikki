@@ -23,4 +23,7 @@ public interface PlantService {
 	
 	//** 植物1件取得 */
 	public Plants getPlant(Integer id);
+	
+	//** 植物1件更新 */
+	public int editPlant(Plants plant);
 }
