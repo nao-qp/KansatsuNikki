@@ -1,6 +1,10 @@
 package plant.spring.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -143,6 +147,65 @@ public class EditPlantController {
 		
 		//植物情報を更新
 		plantService.editPlant(editedPlant);
+		
+		
+		
+		// アップロードディレクトリのパスを指定
+				String uploadDir = uploadStaticDir + uploadDirPlant;
+				
+				//画像表示順設定
+		    	int displayOrder = 1;
+		    	
+				//ファイルがある場合
+		        for (MultipartFile file : files) {
+		            if (!file.isEmpty()) {
+		            	
+		            	//// 植物画像データを作成する ////
+		            	//PlantsテーブルにAUTO_INCREMENTで生成されたidを取得
+		        		Integer plantsId = plant.getId();
+
+		        		//植物ファイルのインスタンス作成
+		        		PlantFiles plantFile = new PlantFiles(plantsId, displayOrder, "defaultFileName");
+		        		//画像表示順更新
+		        		displayOrder += 1;
+
+		        		//植物画像データ登録
+		        		//ファイル名は一時的に設定
+		        		plantFileService.addPlantFile(plantFile);
+		        		
+		        		
+		        		//// 画像ファイルを保存する ////
+		        		//ファイル名を生成して更新（(id)_(plants_id)_yyyyMMdd.jpg）
+		        		//(INCREMENTで作成されたidでファイル名を作成してupdate)
+		        		Integer plantFilesId = plantFile.getId();
+		        		StringBuilder sb = new StringBuilder ();
+		        		sb.append(plantFilesId);
+		        		sb.append("_");
+		        		sb.append(plantsId);
+		        		sb.append("_");
+		        		// 日付を取得
+		                String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
+		                sb.append(date);
+		                sb.append(".jpg");
+		        		String fileName = sb.toString();
+		        		
+		                // 新しいファイルパスを作成
+		                File destinationFile = new File(uploadDir + fileName);
+		                try {
+		                    // ファイルを保存
+		                    file.transferTo(destinationFile);
+		                } catch (IOException e) {
+		                    e.printStackTrace();
+		                    model.addAttribute("error", "ファイルのアップロード中にエラーが発生しました。");
+		                    return "error";  // エラーページに遷移する場合
+		                }
+
+		                //// 植物画像ファイルの名前を更新する ////
+		        		//植物画像データ更新
+		        		plantFileService.editPlantFile(plantFilesId, fileName);
+
+		            }
+		        }
 		
 		return "redirect:/plant/mypage";
 	}
