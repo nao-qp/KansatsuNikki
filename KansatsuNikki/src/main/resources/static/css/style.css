@@ -8,6 +8,11 @@ a {
 	text-decoration: none;
 }
 
+.width-200 {
+	width: 200px;
+}
+
+
 /* 画像を中央に表示する */
 .image-container {
 /*	width: 100%;*/
