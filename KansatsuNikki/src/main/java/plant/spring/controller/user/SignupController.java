@@ -1,4 +1,4 @@
-package plant.spring.controller;
+package plant.spring.controller.user;
 
 import java.util.Locale;
 

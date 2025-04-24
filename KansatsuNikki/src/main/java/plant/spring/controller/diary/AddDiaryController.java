@@ -1,4 +1,4 @@
-package plant.spring.controller;
+package plant.spring.controller.diary;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,16 +40,12 @@ public class AddDiaryController {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
 	@Autowired
 	private PlantService plantService;
-	
 	@Autowired
 	private DiaryService diaryService;
-	
 	@Autowired
 	private DiaryFileService diaryFileService;
-	
 	@Autowired
 	private MessageSource messageSource;
 	

@@ -1,13 +1,18 @@
 --DB作成
-create database kansatsu;
-USE kansatsu;
+CREATE DATABASE kansatsu;
+--アプリユーザー作成
+CREATE USER 'kansatsuuser'@'localhost' IDENTIFIED BY 'pass';
+GRANT ALL PRIVILEGES ON kansatsu.* TO 'kansatsuuser'@'localhost';
+FLUSH PRIVILEGES;
 
 --文字コード、文字照合順序を設定
 ALTER DATABASE kansatsu
 CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
+USE kansatsu;
 --テーブル作成
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
     account VARCHAR(30) NOT NULL COMMENT 'アカウントID',
@@ -21,6 +26,7 @@ CREATE TABLE users (
 ) COMMENT = 'ユーザー情報'
 ;
 
+DROP TABLE IF EXISTS profiles;
 CREATE TABLE profiles (
     id INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
     users_id INT NOT NULL COMMENT 'ユーザーID',
@@ -34,6 +40,7 @@ CREATE TABLE profiles (
 ) COMMENT = 'プロフィール情報'
 ;
 
+DROP TABLE IF EXISTS plants;
 CREATE TABLE plants (
     id INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
     users_id INT NOT NULL COMMENT 'ユーザーID',
@@ -48,6 +55,7 @@ CREATE TABLE plants (
 ) COMMENT = '植物データ'
 ;
 
+DROP TABLE IF EXISTS plantfiles;
 CREATE TABLE plantfiles (
     id INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
     plants_id INT NOT NULL COMMENT '植物データID',
@@ -60,6 +68,7 @@ CREATE TABLE plantfiles (
 ) COMMENT = '植物画像データ'
 ;
 
+DROP TABLE IF EXISTS diaries;
 CREATE TABLE diaries (
     id INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
     plants_id INT NOT NULL COMMENT '植物データID',
@@ -74,6 +83,7 @@ CREATE TABLE diaries (
 ) COMMENT = '観察日記データ'
 ;
 
+DROP TABLE IF EXISTS diaryfiles;
 CREATE TABLE diaryfiles (
     id INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
     diaries_id INT NOT NULL COMMENT '観察日記データID',

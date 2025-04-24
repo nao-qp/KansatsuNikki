@@ -1,14 +1,16 @@
---テストデータ
+/** テストデータ **/
 delete from users;
 delete from profiles;
 delete from plants;
+delete from plantfiles;
 delete from diaries;
 
+/** パスワードはa **/
 INSERT INTO users (id, account, pass, is_deleted)
 VALUES(
 1
 ,'test'
-,'test'
+,'$2a$10$PydYLiczryazl4LfdDH/M.IwcI8gt3TKUlOFlvnZuPc.dsg3l0CNO'
 ,0
 );
 
@@ -33,13 +35,13 @@ INSERT INTO plants (id, users_id, name, detail, is_deleted)
 VALUES(5,1,'ウンベラータ','ウンベラータ植物詳細テキスト情報',0);
 
 
---diaries
+/** diaries **/
 INSERT INTO diaries (id, plants_id, users_id, observation_date, detail, is_deleted)
 VALUES(1,1,1,'2024-09-12','観察日記のテキスト情報',0);
 INSERT INTO diaries (id, plants_id, users_id, observation_date, detail, is_deleted)
 VALUES(2,1,1,'2024-11-07','観察日記のテキスト情報',0);
 
---plantfiles
+/** plantfiles **/
 INSERT INTO plantfiles (id, plants_id, display_order, file_path)
 VALUES(1,1,1,'1_1_20240914.jpg');
 INSERT INTO plantfiles (id, plants_id, display_order, file_path)
@@ -50,7 +52,8 @@ INSERT INTO plantfiles (id, plants_id, display_order, file_path)
 VALUES(4,4,1,'4_4_20240914.jpg');
 INSERT INTO plantfiles (id, plants_id, display_order, file_path)
 VALUES(5,5,1,'5_5_20240914.jpg');
---diaryfiles
+
+/** diaryfiles **/
 INSERT INTO diaryfiles (id, diaries_id, display_order, file_path)
 VALUES(1,1,1,'1_1_20241107.jpg');
 INSERT INTO diaryfiles (id, diaries_id, display_order, file_path)

@@ -17,35 +17,38 @@
 		
 		<div class="row">
 		    <div class="col-12">
+				<!-- プレビュー表示エリア -->
+				<div id="photo-preview-container" style="display:none;" class="d-flex flex-wrap gap-2"></div>
+				
 			     <!-- 選択した写真を表示するエリア -->
-			    <div class="row my-2" id="photo-preview-container" style="display:none;">
-			        <div class="d-flex justify-content-center">
-			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-0">
-			                <img id="img-0" class="img-fluid" style="display:none;" />
-			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
-								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
-							</button>
-			            </div>
-			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-1">
-			                <img id="img-1" class="img-fluid" style="display:none;" />
-			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
-								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
-							</button>
-			            </div>
-			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-2">
-			                <img id="img-2" class="img-fluid" style="display:none;" />
-			               <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
-								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
-							</button>
-			            </div>
-			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-3">
-			                <img id="img-3" class="img-fluid" style="display:none;" />
-			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
-								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
-							</button>
-			            </div>
-			        </div>
-			    </div>
+<!--			    <div class="row my-2" id="photo-preview-container" style="display:none;">-->
+<!--			        <div class="d-flex justify-content-center">-->
+<!--			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-0">-->
+<!--			                <img id="img-0" class="img-fluid" style="display:none;" />-->
+<!--			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">-->
+<!--								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />-->
+<!--							</button>-->
+<!--			            </div>-->
+<!--			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-1">-->
+<!--			                <img id="img-1" class="img-fluid" style="display:none;" />-->
+<!--			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">-->
+<!--								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />-->
+<!--							</button>-->
+<!--			            </div>-->
+<!--			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-2">-->
+<!--			                <img id="img-2" class="img-fluid" style="display:none;" />-->
+<!--			               <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">-->
+<!--								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />-->
+<!--							</button>-->
+<!--			            </div>-->
+<!--			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" id="slot-3">-->
+<!--			                <img id="img-3" class="img-fluid" style="display:none;" />-->
+<!--			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">-->
+<!--								<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />-->
+<!--							</button>-->
+<!--			            </div>-->
+<!--			        </div>-->
+<!--			    </div>-->
 			
 			    <!-- 画像追加ボタンエリア -->
 			    <div class="row my-2 d-flex justify-content-center align-items-center">
@@ -57,7 +60,8 @@
 			    </div>
 			
 			    <!-- 隠れたファイル入力 -->
-			    <input type="file" id="file-input" th:field="*{files}" accept="image/*" style="display: none;" multiple>
+			    <input type="file" id="file-input" accept="image/*" style="display: none;" multiple>
+
 		
 		    </div>
 		</div>
@@ -74,7 +78,7 @@
 					rows="5" style="resize: vertical;"></textarea>
 				<!--登録ボタン-->
 				<div class="mb-3 row d-flex justify-content-center">
-					<button id="update-btn" type="submit" class="btn btn-success" th:text="#{plantRegister}"></button>
+					<button id="update-btn" type="button" class="btn btn-success" th:text="#{plantRegister}"></button>
 				</div>
 		</div>
 	</form>

@@ -1,5 +1,8 @@
 package plant.spring.domain.user.service.impl;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +26,11 @@ public class DiaryFileServiceImpl implements DiaryFileService {
 	@Override
 	public void editDiaryFile(Integer id, String fileName) {
 		mapper.updateOne(id, fileName);
+	}
+	
+	/** 日記画像データ取得(複数) **/
+	@Override
+	public List<DiaryFiles> getDiaryFiles(@Param("diariesId") Integer diariesId) {
+		return mapper.getDiaryFiles(diariesId);
 	}
 }

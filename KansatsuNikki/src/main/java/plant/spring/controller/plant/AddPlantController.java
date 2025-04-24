@@ -1,15 +1,19 @@
-package plant.spring.controller;
+package plant.spring.controller.plant;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
@@ -59,17 +64,27 @@ public class AddPlantController {
 	}
 
 	//植物登録処理
+	@ResponseBody		// JSONで返す
 	@PostMapping("/plant/add")
-	public String postAddPlant(Model model,
+	public ResponseEntity<Map<String, Object>> postAddPlant(Model model,
 			@AuthenticationPrincipal CustomUserDetails user,
 			@RequestParam("files") MultipartFile[] files,
 			@ModelAttribute @Validated AddPlantForm form, BindingResult bindingResult,
 			Locale locale) {
 
-		//入力チェック結果
+		//入力チェック結果、バリデーションエラーがある場合
 		if (bindingResult.hasErrors()) {
 			//NG:植物追加画面に戻る
-			return getAddPlant(model, form, locale);
+			Map<String, Object> errorResponse = new HashMap<>();
+	        errorResponse.put("status", "error");
+
+	        // 各フィールドごとのエラーメッセージを取得
+	        Map<String, String> errors = new HashMap<>();
+	        bindingResult.getFieldErrors().forEach(error -> 
+	            errors.put(error.getField(), error.getDefaultMessage())
+	        );
+	        errorResponse.put("errors", errors);
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 		}
 
 		log.info(form.toString());
@@ -87,7 +102,7 @@ public class AddPlantController {
 
 		//植物登録
 		plantService.addPlant(plant);
-
+		//TODO: 大きすぎるサイズの画像を圧縮する処理
 		
 
 		// アップロードディレクトリのパスを指定
@@ -96,9 +111,17 @@ public class AddPlantController {
 		//画像表示順設定
     	int displayOrder = 1;
     	
+    	System.out.println("名前: " + form.getName());
+    	System.out.println("詳細: " + form.getDetail());
+
+    	System.out.println("受信ファイル数: " + files.length);
+    	
 		//ファイルがある場合
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
+            	
+            	System.out.println("ファイル名: " + file.getOriginalFilename());
+            	
             	
             	//// 植物画像データを作成する ////
             	//PlantsテーブルにAUTO_INCREMENTで生成されたidを取得
@@ -134,11 +157,23 @@ public class AddPlantController {
                 try {
                     // ファイルを保存
                     file.transferTo(destinationFile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    model.addAttribute("error", "ファイルのアップロード中にエラーが発生しました。");
-                    return "error";  // エラーページに遷移する場合
-                }
+                    // 反映確認（最大10回まで） アップロード後に画面に画像が表示されない現象防止
+                    int retries = 0;
+                    while (!destinationFile.exists() && retries < 10) {
+                        Thread.sleep(100);
+                        retries++;
+                    }
+	            } catch (IOException | InterruptedException e) {
+	                e.printStackTrace();
+	                //NG:エラーレスポンスを返す
+	    			Map<String, Object> errorResponse = new HashMap<>();
+	    	        errorResponse.put("status", "error");
+	    	        // エラーメッセージをセット
+	    	        Map<String, String> errors = new HashMap<>();
+	    	        errors.put("error", "ファイルの保存中にエラーが発生しました。");
+	    	        errorResponse.put("errors", errors);
+	    	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	            }
 
                 //// 植物画像ファイルの名前を更新する ////
         		//植物画像データ更新
@@ -153,8 +188,10 @@ public class AddPlantController {
 	    } catch (InterruptedException e) {
 	    }
 	
-		//登録後、植物一覧（マイページ）に遷移
-		return "redirect:/plant/mypage";
-
+		//登録結果のレスポンスを返す
+        Map<String, Object> response = new HashMap<>();
+ 		response.put("status", "success");
+ 		response.put("redirectUrl", "/plant/mypage");
+	    return ResponseEntity.ok(response);
 	}
 }

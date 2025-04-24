@@ -72,7 +72,7 @@
 	
 	<!--植物一覧-->
 	<div class="row my-2">
-		<div class="col-md-3 mb-4 col-plant" th:each="plant : ${plantList}">
+		<div class="col-md-3 mb-4 col-plant" th:each="plant : ${plantViewDtoList}">
 			<a th:href="@{/plant/detail/{id}(id=${plant.id})}">
 				<div class="card">
 					<!-- 削除ボタン(削除確認モーダル表示) -->
@@ -84,10 +84,10 @@
 							method="post" style="display:none;">
 	                	<input type="hidden" name="_method" value="delete"/>
 	            	</form>
-					<!-- 植物画像 -->
+					<!-- 植物画像 ファイル名に ?v=タイムスタンプ をつけることでブラウザキャッシュを回避 -->
 					<img class="card-img-top" alt="plantImage"
-						th:class="${plant.filePath != null && !plant.filePath.trim().isEmpty()} ? '' : 'img-70'"
-						th:src="${plant.filePath != null && !plant.filePath.trim().isEmpty()} ? @{${uploadDirPlant} + ${plant.filePath}} : '/images/plantImage.png'">
+						th:class="${plant.imageUrl != null && !plant.imageUrl.trim().isEmpty()} ? '' : 'img-70'"
+						th:src="${plant.imageUrl}">
 	                <!-- 植物名前 -->
 	                <div class="card-body">
 	                    <h5 class="card-title" th:text="${plant.name}"></h5>

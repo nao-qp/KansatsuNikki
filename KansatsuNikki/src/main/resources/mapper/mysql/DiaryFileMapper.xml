@@ -28,4 +28,19 @@
 		id = #{id}
 </update>
 
+<!-- 日記画像データ取得(複数) -->
+<select id="getDiaryFiles">
+	select
+		id
+		,diaries_id
+		,display_order
+		,file_path
+	from
+		diaryfiles
+	where
+		diaries_id = #{diariesId}
+	order by
+		display_order
+</select>
+
 </mapper>

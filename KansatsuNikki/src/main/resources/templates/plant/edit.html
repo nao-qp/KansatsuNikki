@@ -23,8 +23,8 @@
 			            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" 
 			            		th:each="filePath : ${filePathList}">
 			            		<label>
-        <input type="checkbox" name="selectedImages" value="image1"> 画像1
-    </label><br>
+							        <input type="checkbox" name="selectedImages" value="image1"> 画像1
+							    </label><br>
 			                <img th:src="${filePath}" class="img-fluid" 
 			                		th:attr="style=${!filePath.isEmpty()} ? 'display:block;' : 'display:none;'" />
 			                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">

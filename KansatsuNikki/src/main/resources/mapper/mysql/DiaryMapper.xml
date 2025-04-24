@@ -49,7 +49,7 @@
 	and is_deleted = 0
 </select>
 
-<!-- 観察日記1件取得 -->
+<!-- 観察日記1件取得(トップ写真１枚) -->
 <select id="findOne" resultType="Diaries">
 	select
 		diaries.id

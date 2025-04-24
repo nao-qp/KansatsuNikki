@@ -51,12 +51,12 @@
 			</div>
 		</div>
 	</div>
-	<!-- 記録＆編集ボタン -->
+	<!-- 記録編集ボタン -->
 	<div class="row d-flex justify-content-center">
 		<div class="container-center">
 			<p class="col fs-4 mb-1" th:text="#{record}"></p>
 			<div class="col mb-1 pb-1 d-flex align-items-center justify-content-end">
-				<a class="icon-container" th:href="@{/diary/add}">
+				<a class="icon-container" th:href="@{/diary/edit/{id}(id=${diary.id})}">
 					<img src="/images/editicon.png" alt="#{editIcon}" class="img-fluid">
 				</a>
 			</div>

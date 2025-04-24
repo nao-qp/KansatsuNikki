@@ -1,4 +1,4 @@
-package plant.spring.controller;
+package plant.spring.controller.plant;
 
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import plant.spring.domain.user.dto.PlantViewDto;
 import plant.spring.domain.user.model.Plants;
 import plant.spring.domain.user.model.Profiles;
 import plant.spring.domain.user.service.DiaryService;
@@ -70,9 +71,11 @@ public class MyPageController {
 
 		//ユーザーの植物一覧データを取得
 		List<Plants> plantList = plantService.findMany(currentUserId);
-		model.addAttribute("plantList", plantList);
-		//植物画像保存先ディレクトリ設定
-		model.addAttribute("uploadDirPlant", uploadDirPlant);
+		// 表示用PlantViewDtoのリストに変換(表示表urlを設定)
+		List<PlantViewDto> plantViewDtoList = plantList.stream()
+				.map(plant -> PlantViewDto.from(plant, uploadDirPlant))
+				.toList();
+		model.addAttribute("plantViewDtoList", plantViewDtoList);
 		
 		return "plant/mypage";
 	}

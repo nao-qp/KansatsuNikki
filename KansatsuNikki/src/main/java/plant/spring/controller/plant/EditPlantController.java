@@ -1,4 +1,4 @@
-package plant.spring.controller;
+package plant.spring.controller.plant;
 
 import java.io.File;
 import java.io.IOException;

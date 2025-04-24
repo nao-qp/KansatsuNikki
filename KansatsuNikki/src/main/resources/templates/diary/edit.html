@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorate="~{layout/layout}">
+<head>
+<!-- JS読込 -->
+<script th:src="@{/js/edit.js}" defer></script>
+<script>
+</script>
+</head>
+<body>
+<div layout:fragment="content">
+	<!-- 日記編集画面 -->
+	<!-- 名前 -->
+	<div class="row m-0 lh-2">
+		<p class="col-11 m-0 p-0 lh-lg fs-4 text-success fw-bold" th:text="${diary.name}"></p>
+	</div>
+	<form class="mt-3 col-md-10" id="addDiary-form" method="post" th:action="@{/diary/edit/{id}(id=${diary.id})}" th:object="${AddDiaryForm}" enctype="multipart/form-data">
+		<div class="row">
+			    <div class="col-12">
+				     <!-- 選択した写真を表示するエリア -->
+				    <div class="row my-2" id="photo-preview-container" style="display:none;">
+				        <div class="d-flex justify-content-center" >
+							<!-- 画像スロット -->
+				            <div class="photo-slot col-md-3 m-2 photo-erea d-flex justify-content-center align-items-center position-relative" 
+				            		th:each="filePath : ${filePathList}">
+				            		<label>
+								        <input type="checkbox" name="selectedImages" value="image1"> 画像1
+								    </label><br>
+				                <img th:src="${filePath}" class="img-fluid" 
+				                		th:attr="style=${!filePath.isEmpty()} ? 'display:block;' : 'display:none;'" />
+				                <button type="button" class="remove-btn position-absolute top-0 end-0" style="display:none;">
+									<img src="/images/removeicon.png" alt="#{removeIcon}" class="img-fluid" />
+								</button>
+				            </div>
+				        </div>
+				    </div>
+				    
+				    <!-- 画像追加ボタンエリア -->
+				    <div class="row my-2 d-flex justify-content-center align-items-center">
+				        <div class="p-0 fileplus-area d-flex justify-content-center align-items-center" id="add-photo-button">
+							<div class="icon-container">
+								<img src="/images/plusicon.png" alt="#{plusIcon}" class="img-fluid" />
+							</div>
+				        </div>
+				    </div>
+				
+				    <!-- 隠れたファイル入力 -->
+				    <input type="file" id="file-input" th:field="*{files}" accept="image/*" style="display: none;" multiple>
+				    
+				 </div>
+		</div>
+		
+		<!--入力欄-->
+		
+		<!-- TODO:観察日記追加入力蘭用に修正する  -->
+		<div class="row d-flex justify-content-center">
+			<!-- 観察日 -->
+			<label th:for="observationDate" th:text="#{observationDate}"></label>
+			<input type="date" class="form-control mb-3 mt-1" th:field="*{observationDate}">
+			<!--記録-->
+			<label th:for="detial" th:text="#{record}"></label>
+			<textarea class="form-control mb-4 mt-1" th:field="*{detail}" th:placeholder="#{record}"
+				rows="5" style="resize: vertical;"></textarea>
+			<!--登録ボタン-->
+			<div class="mb-3 row d-flex justify-content-center">
+				<button id="update-btn" type="submit" class="btn btn-success" th:text="#{plantRegister}"></button>
+			</div>
+			
+		</div>
+		
+		
+	</form>
+
+</div>
+</body>
+</html>
