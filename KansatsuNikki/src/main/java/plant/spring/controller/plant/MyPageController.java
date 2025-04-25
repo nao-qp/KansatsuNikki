@@ -51,7 +51,7 @@ public class MyPageController {
         if (authentication == null) {
         	 return "redirect:/user/login";
         }
-
+ 
         // 認証されたユーザーのIDを取得
         Integer currentUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
 
@@ -79,7 +79,6 @@ public class MyPageController {
 		
 		return "plant/mypage";
 	}
-
 
 	//植物一覧表示（他ユーザー参照用）
 	@GetMapping("/plant/other/{id}")

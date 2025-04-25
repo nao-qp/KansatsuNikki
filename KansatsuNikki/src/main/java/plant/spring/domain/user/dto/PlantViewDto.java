@@ -14,7 +14,7 @@ public class PlantViewDto {
 
 	// Plantsオブジェクトから変換メソッド
 	public static PlantViewDto from(Plants plant, String uploadDirPlant) {
-        ModelMapper modelMapper = new ModelMapper(); // 簡略版（共通Bean化してもOK）
+        ModelMapper modelMapper = new ModelMapper();
         PlantViewDto plantViewDto = modelMapper.map(plant, PlantViewDto.class);
 
         // 表示用URLを組み立て（追加フィールド）

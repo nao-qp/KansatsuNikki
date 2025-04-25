@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
 	
 	@Value("${app.upload-static-dir}")
     private String uploadStaticDir;			// (例: /Users/hosoyanaomi/00gitProjectWork/Kansatsunikki/)
-
+			// 例: C:\00gitProjectWork\Kansatusnikki\
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploads/**")
