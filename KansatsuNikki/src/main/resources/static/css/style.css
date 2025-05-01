@@ -121,32 +121,37 @@ fileplus-area img {
 
 
 
-/**** 植物追加画面 ****/
+/**** 植物追加・編集画面 ****/
 /* 画像削除ボタン */
 .remove-btn {
 	border: none;
-	background: transparent;
+	background-color: rgba(0, 0, 0, 0.4);  /* 背景色を設定してボタンを見やすくする。 */
+	border-radius: 50%;
 	padding: 0;
 	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .remove-btn img {
 	width: 20px;
-	opacity: 0.5; /* 透明 */
+	opacity: 1;
 }
 
 .remove-btn img:hover {
-	opacity: 0.8; /* ホバー時透明度を下げる */
+	opacity: 0.8; /* ホバー時透明度を下げる(ボタンに黒い背景色が設定されているので、ボタンの色が暗くなる。) */
 }
 
 /* 写真エリア */
-.photo-erea {
+.photo-area {
 	width: 200px;
 	height: 200px;
 	overflow: hidden;	/* 枠からはみ出た部分を隠す */
+	border-radius: 6px;	/* hiddenで丸い角からはみ出した部分も隠れる */
 }
 
-.photo-erea img {
+.photo-area img {
 	object-fit: cover;	/* 画像を枠内に収める */
 }
 
@@ -160,6 +165,8 @@ fileplus-area img {
 .plant-img {
 	width: 250px;
 	height: 250px;
+	overflow: hidden;	/* 枠からはみ出た部分を隠す */
+	border-radius: 6px;	/* hiddenで丸い角からはみ出した部分も隠れる */
 }
 
 .diary-img {

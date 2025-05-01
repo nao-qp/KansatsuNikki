@@ -86,7 +86,7 @@
 	            	</form>
 					<!-- 植物画像 ファイル名に ?v=タイムスタンプ をつけることでブラウザキャッシュを回避 -->
 					<img class="card-img-top" alt="plantImage"
-						th:class="${plant.imageUrl != null && !plant.imageUrl.trim().isEmpty()} ? '' : 'img-70'"
+						th:classappend="${plant.imageUrl == '/images/plantImage.png'} ? 'img-70' : ''"
 						th:src="${plant.imageUrl}">
 	                <!-- 植物名前 -->
 	                <div class="card-body">

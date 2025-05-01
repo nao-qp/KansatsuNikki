@@ -40,8 +40,8 @@ public class EditDiaryController {
 	private String uploadDirDiary;		//植物画像
 	
 	//日記詳細画面を表示
-	@GetMapping("/diary/edit/{id}")		// 日記ID
 	@Authenticated
+	@GetMapping("/diary/edit/{id}")		// 日記ID
 	public String getEditDiary(Model model, AddDiaryForm form, Locale locale,
 			@PathVariable("id") Integer id, @AuthenticationPrincipal CustomUserDetails user) {
 		

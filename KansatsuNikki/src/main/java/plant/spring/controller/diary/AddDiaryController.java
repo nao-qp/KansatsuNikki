@@ -10,9 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
+import plant.spring.aop.annotation.Authenticated;
 import plant.spring.domain.user.model.Diaries;
 import plant.spring.domain.user.model.DiaryFiles;
 import plant.spring.domain.user.model.Plants;
@@ -57,21 +56,24 @@ public class AddDiaryController {
 	private String uploadDirDiaryt;		//観察日記画像
 	
 	//観察日記登録画面表示
+	@Authenticated
 	@GetMapping("/diary/add/{id}")
-	public String getAddDiary(Model model, AddDiaryForm form, @PathVariable("id") Integer id, Locale locale) {
+	public String getAddDiary(Model model, AddDiaryForm form, @PathVariable("id") Integer id, Locale locale, 
+			@AuthenticationPrincipal CustomUserDetails user) {
 		
 		////認証情報チェック
 		// 現在のユーザーの認証情報を取得
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
-        //認証情報がない場合は、ログインページにリダイレクトする
-        if (authentication == null) {
-        	 return "redirect:/user/login";
-        }
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		
+//        //認証情報がない場合は、ログインページにリダイレクトする
+//        if (authentication == null) {
+//        	 return "redirect:/user/login";
+//        }
         
         // 認証されたユーザーのIDを取得
-        Integer currentUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
-        
+//        Integer currentUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
+        Integer currentUserId = user.getId();
+
 		//植物情報取得
 		Plants plant = plantService.getPlant(id);
 		model.addAttribute("plant", plant);
@@ -99,7 +101,7 @@ public class AddDiaryController {
 		//入力チェック結果
 		if (bindingResult.hasErrors()) {
 			//NG:観察日記追加画面に戻る
-			return getAddDiary(model, form, id, locale);
+			return getAddDiary(model, form, id, locale, user);
 		}
 
 		log.info(form.toString());

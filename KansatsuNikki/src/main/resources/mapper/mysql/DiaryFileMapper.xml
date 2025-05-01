@@ -39,6 +39,7 @@
 		diaryfiles
 	where
 		diaries_id = #{diariesId}
+	and is_deleted = 0
 	order by
 		display_order
 </select>

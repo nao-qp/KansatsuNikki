@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import plant.spring.aop.annotation.Authenticated;
 import plant.spring.domain.user.model.Diaries;
 import plant.spring.domain.user.model.Profiles;
 import plant.spring.domain.user.service.DiaryService;
@@ -36,6 +37,7 @@ public class DiaryDetailController {
 	private String uploadDirDiary;		//観察日記画像
 	
 	//観察日記詳細表示
+	@Authenticated
 	@GetMapping("/diary/detail/{id}")
 	public String getDetail(Model model, Locale locale, @PathVariable("id") Integer id) {
 		

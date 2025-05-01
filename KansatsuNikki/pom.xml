@@ -120,6 +120,12 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
+		<!-- 画像の向き読み込み用ライブラリー -->
+		<dependency>
+		    <groupId>com.drewnoakes</groupId>
+		    <artifactId>metadata-extractor</artifactId>
+		    <version>2.19.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

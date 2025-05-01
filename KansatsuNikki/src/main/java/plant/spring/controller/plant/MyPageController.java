@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import plant.spring.aop.annotation.Authenticated;
 import plant.spring.domain.user.dto.PlantViewDto;
 import plant.spring.domain.user.model.Plants;
 import plant.spring.domain.user.model.Profiles;
@@ -41,19 +43,21 @@ public class MyPageController {
 	
 	
 	//植物一覧表示（マイページ）
+	@Authenticated
 	@GetMapping("/plant/mypage")
-	public String getMyPage(Model model, Locale locale) {
+	public String getMyPage(Model model, Locale locale, @AuthenticationPrincipal CustomUserDetails user) {
 
 		// 現在のユーザーの認証情報を取得
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         //認証情報がない場合は、ログインページにリダイレクトする
-        if (authentication == null) {
-        	 return "redirect:/user/login";
-        }
+//        if (authentication == null) {
+//        	 return "redirect:/user/login";
+//        }
  
         // 認証されたユーザーのIDを取得
-        Integer currentUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
+//        Integer currentUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
+		Integer currentUserId = user.getId();
 
 		//プロフィール情報を取得
 		Profiles profile = profileService.getProfile(currentUserId);
@@ -81,12 +85,15 @@ public class MyPageController {
 	}
 
 	//植物一覧表示（他ユーザー参照用）
+	@Authenticated
 	@GetMapping("/plant/other/{id}")
-	public String getOtherPage(Model model, @PathVariable("id") Integer id, Locale locale) {
+	public String getOtherPage(Model model, @PathVariable("id") Integer id, Locale locale, 
+			@AuthenticationPrincipal CustomUserDetails user) {
 
 		// 現在のユーザーの認証情報を取得
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        // TODO: 権限確認方法見直し
         if (authentication != null && authentication.isAuthenticated()
         		&& !(authentication instanceof AnonymousAuthenticationToken)) {
 
@@ -124,17 +131,18 @@ public class MyPageController {
 	}
 	
 	//植物削除処理
+	@Authenticated
 	@PostMapping("/plant/delete/{id}")
 	public String deletePlant(Model model, @PathVariable("id") Integer id, Locale locale) {
 		
 		////削除処理前に、認証情報を確認////
 		// 現在のユーザーの認証情報を取得
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        //認証情報がない場合は、ログインページにリダイレクトする
-        if (authentication == null) {
-        	 return "redirect:/user/login";
-        }
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        //認証情報がない場合は、ログインページにリダイレクトする
+//        if (authentication == null) {
+//        	 return "redirect:/user/login";
+//        }
 		
         //植物削除（deleteフラグを1に更新）
         plantService.deletePlant(id);

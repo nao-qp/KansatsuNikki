@@ -5,29 +5,7 @@
  <!-- Mapperとxmlのマッピング -->
 <mapper namespace="plant.spring.repository.PlantFileMapper">
 
-<!-- 植物画像データ1件登録 -->
-<insert id="insertOne" parameterType="PlantFiles" useGeneratedKeys="true" keyProperty="id">
-	insert into plantfiles (
-		plants_id
-		,display_order
-		,file_path
-		)
-		values (
-			#{plantsId}
-			,#{displayOrder}
-			,#{filePath}
-		)
-</insert>
-
-<!-- 植物画像データ1件更新 -->
-<update id="updateOne">
-	update plantfiles
-	set
-		file_path = #{fileName}
-	where
-		id = #{id}
-</update>
-
+<!-- select -->
 <!-- 植物画像データ一覧取得 -->
 <select id="findMany" resultType="PlantFiles">
 	select
@@ -43,9 +21,68 @@
 		plants.id = plantfiles.plants_id
 	where
 		plants.id = #{id}
-	and is_deleted = 0
+	and plantfiles.is_deleted = 0
 	order by
 		plantfiles.display_order
 </select>
+
+<!-- 画像ファイルパスを取得 -->
+<select id="getFilePath">
+	select
+		file_path
+	from
+		plantfiles
+	where
+		id = #{id}
+</select>
+
+
+<!-- insert -->
+<!-- 植物画像データ1件登録 -->
+<insert id="insertOne" parameterType="PlantFiles" useGeneratedKeys="true" keyProperty="id">
+	insert into plantfiles (
+		plants_id
+		,display_order
+		,file_path
+		)
+		values (
+			#{plantsId}
+			,#{displayOrder}
+			,#{filePath}
+		)
+</insert>
+
+
+<!-- update -->
+<!-- 植物画像データファイル名1件更新 -->
+<update id="updateOne">
+	update plantfiles
+	set
+		file_path = #{fileName}
+	where
+		id = #{id}
+</update>
+
+<!-- 植物画像データ順番1件更新 -->
+<update id="updateDisplayOrder">
+	update
+		plantfiles
+	set
+		display_order = #{displayOrder}
+	where
+		id = #{plantFileId}
+	and plants_id = #{plantId}
+	and is_deleted = 0
+</update>
+
+<!-- 植物画像データ削除(is_Deleted=1) -->
+<update id="updIsDeleted">
+	update
+		plantfiles
+	set
+		is_deleted = 1
+	where
+		id = #{id}
+</update>
 
 </mapper>

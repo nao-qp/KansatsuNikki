@@ -34,8 +34,8 @@
 	on diaries.id = diaryfiles.diaries_id
 	and diaryfiles.display_order = 1
 	where
-		plants_id = #{id}
-	and is_deleted = 0
+		diaries.plants_id = #{id}
+	and diaries.is_deleted = 0
 </select>
 
 <!-- 観察日記IDからユーザーIDを取得 -->

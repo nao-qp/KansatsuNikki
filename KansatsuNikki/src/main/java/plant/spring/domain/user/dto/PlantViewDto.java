@@ -1,5 +1,7 @@
 package plant.spring.domain.user.dto;
 
+import java.nio.file.Paths;
+
 import org.modelmapper.ModelMapper;
 
 import lombok.Data;
@@ -19,7 +21,7 @@ public class PlantViewDto {
 
         // 表示用URLを組み立て（追加フィールド）
         String imageUrl = (plant.getFilePath() != null && !plant.getFilePath().isEmpty())
-            ? uploadDirPlant + plant.getFilePath() + "?v=" + System.currentTimeMillis()
+            ? Paths.get(uploadDirPlant, plant.getFilePath()).toString() + "?v=" + System.currentTimeMillis()
             : "/images/plantImage.png";
         plantViewDto.setImageUrl(imageUrl);
 

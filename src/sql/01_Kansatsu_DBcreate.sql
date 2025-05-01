@@ -11,7 +11,7 @@ CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
 USE kansatsu;
---テーブル作成
+/** テーブル作成 **/
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -33,6 +33,7 @@ CREATE TABLE profiles (
     nickname VARCHAR(30) NOT NULL COMMENT 'ニックネーム',
     profile VARCHAR(160) COMMENT 'プロフィール詳細',
     file_path VARCHAR(255) COMMENT '画像ファイルパス',
+    is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT '削除フラグ',
     create_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
     update_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
     PRIMARY KEY(id),
@@ -61,6 +62,7 @@ CREATE TABLE plantfiles (
     plants_id INT NOT NULL COMMENT '植物データID',
     display_order INT NOT NULL COMMENT '画像表示順',
     file_path VARCHAR(255) NOT NULL COMMENT '画像ファイルパス',
+    is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT '削除フラグ',
     create_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
     update_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
     PRIMARY KEY(id),
@@ -89,6 +91,7 @@ CREATE TABLE diaryfiles (
     diaries_id INT NOT NULL COMMENT '観察日記データID',
     display_order INT NOT NULL COMMENT '画像表示順',
     file_path VARCHAR(255) NOT NULL COMMENT '画像ファイルパス',
+    is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT '削除フラグ',
     create_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
     update_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
     PRIMARY KEY(id),

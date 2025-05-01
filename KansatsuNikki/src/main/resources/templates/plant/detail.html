@@ -92,6 +92,19 @@
 					<img th:src="${diary.filePath != null && !diary.filePath.trim().isEmpty()} ? 
 							@{${uploadDirDiary} + ${diary.filePath}} : '/images/plantImage.png'">
 				</div>
+				
+	
+  <!-- 新規画像追加 -->
+  <input type="file" id="file-input" name="files" multiple>
+
+  <!-- 削除予定ファイルを保持するhidden -->
+  <div id="deleted-files-container"></div>
+
+				
+				
+				
+				
+				
 				<!-- 日記文章 -->
 				<div class="col border-start diary-detail">
 					<p class="fs-4 mb-1" th:text="${diary.observationDate}"></p>

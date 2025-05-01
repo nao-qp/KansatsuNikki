@@ -29,10 +29,11 @@
 		plantfiles
 	on
 		plants.id = plantfiles.plants_id
+	and plantfiles.is_deleted = 0
 	and plantfiles.display_order = 1
 	where
 		plants.users_id = #{id}
-	and is_deleted = 0
+	and plants.is_deleted = 0
 </select>
 
 <!-- 植物1件登録 -->
@@ -87,6 +88,7 @@
 	on
 		plants.id = plantfiles.plants_id
 	and plantfiles.display_order = 1
+	and plantfiles.is_deleted = 0
 	where
 		plants.id = #{id}
 	and plants.is_deleted = 0

@@ -2,6 +2,7 @@ package plant.spring.controller.plant;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
+import plant.spring.aop.annotation.Authenticated;
 import plant.spring.domain.user.model.PlantFiles;
 import plant.spring.domain.user.model.Plants;
 import plant.spring.domain.user.service.PlantFileService;
@@ -58,12 +60,14 @@ public class AddPlantController {
 
 
 	//植物追加画面を表示
+	@Authenticated
 	@GetMapping("/plant/add")
 	public String getAddPlant(Model model, AddPlantForm form, Locale locale) {
 		return "plant/add";
 	}
 
 	//植物登録処理
+	@Authenticated
 	@ResponseBody		// JSONで返す
 	@PostMapping("/plant/add")
 	public ResponseEntity<Map<String, Object>> postAddPlant(Model model,
@@ -103,10 +107,7 @@ public class AddPlantController {
 		//植物登録
 		plantService.addPlant(plant);
 		//TODO: 大きすぎるサイズの画像を圧縮する処理
-		
 
-		// アップロードディレクトリのパスを指定
-		String uploadDir = uploadStaticDir + uploadDirPlant;
 		
 		//画像表示順設定
     	int displayOrder = 1;
@@ -153,17 +154,18 @@ public class AddPlantController {
         		String fileName = sb.toString();
         		
                 // 新しいファイルパスを作成
-                File destinationFile = new File(uploadDir + fileName);
+                File destinationFile = new File(Paths.get(uploadStaticDir, uploadDirPlant, fileName).toString());
                 try {
                     // ファイルを保存
                     file.transferTo(destinationFile);
                     // 反映確認（最大10回まで） アップロード後に画面に画像が表示されない現象防止
-                    int retries = 0;
-                    while (!destinationFile.exists() && retries < 10) {
-                        Thread.sleep(100);
-                        retries++;
-                    }
-	            } catch (IOException | InterruptedException e) {
+//                    int retries = 0;
+//                    while (!destinationFile.exists() && retries < 10) {
+//                        Thread.sleep(100);
+//                        retries++;
+//                    }
+//	            } catch (IOException | InterruptedException e) {
+	            } catch (IOException e) {
 	                e.printStackTrace();
 	                //NG:エラーレスポンスを返す
 	    			Map<String, Object> errorResponse = new HashMap<>();
@@ -183,10 +185,10 @@ public class AddPlantController {
         }
 
       //更新直後のマイページリダイレクト時に更新した画像が取得できないので時間を置く
-        try {
-      	Thread.sleep(3000); // 3秒(3000ミリ秒)間だけ処理を止める
-	    } catch (InterruptedException e) {
-	    }
+//        try {
+//      	Thread.sleep(3000); // 3秒(3000ミリ秒)間だけ処理を止める
+//	    } catch (InterruptedException e) {
+//	    }
 	
 		//登録結果のレスポンスを返す
         Map<String, Object> response = new HashMap<>();

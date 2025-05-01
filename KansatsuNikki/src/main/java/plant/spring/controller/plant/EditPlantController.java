@@ -2,16 +2,24 @@ package plant.spring.controller.plant;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +33,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
+import plant.spring.aop.annotation.Authenticated;
+import plant.spring.application.component.AuthHelper;
+import plant.spring.application.service.JsonParseService;
+import plant.spring.application.util.FileValidationUtils;
+import plant.spring.application.util.ImageUtils;
 import plant.spring.domain.user.model.PlantFiles;
 import plant.spring.domain.user.model.Plants;
 import plant.spring.domain.user.service.PlantFileService;
@@ -44,6 +57,10 @@ public class EditPlantController {
 	private PlantFileService plantFileService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private AuthHelper authHelper;
+	@Autowired
+	private JsonParseService jsonParseService;
 	
 	//画像ディレクトリ取得
 	@Value("${app.upload-static-dir}")
@@ -53,15 +70,16 @@ public class EditPlantController {
 	
 	
 	//植物編集画面を表示
+	@Authenticated
 	@GetMapping("/plant/edit/{id}")
 	public String getEditPlant(Model model, AddPlantForm form, Locale locale,
 			@PathVariable("id") Integer id, @AuthenticationPrincipal CustomUserDetails user) {
 		
 		////認証情報チェック
         //認証情報がない場合は、ログインページにリダイレクトする
-        if (user == null) {
-        	 return "redirect:/user/login";
-        }
+//        if (user == null) {
+//        	 return "redirect:/user/login";
+//        }
         
         // 認証されたユーザーのIDを取得
         Integer currentUserId = user.getId();
@@ -82,55 +100,63 @@ public class EditPlantController {
 		
 		//画像データ取得
 		List<PlantFiles> plantFiles = plantFileService.getPlantFiles(id);
-		//植物画像のリストをスロットの数だけ作成する
-		List<String> filePathList = new ArrayList<>();
+		// 画面に表示する植物画像のリストを作成
+		// 画面表示用のオブジェクトを作成(ファイルIDと表示Urlのセット)
+		record fileIdImgUrl(Integer fileId, String imgUrl) {}
+		List<fileIdImgUrl> fileIdImgUrlList = new ArrayList<>();
+//		List<String> filePathList = new ArrayList<>();
 		
-		int slotNum = 4;
+		int slotNum = 4;	// スロット数上限
 		model.addAttribute("slotNum", slotNum);
-		for (int i = 0; i < slotNum; i++) {
-			if (plantFiles.size() > i) {
-				filePathList.add(uploadDirPlant + plantFiles.get(i).getFilePath());
-			} else {
-				//画像データがない場合は空のスロットを表示するために空でセットする
-				filePathList.add("");
-			}
+		// 画像データ数またはスロット数上限までループする
+		int loopCount = Math.min(plantFiles.size(), slotNum);
+		for (int i = 0; i < loopCount; i++) {
+//			filePathList.add(uploadDirPlant + plantFiles.get(i).getFilePath());
+			// 表示Urlを作成
+			String imgUrl = uploadDirPlant + plantFiles.get(i).getFilePath();
+			// 表示用オブジェクト作成、リストへ追加
+			fileIdImgUrlList.add(new fileIdImgUrl(plantFiles.get(i).getId(), imgUrl));
 		}
-		model.addAttribute("filePathList", filePathList);
+		model.addAttribute("fileIdImgUrlList", fileIdImgUrlList);
 		
 		return "plant/edit";
 	}
 	
 	//植物編集処理
-	@PostMapping("/plant/edit/{id}")
-	public String postEditPlant(Model model,
+	@Authenticated
+	@PostMapping("/plant/edit/{plantId}")
+	public ResponseEntity<Map<String, Object>> postEditPlant(Model model,
 			@AuthenticationPrincipal CustomUserDetails user, Locale locale,
-			@RequestParam("files") MultipartFile[] files,
 			@ModelAttribute @Validated AddPlantForm form, BindingResult bindingResult,
-			@PathVariable("id") Integer id){
-		
-		////認証情報チェック
-        //認証情報がない場合は、ログインページにリダイレクトする
-        if (user == null) {
-        	 return "redirect:/user/login";
-        }
-        
-        // 認証されたユーザーのIDを取得
-        Integer currentUserId = user.getId();
+			@RequestParam(value = "files", required = false) List<MultipartFile> files,
+	        @RequestParam(value = "tempIdList", required = false) List<String> tempIdList,
+	        @RequestParam("orderedIds") String orderedIdsJson,
+	        @RequestParam("deletedIds") String deletedIdsJson,
+			@PathVariable("plantId") Integer plantId){
 		
         //植物情報取得
-        Plants plant = plantService.getPlant(id);
+        Plants plant = plantService.getPlant(plantId);
 		model.addAttribute("plant", plant);
 		
 		//該当の植物がログイン中のユーザーのデータかチェック
-		if (plant.getUsersId() != currentUserId) {
-			//ログイン中のユーザーの植物でない場合は、ログインページへリダイレクト
-			 return "redirect:/user/login";
+		if (!authHelper.isOwner(user, plant)) {
+			// ユーザー自身のデータでなければ、ログインページにリダイレクト
+		    return authHelper.unauthorizedRedirect();
 		}
         
 		//入力チェック結果
 		if (bindingResult.hasErrors()) {
-			//NG:植物編集画面に戻る
-			return getEditPlant(model, form, locale, id, user);
+			//NG:植物追加画面に戻る
+			Map<String, Object> errorResponse = new HashMap<>();
+	        errorResponse.put("status", "error");
+
+	        // 各フィールドごとのエラーメッセージを取得
+	        Map<String, String> errors = new HashMap<>();
+	        bindingResult.getFieldErrors().forEach(error -> 
+	            errors.put(error.getField(), error.getDefaultMessage())
+	        );
+	        errorResponse.put("errors", errors);
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 		}
 
 		log.info(form.toString());
@@ -140,73 +166,136 @@ public class EditPlantController {
 		String btnProcessing = messageSource.getMessage("btnProcessing", null, locale);
 		model.addAttribute("btnProcessing", btnProcessing);
 		
-		//formをクラスに変換
-		Plants editedPlant = modelMapper.map(form, Plants.class);
-		//編集内容に植物IDを追加
-		editedPlant.setId(id);
+		// 編集内容をセットする
+		Plants editedPlant = new Plants();
+		editedPlant.setUsersId(user.getId());
+		editedPlant.setName(form.getName());
+		editedPlant.setDetail(form.getDetail());
 		
 		//植物情報を更新
 		plantService.editPlant(editedPlant);
 		
+		// 文字列のJSONデータを文字列の配列に変換する
+		List<String> deletedIds;	// 既存ファイルの削除対象Idリスト
+		List<String> orderedIds;	// スロット並び順IDリスト
+		try {
+			deletedIds = jsonParseService.parseJsonList(deletedIdsJson, "削除対象IDリスト");
+			orderedIds = jsonParseService.parseJsonList(orderedIdsJson, "スロット並び順IDリスト");
+		} catch (IOException e) {
+			e.printStackTrace();
+             //NG:エラーレスポンスを返す
+ 			Map<String, Object> errorResponse = new HashMap<>();
+ 	        errorResponse.put("status", "error");
+ 	        // エラーメッセージをセット
+ 	        Map<String, String> errors = new HashMap<>();
+ 	        errors.put("error", e.getMessage());
+ 	        errorResponse.put("errors", errors);
+ 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+		}
 		
-		
-		// アップロードディレクトリのパスを指定
-				String uploadDir = uploadStaticDir + uploadDirPlant;
+		//// 既存ファイルの削除 ////
+		if (!deletedIds.isEmpty()) {
+			// List<String>からList<Integer>に変換
+			List<Integer> integerDeletedIds = deletedIds.stream()
+					.filter(s -> s.matches("\\d+"))
+					.map(Integer::parseInt)
+					.collect(Collectors.toList());
+			// ファイル削除処理
+			for (Integer integerDeletedId: integerDeletedIds) {
+				//// DB削除(is_Deleted更新)
+				plantFileService.updIsDeleted(integerDeletedId);
 				
-				//画像表示順設定
-		    	int displayOrder = 1;
-		    	
-				//ファイルがある場合
-		        for (MultipartFile file : files) {
-		            if (!file.isEmpty()) {
-		            	
-		            	//// 植物画像データを作成する ////
-		            	//PlantsテーブルにAUTO_INCREMENTで生成されたidを取得
-		        		Integer plantsId = plant.getId();
-
-		        		//植物ファイルのインスタンス作成
-		        		PlantFiles plantFile = new PlantFiles(plantsId, displayOrder, "defaultFileName");
-		        		//画像表示順更新
-		        		displayOrder += 1;
-
-		        		//植物画像データ登録
-		        		//ファイル名は一時的に設定
-		        		plantFileService.addPlantFile(plantFile);
-		        		
-		        		
-		        		//// 画像ファイルを保存する ////
-		        		//ファイル名を生成して更新（(id)_(plants_id)_yyyyMMdd.jpg）
-		        		//(INCREMENTで作成されたidでファイル名を作成してupdate)
-		        		Integer plantFilesId = plantFile.getId();
-		        		StringBuilder sb = new StringBuilder ();
-		        		sb.append(plantFilesId);
-		        		sb.append("_");
-		        		sb.append(plantsId);
-		        		sb.append("_");
-		        		// 日付を取得
-		                String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
-		                sb.append(date);
-		                sb.append(".jpg");
-		        		String fileName = sb.toString();
-		        		
-		                // 新しいファイルパスを作成
-		                File destinationFile = new File(uploadDir + fileName);
-		                try {
-		                    // ファイルを保存
-		                    file.transferTo(destinationFile);
-		                } catch (IOException e) {
-		                    e.printStackTrace();
-		                    model.addAttribute("error", "ファイルのアップロード中にエラーが発生しました。");
-		                    return "error";  // エラーページに遷移する場合
-		                }
-
-		                //// 植物画像ファイルの名前を更新する ////
-		        		//植物画像データ更新
-		        		plantFileService.editPlantFile(plantFilesId, fileName);
-
-		            }
-		        }
+				//// 物理画像ファイル削除
+				// ファイルIDからファイルパスを取得
+				String fileName = plantFileService.getFilePath(integerDeletedId);
+				Path filePath = Paths.get(uploadStaticDir, uploadDirPlant, fileName); // 物理ファイルのパス作成
+				try {
+					// 削除
+				    boolean deleted = Files.deleteIfExists(filePath);
+				    if (deleted) {
+				        System.out.println("ファイル削除成功: " + filePath);
+				    } else {
+				        System.out.println("ファイルは存在しません: " + filePath);
+				    }
+				} catch (IOException e) {
+				    e.printStackTrace();
+				}
+			}
+		}
 		
-		return "redirect:/plant/mypage";
+		//// 新規ファイルをアップロード、既存ファイルの表示順更新 ////
+		// 新規追加画像
+		// tempIdとMultipartFileをマッピングしておく（フロントで設定した一時IDとファイル）
+		Map<String, MultipartFile> tempIdToFileMap = new HashMap<>();
+		if (tempIdList != null) {		// 新規追加画像がない場合は、tempIdListはnull
+			for (int i = 0; i < tempIdList.size(); i++) {
+			    tempIdToFileMap.put(tempIdList.get(i), files.get(i));
+			}
+		}
+		
+		// displayOrder順に並べて処理
+		int displayOrder = 1;
+		for (String orderedId : orderedIds) {
+		    if (orderedId.startsWith("temp-")) {
+		        //// 新規ファイルアップロード ////
+		    	// 新規ファイルリストのMapからファイルを取得
+		        MultipartFile file = tempIdToFileMap.get(orderedId);
+	            // ファイルチェック
+	            FileValidationUtils.validateImageContentType(file);
+	            
+	            // DB登録
+	            // 一時的にファイル名を"defaultFileName"にして登録する(DBのAUTO_INCREMENTで作成されるIDをファイル名で使用するため。)
+	            PlantFiles newPlantFile = new PlantFiles(plant.getId(), displayOrder, "defaultFileName");
+	            plantFileService.addPlantFile(newPlantFile);
+	            
+	            //// 画像ファイルを保存する
+	    		//ファイル名を生成して更新（(orderedId)_(plants_id)_yyyyMMdd.jpg）
+	    		//(INCREMENTで作成されたidでファイル名を作成してupdate)
+	    		Integer plantFilesId = newPlantFile.getId();
+	    		StringBuilder sb = new StringBuilder ();
+	    		sb.append(plantFilesId);
+	    		sb.append("_");
+	    		sb.append(plant.getId());
+	    		sb.append("_");
+	    		// 日付を取得
+	            String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
+	            sb.append(date);
+	            sb.append(".jpg");
+	    		String fileName = sb.toString();
+	    		
+	            // 保存先のパスを作成
+	            File destinationFile = new File(Paths.get(uploadStaticDir, uploadDirPlant, fileName).toString());
+	            try {
+	            	// 画像を正方形300×300にトリミングリサイズして保存する。
+	            	ImageUtils.saveResizedImage(file, destinationFile);
+	            } catch (IOException e) {
+	            	 e.printStackTrace();
+	                //NG:エラーレスポンスを返す
+	    			Map<String, Object> errorResponse = new HashMap<>();
+	    	        errorResponse.put("status", "error");
+	    	        // エラーメッセージをセット
+	    	        Map<String, String> errors = new HashMap<>();
+	    	        errors.put("error", "ファイルの保存中にエラーが発生しました。");
+	    	        errorResponse.put("errors", errors);
+	    	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+	            }
+	            
+	            // ファイル名更新
+	            plantFileService.editPlantFile(plantFilesId, fileName);
+	            
+		    } else {
+		        //// 既存ファイル：DBのdisplayOrder更新 ////
+		        Integer plantFileId = Integer.valueOf(orderedId.replace("plantFileId_", ""));
+		        plantFileService.updateDisplayOrder(plantFileId, plantId, displayOrder);
+		    }
+    		
+		    displayOrder++;
+		}
+        
+        //登録結果のレスポンスを返す
+	    Map<String, Object> response = new HashMap<>();
+		response.put("status", "success");
+		response.put("redirectUrl", "/plant/mypage");
+	    return ResponseEntity.ok(response);
 	}
 }
