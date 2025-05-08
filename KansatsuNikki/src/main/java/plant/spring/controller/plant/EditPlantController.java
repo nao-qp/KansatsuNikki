@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,6 +37,7 @@ import plant.spring.application.component.AuthHelper;
 import plant.spring.application.service.JsonParseService;
 import plant.spring.application.util.FileValidationUtils;
 import plant.spring.application.util.ImageUtils;
+import plant.spring.config.SlotConfig;
 import plant.spring.domain.user.model.PlantFiles;
 import plant.spring.domain.user.model.Plants;
 import plant.spring.domain.user.service.PlantFileService;
@@ -56,11 +56,11 @@ public class EditPlantController {
 	@Autowired
 	private PlantFileService plantFileService;
 	@Autowired
-	private MessageSource messageSource;
-	@Autowired
 	private AuthHelper authHelper;
 	@Autowired
 	private JsonParseService jsonParseService;
+	@Autowired
+	private SlotConfig slotConfig;
 	
 	//画像ディレクトリ取得
 	@Value("${app.upload-static-dir}")
@@ -74,14 +74,8 @@ public class EditPlantController {
 	@GetMapping("/plant/edit/{id}")
 	public String getEditPlant(Model model, AddPlantForm form, Locale locale,
 			@PathVariable("id") Integer id, @AuthenticationPrincipal CustomUserDetails user) {
-		
-		////認証情報チェック
-        //認証情報がない場合は、ログインページにリダイレクトする
-//        if (user == null) {
-//        	 return "redirect:/user/login";
-//        }
-        
-        // 認証されたユーザーのIDを取得
+
+		// 認証されたユーザーのIDを取得
         Integer currentUserId = user.getId();
         
 		//植物情報取得
@@ -93,7 +87,7 @@ public class EditPlantController {
 		model.addAttribute("addPlantForm", form);
 		
 		//該当の植物がログイン中のユーザーのデータかチェック
-		if (plant.getUsersId() != currentUserId) {
+		if (!plant.getUsersId().equals(currentUserId)) {
 			//ログイン中のユーザーの植物でない場合は、ログインページへリダイレクト
 			 return "redirect:/user/login";
 		}
@@ -106,8 +100,10 @@ public class EditPlantController {
 		List<fileIdImgUrl> fileIdImgUrlList = new ArrayList<>();
 //		List<String> filePathList = new ArrayList<>();
 		
-		int slotNum = 4;	// スロット数上限
+		// スロット数上限を設定
+		Integer slotNum = slotConfig.getMaxSlotCount();
 		model.addAttribute("slotNum", slotNum);
+		
 		// 画像データ数またはスロット数上限までループする
 		int loopCount = Math.min(plantFiles.size(), slotNum);
 		for (int i = 0; i < loopCount; i++) {
@@ -161,11 +157,6 @@ public class EditPlantController {
 
 		log.info(form.toString());
         
-		//登録ボタン制御
-		//フォーム送信時にボタンに「処理中」と表示する
-		String btnProcessing = messageSource.getMessage("btnProcessing", null, locale);
-		model.addAttribute("btnProcessing", btnProcessing);
-		
 		// 編集内容をセットする
 		Plants editedPlant = new Plants();
 		editedPlant.setUsersId(user.getId());

@@ -5,10 +5,10 @@
 <head>
 <!-- JS読込 -->
 <script src="/js/Sortable.min.js" defer></script>
-<script th:src="@{/js/edit.js}" defer></script>
-<script defer>
+<script th:inline="javascript" defer>
 	const slotNum = /*[[${slotNum}]]*/'4'
 </script>
+<script th:src="@{/js/edit.js}" defer></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -42,12 +42,11 @@
 					    </button>
 					  </div>
 					</template>
-
 				    
 				  </div>
 				</div>
 				
-				 <!-- 画像追加ボタンエリア -->
+				<!-- 画像追加ボタンエリア -->
 			    <div class="row my-2 d-flex justify-content-center align-items-center">
 			        <div class="p-0 fileplus-area d-flex justify-content-center align-items-center" id="add-photo-button">
 						<div class="icon-container">

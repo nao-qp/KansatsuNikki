@@ -4,163 +4,138 @@
  */
 
 
-// 画像追加ボタンのクリックイベント
-//document.getElementById('add-photo-button').onclick = function() {
-//    fileInput.click();
-//    
-//};
-
-//TODO:ファイル選択方法を、ドロップにも対応する。（Ver.2以降実装検討）
-
-
-// ファイルが選択されたときの処理
-//fileInput.onchange = function(event) {
-//fileInput.addEventListener('change', function(event) {
-//    const files = Array.from(event.target.files);
-//    let imagesSelected = false; // 画像が選択されたかどうかを管理
-//
-//    // スロットの状態を確認し、空いているスロットを見つける
-//    const availableSlots = Array.from(photoSlots).filter(slot => slot.querySelector('img').style.display === 'none');
-//
-//
-//    // 選択されたファイルをスロットに表示
-//    files.forEach((file, index) => {
-//        if (index < availableSlots.length) {
-//            const reader = new FileReader();
-//            const imgSlot = availableSlots[index];
-//            const img = imgSlot.querySelector('img');
-//            const removeBtn = imgSlot.querySelector('.remove-btn');
-//            const addPhotoBtn = document.getElementById('add-photo-button');	//ファイル追加ボタン制御用
-//
-//			//画像ファイル読み込み実行後(※1実行後)に、実行される
-//            reader.onload = function(e) {
-//                img.src = e.target.result;  // 画像データのURL
-//                img.style.display = 'block'; // 画像を表示
-//                imgSlot.style.display = 'flex'; // スロットを表示
-//                removeBtn.style.display = 'block'; // バツボタンを表示
-//                // 画像が選択されたフラグを立てる(画像表示エリア全体の表示可否を判定)
-//                imagesSelected = true;
-//                
-//                  // photo-preview-containerの表示を制御
-//                    photoPreviewContainer.style.display = imagesSelected ? 'block' : 'none';
-//                    
-//                  ////追加ボタンを無効にする
-//                  	//画像がセットされているスロットを取得する
-//			        const resultAvailableSlots = Array.from(photoSlots).filter(slot => slot.querySelector('img').style.display === 'block');
-//			        console.log(resultAvailableSlots.length);
-//			        console.log(availableSlots.length);
-//			        //4つ埋まっていたら、追加ボタンを無効にする
-//			        if (resultAvailableSlots.length >= 4) {
-//						addPhotoBtn.style.pointerEvents = 'none'; // ボタンを無効にする
-//            			addPhotoBtn.style.opacity = '0.5'; // 見た目を変更
-//					}
-//					
-//				  // ファイル入力をリセット
-//                  //fileInput.value = ''; // 読み込み完了後にリセット
-//            };
-//			
-//			
-//            // バツボタンのクリックイベント
-//            removeBtn.onclick = function() {
-//                img.style.display = 'none'; // 画像を非表示
-//                imgSlot.style.display = 'none'; // スロットを非表示
-//                removeBtn.style.display = 'none'; // バツボタンを非表示
-//                imagesSelected = false; // 画像が選択されていないフラグを立てる
-//
-//				//無効にしていた追加ボタンを元に戻す
-//				addPhotoBtn.style.pointerEvents = 'auto'; // ボタンを有効にする
-//    			addPhotoBtn.style.opacity = '1'; // 見た目を初期値にする
-//					
-//
-//                // TODO:画像を詰める処理（Ver.2以降実装検討）
-//                //①style.display === 'block'のものを取得
-//                //②スロットを一度空にする。
-//                //③①で取得した要素を詰め直す。
-//                
-//                
-//            };
-//            
-//            //(※1)画像ファイル読み込み
-//            reader.readAsDataURL(file); // 画像ファイルをDataURLとして読み込む
-//            
-//        }
-//        
-//    });
-//    
-//});
-
-
+const container = document.getElementById('photo-preview-container').querySelector('div.d-flex');
 const fileInput = document.getElementById('file-input');
 const addPhotoButton = document.getElementById('add-photo-button');
-const photoPreviewContainer = document.getElementById('photo-preview-container');
-const selectedFiles = []; // ファイルを保持する配列
+const updateButton = document.getElementById('update-btn');
 
-// ファイル追加ボタンをクリック → ファイル選択
-addPhotoButton.addEventListener('click', () => {
-	fileInput.click();
-});
+let selectedFiles = []; // 新規追加ファイルリスト
+
+// ファイル追加ボタン → ファイル選択を開く
+addPhotoButton.addEventListener('click', () => fileInput.click());
 
 // ファイルが選ばれたとき
-fileInput.addEventListener('change', function(event) {
-	const files = Array.from(event.target.files);
+fileInput.addEventListener('change', function (event) {
+  const files = Array.from(event.target.files);
+  
+  const slots = container.querySelectorAll('.photo-slot');
+  const currentSlotCount = slots.length;
 
-	files.forEach(file => {
-		selectedFiles.push(file); // ファイルを保持
+  if (currentSlotCount >= slotNum) {
+    alert(`画像は最大${slotNum}枚までしか選べません。`);
+    fileInput.value = ''; // リセットしておく
+    return;
+  }
 
-		// プレビュー用画像を作成
-		const reader = new FileReader();
-		reader.onload = function(e) {
-			const img = document.createElement('img');
-			img.src = e.target.result;
-			img.style.width = '150px';
-			img.style.margin = '5px';
-			photoPreviewContainer.appendChild(img);
-			photoPreviewContainer.style.display = 'flex';
-		};
-		reader.readAsDataURL(file);
-	});
+  files.forEach(file => {
+	 // 画像追加数チェック
+	 if (container.querySelectorAll('.photo-slot').length >= slotNum) {
+      alert(`画像は最大${slotNum}枚までです。`);
+      return; // これ以上追加しない
+    }
+	// 画像の大きさチェック
+    if (file.size > 10 * 1024 * 1024) { // 2MB制限
+      alert('ファイルサイズが大きすぎます！（最大2MB）');
+      return;
+    }
+    const tempId = `temp-${Date.now()}-${Math.random()}`;
+    // selectedFiles: { file: File, tempId: string }[]
+    selectedFiles.push({ file, tempId });
 
-	// 同じファイルが選んだあと input をリセットしないと change イベントが発火しない
-	fileInput.value = '';
+    const template = document.getElementById('photo-slot-template').content.cloneNode(true);
+    const slot = template.querySelector('.photo-slot');
+    slot.setAttribute('data-id', tempId);
+
+	// ファイルを読み込んで画面に表示する
+    const img = slot.querySelector('img');
+    const reader = new FileReader();
+    // 処理順② 読み込んだらimgにセット(ファイル読み込みを行った後に実行する処理を定義しておく)
+    reader.onload = e => img.src = e.target.result;
+    // 処理順① ファイルをDataURL形式にして読み込み
+    reader.readAsDataURL(file);
+
+	// 画像をセットしたslotをプレビュー表示エリアに追加
+    container.appendChild(slot);
+  });
+
+  fileInput.value = ''; // リセットして同じファイルも再選択できるようにする
+  document.getElementById('photo-preview-container').style.display = 'block'; // 表示
 });
 
-// 登録ボタン（送信）
-document.getElementById('update-btn').addEventListener('click', async () => {
-	const button = document.getElementById('update-btn');
+// 削除ボタン押下
+container.addEventListener('click', function (e) {
+  if (e.target.closest('.remove-btn')) {
+    const slot = e.target.closest('.photo-slot');
+    slot.remove();
+  }
+});
 
-    // ボタンを無効化して「処理中」に変更
-    button.disabled = true;
-    button.textContent = messages.btnProcessing;
-    
-	const form = document.getElementById('addplant-form');
-	const formData = new FormData(form);
-    
-	// 保持している全ファイルを追加
-	selectedFiles.forEach(file => {
-		formData.append('files', file);
-	});
+// 並び替え可能にする
+new Sortable(container, { animation: 150 });
 
-	try {
-		const response = await fetch('/plant/add', {
-			method: 'POST',
-			body: formData
-		});
-	
-		if (response.ok) {
-	        // 登録成功の場合
-	        // コントローラー側から結果を受け取る
-	     	const result = await response.json();
-	        // サーバーから渡されたURLへリダイレクト
-        	window.location.href = result.redirectUrl;
-	    } else {
-			// バリデーションエラー、または登録失敗の場合
-			const errorJson = await response.json();
-	        // TODO:　バリデーションエラー表示、登録失敗処理
-		}
-			
-	} catch (error) {
-		console.error("エラー:", error);
+// 更新ボタン押下時
+updateButton.addEventListener('click', async () => {
+	 console.log('更新ボタンが押されました'); // ← これ表示されるか確認
+
+	// ボタンを無効化して「処理中」に変更
+	updateButton.disabled = true;
+	updateButton.textContent = '処理中';
+
+  const slots = Array.from(container.querySelectorAll('.photo-slot'));
+  const orderedIds = slots.map(slot => slot.getAttribute('data-id'));
+  // コントローラーに送るフォームデータを作成する
+  // 並んでいるスロットのIDと、削除対象のIDの配列をセット
+  const formData = new FormData();
+  formData.append('orderedIds', JSON.stringify(orderedIds));
+  
+  // 植物の名前と詳細をセット
+  const name = document.getElementById('name').value;
+  const detail = document.getElementById('detail').value;
+  formData.append('name', name);
+  formData.append('detail', detail);
+  // 
+  selectedFiles.forEach(({ file, tempId }) => {
+    formData.append('files', file);
+    formData.append('tempIdList', tempId);
+  });
+
+// デバッグ用
+console.log('FormDataの中身:');
+for (const [key, value] of formData.entries()) {
+  if (value instanceof File) {
+    console.log(`${key}: [ファイル] ${value.name}, ${value.size}バイト, ${value.type}`);
+  } else {
+    console.log(`${key}:`, value);
+  }
+}
+
+  // コントローラーへリクエストを送信
+  try {
+    const response = await fetch('/plant/add', {
+      method: 'POST',
+      body: formData
+    });
+    const result = await response.json();
+    console.log('完了:', result);
+    // 成功時のリダイレクト処理
+    if (!response.ok) {
+	  if (response.status === 400) {
+	    // バリデーションエラー処理
+	    console.error('バリデーションエラー:', result.errors);
+	    //TODO: 各項目にエラーメッセージを表示するなど
+	    
+	  } else {
+	    // その他のエラー
+	    console.error('サーバーエラーなど:', result);
+	  }
+	} else {
+	  // 成功した場合
+	  if (result.redirectUrl) {
+	    window.location.href = result.redirectUrl;	// マイページ
+	  }
 	}
+    
+  } catch (error) {
+    console.error('エラー:', error);
+  }
 });
-
-

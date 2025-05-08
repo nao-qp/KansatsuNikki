@@ -14,8 +14,6 @@ let deletedIds = [];    // 削除対象IDリスト
 addPhotoButton.addEventListener('click', () => fileInput.click());
 
 // ファイル選択時
-//fileInput.addEventListener('change', function () {
-//  const files = Array.from(fileInput.files);
 fileInput.addEventListener('change', function (event) {
   const files = Array.from(event.target.files);
   
@@ -50,9 +48,9 @@ fileInput.addEventListener('change', function (event) {
 	// ファイルを読み込んで画面に表示する
     const img = slot.querySelector('img');
     const reader = new FileReader();
-    // 読み込んだらimgにセット(ファイル読み込みを行った後に実行する処理を定義しておく)
+    // 処理順② 読み込んだらimgにセット(ファイル読み込みを行った後に実行する処理を定義しておく)
     reader.onload = e => img.src = e.target.result;
-    // ファイルをDataURL形式にして読み込み
+    // 処理順① ファイルをDataURL形式にして読み込み
     reader.readAsDataURL(file);
 
 	// 画像をセットしたslotをプレビュー表示エリアに追加
@@ -82,6 +80,10 @@ new Sortable(container, { animation: 150 });
 updateButton.addEventListener('click', async () => {
 	 console.log('更新ボタンが押されました'); // ← これ表示されるか確認
 	
+	// ボタンを無効化して「処理中」に変更
+	updateButton.disabled = true;
+	updateButton.textContent = '処理中';
+	
   const slots = Array.from(container.querySelectorAll('.photo-slot'));
   const orderedIds = slots.map(slot => slot.getAttribute('data-id'));
   // コントローラーに送るフォームデータを作成する
@@ -110,7 +112,6 @@ for (const [key, value] of formData.entries()) {
   }
 }
 
-
   // コントローラーへリクエストを送信
   const plantId = document.getElementById('plant-id').value;
   try {
@@ -120,7 +121,7 @@ for (const [key, value] of formData.entries()) {
     });
     const result = await response.json();
     console.log('完了:', result);
-    // 成功時のリダイレクト処理などここで
+    // 成功時のリダイレクト処理
     if (!response.ok) {
 	  if (response.status === 400) {
 	    // バリデーションエラー処理
@@ -129,9 +130,9 @@ for (const [key, value] of formData.entries()) {
 	    
 	  } else if (response.status === 401 && result.redirectUrl) {
 	    // 認証エラー
-	    // 自身のデータではないデータを編集しようとした場合、ログインページへリダイレクトする
+	    // 自身のデータではないデータを編集しようとした場合は、ログインページへリダイレクトする
 	    if (result.redirectUrl) {
-	      window.location.href = result.redirectUrl;
+	      window.location.href = result.redirectUrl;	// ログインページ
 	    } else {
 	      console.error('認証エラー');
 	    }
@@ -142,19 +143,11 @@ for (const [key, value] of formData.entries()) {
 	} else {
 	  // 成功した場合
 	  if (result.redirectUrl) {
-	    window.location.href = result.redirectUrl;
+	    window.location.href = result.redirectUrl;	// マイページ
 	  }
 	}
-    
     
   } catch (error) {
     console.error('エラー:', error);
   }
 });
-
-
-
-
-
-
-
