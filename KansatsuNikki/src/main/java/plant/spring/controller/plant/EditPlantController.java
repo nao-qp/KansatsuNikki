@@ -159,7 +159,7 @@ public class EditPlantController {
         
 		// 編集内容をセットする
 		Plants editedPlant = new Plants();
-		editedPlant.setUsersId(user.getId());
+		editedPlant.setId(plantId);
 		editedPlant.setName(form.getName());
 		editedPlant.setDetail(form.getDetail());
 		
@@ -276,7 +276,7 @@ public class EditPlantController {
 	            
 		    } else {
 		        //// 既存ファイル：DBのdisplayOrder更新 ////
-		        Integer plantFileId = Integer.valueOf(orderedId.replace("plantFileId_", ""));
+		        Integer plantFileId = Integer.valueOf(orderedId);
 		        plantFileService.updateDisplayOrder(plantFileId, plantId, displayOrder);
 		    }
     		

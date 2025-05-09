@@ -2,7 +2,6 @@ package plant.spring.domain.user.service.impl;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,14 +44,14 @@ public class PlantFileServiceImpl implements PlantFileService {
 	
 	/** 植物画像データ順番1件更新 **/
 	@Override
-	public void updateDisplayOrder(@Param("plantFileId") Integer plantFileId, 
-			@Param("plantId") Integer plantId, @Param("displayOrder") Integer displayOrder) {
+	public void updateDisplayOrder(Integer plantFileId, 
+			Integer plantId, Integer displayOrder) {
 		mapper.updateDisplayOrder(plantFileId, plantId, displayOrder);
 	}
 	
 	/** 植物画像データ削除(is_Deleted=1) **/
 	@Override
-	public void updIsDeleted(@Param("id") Integer id) {
+	public void updIsDeleted(Integer id) {
 		mapper.updIsDeleted(id);
 	}
 }

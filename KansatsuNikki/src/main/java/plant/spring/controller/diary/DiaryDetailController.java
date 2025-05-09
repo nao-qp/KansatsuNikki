@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import plant.spring.domain.user.model.Profiles;
 import plant.spring.domain.user.service.DiaryService;
 import plant.spring.domain.user.service.PlantService;
 import plant.spring.domain.user.service.ProfileService;
+import plant.spring.domain.user.service.impl.CustomUserDetails;
 
 @Controller
 public class DiaryDetailController {
@@ -38,18 +40,17 @@ public class DiaryDetailController {
 	
 	//観察日記詳細表示
 	@Authenticated
-	@GetMapping("/diary/detail/{id}")
-	public String getDetail(Model model, Locale locale, @PathVariable("id") Integer id) {
+	@GetMapping("/diary/detail/{plantId}/{diaryId}")
+	public String getDetail(Model model, Locale locale, 
+			@AuthenticationPrincipal CustomUserDetails user,
+			@PathVariable("plantId") Integer plantId, @PathVariable("diaryId") Integer diaryId) {
 		
-		////ユーザー情報取得
-        //植物IDからユーザーIDを取得する
-        Integer UserId = diaryService.getUserId(id);
+		////ユーザー情報取得、設定
+		Integer UserId = user.getId();
         model.addAttribute("UserId", UserId);
-        
         //ニックネーム
         Profiles profile = profileService.getProfile(UserId);
         model.addAttribute("profile", profile);
-        
         //プロフィール画像保存先ディレクトリ設定
       	model.addAttribute("uploadDirProfile", uploadDirProfilel);
       	
@@ -76,15 +77,12 @@ public class DiaryDetailController {
   		model.addAttribute("plantDiaryCount", plantDiaryCount);
         
   		//観察日記情報取得
-  		Diaries diary = diaryService.getDiary(id);
+  		Diaries diary = diaryService.getDiary(diaryId);
   		model.addAttribute("diary", diary);
   		
   		//観察日記画像保存先ディレクトリ設定
   		model.addAttribute("uploadDirDiary", uploadDirDiary);
   		
-  		
-		return "diary/detail";
+		return "diary/diary-detail";
 	}
-	
-	
 }

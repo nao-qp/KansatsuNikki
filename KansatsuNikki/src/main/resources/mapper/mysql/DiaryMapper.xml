@@ -5,6 +5,7 @@
 <!-- Mapperとxmlのマッピング -->
 <mapper namespace="plant.spring.repository.DiaryMapper">
 
+<!-- select -->
 <!-- ユーザーの観察日記数取得 -->
 <select id="getCount" resultType="Integer">
 	select
@@ -78,6 +79,7 @@
 	and diaries.is_deleted = 0
 </select>
 
+<!-- insert -->
 <!-- 観察日記1件登録 -->
 <!-- AUTO_INCREMENTで生成されたidをINSERT後にinsert対象データDiariesオブジェクトのidに設定する -->
 <insert id="insertOne" parameterType="Diaries" useGeneratedKeys="true" keyProperty="id">
@@ -95,6 +97,7 @@
 		)
 </insert>
 
+<!-- update -->
 <!-- 観察日記1件削除 -->
 <update id="updateDelOne">
 	update Diaries
@@ -103,4 +106,15 @@
 	where
 		id = #{id}
 </update>
+
+<!-- 観察日記1件更新 -->
+<update id="updDateDetail">
+	update Diaries
+	set
+		observation_date = #{observationDate}
+		,detail = #{detail}
+	where
+		id = #{id}
+</update>
+
 </mapper>

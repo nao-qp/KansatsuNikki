@@ -2,8 +2,6 @@ package plant.spring.domain.user.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import plant.spring.domain.user.model.PlantFiles;
 
 public interface PlantFileService {
@@ -24,9 +22,9 @@ public interface PlantFileService {
 	public void editPlantFile(Integer id, String fileName);
 	
 	/** 植物画像データ順番1件更新 **/
-	public void updateDisplayOrder(@Param("plantFileId") Integer plantFileId, 
-			@Param("plantId") Integer plantId, @Param("displayOrder") Integer displayOrder);
+	public void updateDisplayOrder(Integer plantFileId, 
+			 Integer plantId, Integer displayOrder);
 	
 	/** 植物画像データ削除(is_Deleted=1) **/
-	public void updIsDeleted(@Param("id") Integer id);
+	public void updIsDeleted(Integer id);
 }

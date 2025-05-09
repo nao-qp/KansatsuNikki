@@ -95,7 +95,7 @@
 </select>
 
 <!-- 植物1件更新 -->
-<update id="updateOne">
+<update id="updateOne" parameterType="Plants" >
 	update plants
 	set
 		name = #{name}

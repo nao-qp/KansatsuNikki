@@ -5,29 +5,7 @@
 <!-- Mapperとxmlのマッピング -->
 <mapper namespace="plant.spring.repository.DiaryFileMapper">
 
-<!-- 観察日記画像データ1件登録 -->
-<insert id="insertOne" parameterType="DiaryFiles" useGeneratedKeys="true" keyProperty="id">
-	insert into diaryfiles (
-		diaries_id
-		,display_order
-		,file_path
-		)
-		values (
-			#{diariesId}
-			,#{displayOrder}
-			,#{filePath}
-		)
-</insert>
-
-<!-- 観察日記画像データ1件更新 -->
-<update id="updateOne">
-	update diaryfiles
-	set
-		file_path = #{fileName}
-	where
-		id = #{id}
-</update>
-
+<!-- select -->
 <!-- 日記画像データ取得(複数) -->
 <select id="getDiaryFiles">
 	select
@@ -43,5 +21,63 @@
 	order by
 		display_order
 </select>
+
+<!-- 日記画像データ1件取得 -->
+<select id="getFilePath">
+	select
+		file_path
+	from
+		diaryfiles
+	where
+		diaries_id = #{diariesId}
+	and is_deleted = 0
+	order by
+		display_order
+</select>
+
+<!-- insert -->
+<!-- 観察日記画像データ1件登録 -->
+<insert id="insertOne" parameterType="DiaryFiles" useGeneratedKeys="true" keyProperty="id">
+	insert into diaryfiles (
+		diaries_id
+		,display_order
+		,file_path
+		)
+		values (
+			#{diariesId}
+			,#{displayOrder}
+			,#{filePath}
+		)
+</insert>
+
+<!-- update -->
+<!-- 観察日記画像データファイル名1件更新 -->
+<update id="updDiaryFileName">
+	update diaryfiles
+	set
+		file_path = #{fileName}
+	where
+		id = #{id}
+</update>
+
+<!-- 観察日記画像データ1件削除 -->
+<update id="updIsDeleted">
+	update diaryfiles
+	set
+		is_deleted = 1
+	where
+		id = #{id}
+</update>
+
+<!-- 植物画像データ順番1件更新 -->
+<update id="updateDisplayOrder">
+	update diaryfiles
+	set
+		display_order = #{displayOrder}
+	where
+		id = #{diaryFileId}
+	and diaries_id = #{diaryId}
+	and is_deleted = 0
+</update>
 
 </mapper>

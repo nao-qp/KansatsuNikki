@@ -60,7 +60,7 @@
 				</div>
 			</div>
 			<div class="row m-0">
-				<p th:text="${plant.detail}"></p>
+				<pre th:text="${plant.detail}"></pre>
 			</div>
 		</div>
 	</div>
@@ -75,7 +75,7 @@
 	</div>
 	<!-- 観察日記一覧 -->
 	<div class="row">
-		<a class="diary" th:href="@{/diary/detail/{id}(id=${diary.id})}" th:each="diary : ${diaries}">
+		<a class="diary" th:href="@{/diary/detail/{plantId}/{diaryId}(plantId=${plant.id}, diaryId=${diary.id})}" th:each="diary : ${diaries}">
 			<div class="row p-0 mb-3 border position-relative">
 				<!-- 削除ボタン(削除確認モーダル表示) -->
 				<img class="delete-icon" th:data-name="${diary.observationDate}" 
@@ -93,22 +93,10 @@
 							@{${uploadDirDiary} + ${diary.filePath}} : '/images/plantImage.png'">
 				</div>
 				
-	
-  <!-- 新規画像追加 -->
-  <input type="file" id="file-input" name="files" multiple>
-
-  <!-- 削除予定ファイルを保持するhidden -->
-  <div id="deleted-files-container"></div>
-
-				
-				
-				
-				
-				
 				<!-- 日記文章 -->
 				<div class="col border-start diary-detail">
 					<p class="fs-4 mb-1" th:text="${diary.observationDate}"></p>
-					<p class="m-0 pb-1" th:text="${diary.detail}"></p>
+					<pre class="m-0 pb-1" th:text="${diary.detail}"></pre>
 				</div>
 			</div>
 		</a>

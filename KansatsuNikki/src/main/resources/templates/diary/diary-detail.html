@@ -41,6 +41,11 @@
 		</div>
 	</div>
 	
+	<!-- 戻るボタン -->
+	<div class="row ms-2 mt-3 d-flex justify-content-center">
+		<a th:href="@{/plant/detail/{plantId}(plantId=${diary.plantsId})}" th:text="＜戻る"></a>
+	</div>
+	
 	<!-- 日付情報 -->
 	<div class="row d-flex justify-content-center">
 		<div class="container-center">
@@ -56,7 +61,7 @@
 		<div class="container-center">
 			<p class="col fs-4 mb-1" th:text="#{record}"></p>
 			<div class="col mb-1 pb-1 d-flex align-items-center justify-content-end">
-				<a class="icon-container" th:href="@{/diary/edit/{id}(id=${diary.id})}">
+				<a class="icon-container" th:href="@{/diary/edit/{plantId}/{diaryId}(plantId=${diary.plantsId}, diaryId=${diary.id})}">
 					<img src="/images/editicon.png" alt="#{editIcon}" class="img-fluid">
 				</a>
 			</div>
@@ -66,7 +71,7 @@
 	<!-- 記録内容 -->
 	<div class="row d-flex justify-content-center">
 		<div class="container-center">
-			<p class="diary-text" th:text="${diary.detail}"></p>
+			<pre class="diary-text" th:text="${diary.detail}"></pre>
 		</div>
 	</div>
 	
