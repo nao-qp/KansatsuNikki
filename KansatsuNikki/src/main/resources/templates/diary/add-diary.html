@@ -9,7 +9,7 @@
 <script th:inline="javascript" defer>
 	const slotNum = /*[[${slotNum}]]*/'4'
 </script>
-<script th:src="@{/js/add-diary.js}" defer></script>
+<script th:src="@{/js/diary/add-diary.js}" defer></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -65,9 +65,18 @@
 			<textarea class="form-control mb-4 mt-1" th:field="*{detail}" th:placeholder="#{record}"
 				rows="5" style="resize: vertical;"></textarea>
 			<!--登録ボタン-->
-			<div class="mb-3 row d-flex justify-content-center">
-				<button id="update-btn" type="button" class="btn btn-success" th:text="#{plantRegister}"></button>
+			<div class="mb-3 d-flex flex-column align-items-center gap-2 mb-4">
+			  <button id="update-btn" type="button" class="btn btn-success width-200" th:text="登録"></button>
+			  <a th:href="@{/plant/detail/{plantId}(plantId=${plant.id})}" 
+			  	class="btn btn-outline-secondary custom-hover width-200">キャンセル</a>
 			</div>
+			
+			
+			<!--登録ボタン-->
+<!--			<div class="mb-3 row d-flex justify-content-center">-->
+<!--				<button id="update-btn" type="button" class="btn btn-success" th:text="#{plantRegister}"></button>-->
+<!--			</div>-->
+
 			<!-- 植物IDをJavaScript側に送るためにセット -->
 			<input type="hidden" id="plant-id" th:value="${plant.id}">
 		</div>

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- JS読込 -->
-<script th:src="@{/js/detail.js}" defer></script>
+<script th:src="@{/js/plant/plant-detail.js}" defer></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -60,9 +60,14 @@
 				</div>
 			</div>
 			<div class="row m-0">
-				<pre th:text="${plant.detail}"></pre>
+				<p style="white-space: pre-line;" th:text="${plant.detail}"></p>
 			</div>
 		</div>
+	</div>
+	
+	<!-- 戻るボタン -->
+	<div class="row d-flex justify-content-center">
+		<a th:href="@{/plant/mypage}" th:text="＜戻る"></a>
 	</div>
 	
 	<!-- 観察日記追加ボタン -->
@@ -75,7 +80,7 @@
 	</div>
 	<!-- 観察日記一覧 -->
 	<div class="row">
-		<a class="diary" th:href="@{/diary/detail/{plantId}/{diaryId}(plantId=${plant.id}, diaryId=${diary.id})}" th:each="diary : ${diaries}">
+		<a class="diary" th:href="@{/diary/detail/{plantId}/{diaryId}(plantId=${plant.id}, diaryId=${diary.id})}" th:each="diary : ${diaryViewDtoList}">
 			<div class="row p-0 mb-3 border position-relative">
 				<!-- 削除ボタン(削除確認モーダル表示) -->
 				<img class="delete-icon" th:data-name="${diary.observationDate}" 
@@ -95,8 +100,8 @@
 				
 				<!-- 日記文章 -->
 				<div class="col border-start diary-detail">
-					<p class="fs-4 mb-1" th:text="${diary.observationDate}"></p>
-					<pre class="m-0 pb-1" th:text="${diary.detail}"></pre>
+					<p class="fs-4 mb-1" th:text="${diary.observationDateStr}"></p>
+					<p class="m-0 pb-1" style="white-space: pre-line;" th:text="${diary.detail}"></p>
 				</div>
 			</div>
 		</a>

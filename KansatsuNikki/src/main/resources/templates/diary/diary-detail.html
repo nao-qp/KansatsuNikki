@@ -42,14 +42,14 @@
 	</div>
 	
 	<!-- 戻るボタン -->
-	<div class="row ms-2 mt-3 d-flex justify-content-center">
+	<div class="row ms-2 mt-3 mb-2 d-flex justify-content-center">
 		<a th:href="@{/plant/detail/{plantId}(plantId=${diary.plantsId})}" th:text="＜戻る"></a>
 	</div>
 	
 	<!-- 日付情報 -->
 	<div class="row d-flex justify-content-center">
 		<div class="container-center">
-			<p class="col fs-4 mb-1" th:text="${diary.observationDate}"></p>
+			<p class="col fs-4 mb-1" th:text="${observationDateStr}"></p>
 			<div class="col d-flex justify-content-end align-items-center">
 				<p class="m-0 text-end me-3 " th:text="${diary.createDateTime}"></p>
 				<p class="m-0 text-end" th:text="#{update} + ${diary.updateDateTime}"></p>
@@ -71,7 +71,7 @@
 	<!-- 記録内容 -->
 	<div class="row d-flex justify-content-center">
 		<div class="container-center">
-			<pre class="diary-text" th:text="${diary.detail}"></pre>
+			<p class="diary-text" style="white-space: pre-line;" th:text="${diary.detail}"></p>
 		</div>
 	</div>
 	

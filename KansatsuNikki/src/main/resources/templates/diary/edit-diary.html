@@ -8,7 +8,7 @@
 <script th:inline="javascript" defer>
 	const slotNum = /*[[${slotNum}]]*/'4'
 </script>
-<script th:src="@{/js/edit-diary.js}" defer></script>
+<script th:src="@{/js/diary/edit-diary.js}" defer></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -74,9 +74,9 @@
 			<label th:for="detial" th:text="#{record}"></label>
 			<textarea class="form-control mb-4 mt-1" th:field="*{detail}" th:placeholder="#{record}"
 				rows="5" style="resize: vertical;"></textarea>
-			<!--登録ボタン-->
-			<div class="mb-3 d-flex flex-column align-items-center gap-2">
-			  <button id="update-btn" type="button" class="btn btn-success width-200" th:text="#{plantRegister}"></button>
+			<!--更新ボタン-->
+			<div class="mb-3 d-flex flex-column align-items-center gap-2 mb-4">
+			  <button id="update-btn" type="button" class="btn btn-success width-200" th:text="更新"></button>
 			  <a th:href="@{/diary/detail/{plantId}/{diaryId}(plantId=${diary.plantsId}, diaryId=${diary.id})}" 
 			  	class="btn btn-outline-secondary custom-hover width-200">キャンセル</a>
 			</div>

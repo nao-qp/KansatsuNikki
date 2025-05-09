@@ -115,7 +115,7 @@ public class EditPlantController {
 		}
 		model.addAttribute("fileIdImgUrlList", fileIdImgUrlList);
 		
-		return "plant/edit";
+		return "plant/edit-plant";
 	}
 	
 	//植物編集処理
@@ -286,7 +286,7 @@ public class EditPlantController {
         //登録結果のレスポンスを返す
 	    Map<String, Object> response = new HashMap<>();
 		response.put("status", "success");
-		response.put("redirectUrl", "/plant/mypage");
+		response.put("redirectUrl", "/plant/detail/" + plantId);
 	    return ResponseEntity.ok(response);
 	}
 }

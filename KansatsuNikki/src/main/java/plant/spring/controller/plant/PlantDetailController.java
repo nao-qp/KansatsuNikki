@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import plant.spring.domain.user.dto.DiaryViewDto;
 import plant.spring.domain.user.model.Diaries;
 import plant.spring.domain.user.model.Plants;
 import plant.spring.domain.user.model.Profiles;
@@ -99,9 +100,13 @@ public class PlantDetailController {
   		
   		//観察日記一覧取得
 		List<Diaries> diaries = diaryService.getDiaries(id);
-  		model.addAttribute("diaries", diaries);
+  		// 日付表示フォーマット
+  		List<DiaryViewDto> diaryViewDtoList = diaries.stream()
+				.map(diary -> DiaryViewDto.from(diary))
+				.toList();
+  		model.addAttribute("diaryViewDtoList", diaryViewDtoList);
   		
-		return "plant/detail";
+		return "plant/plant-detail";
 	}
 	
 	//観察日記削除処理

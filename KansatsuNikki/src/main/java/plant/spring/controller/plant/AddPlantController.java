@@ -71,7 +71,7 @@ public class AddPlantController {
 		// スロット数上限を設定
 		model.addAttribute("slotNum", slotConfig.getMaxSlotCount());
 		
-		return "plant/add";
+		return "plant/add-plant";
 	}
 
 	//植物登録処理

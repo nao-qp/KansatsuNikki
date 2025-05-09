@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import plant.spring.aop.annotation.Authenticated;
+import plant.spring.application.util.FormatUtils;
 import plant.spring.domain.user.model.Diaries;
 import plant.spring.domain.user.model.Profiles;
 import plant.spring.domain.user.service.DiaryService;
@@ -79,6 +80,8 @@ public class DiaryDetailController {
   		//観察日記情報取得
   		Diaries diary = diaryService.getDiary(diaryId);
   		model.addAttribute("diary", diary);
+  		// 観察日フォーマット
+  		model.addAttribute("observationDateStr", FormatUtils.formatToJapaneseDateString(diary.getObservationDate()));
   		
   		//観察日記画像保存先ディレクトリ設定
   		model.addAttribute("uploadDirDiary", uploadDirDiary);
