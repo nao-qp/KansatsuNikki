@@ -59,17 +59,6 @@ public class SecurityConfig {
     }
 
 
-    //新規登録後、ユーザー認証を行う
-//    @Bean
-//    AuthenticationManager authManager(HttpSecurity http) throws Exception {
-//        AuthenticationManagerBuilder authenticationManagerBuilder =
-//                http.getSharedObject(AuthenticationManagerBuilder.class);
-//        // ユーザー詳細サービスやパスワードエンコーダーを設定
-//        // authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//
-//        return authenticationManagerBuilder.build();
-//    }
-
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();

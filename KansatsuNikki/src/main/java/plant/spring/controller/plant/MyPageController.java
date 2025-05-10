@@ -47,17 +47,9 @@ public class MyPageController {
 	@GetMapping("/plant/mypage")
 	public String getMyPage(Model model, Locale locale, @AuthenticationPrincipal CustomUserDetails user) {
 
-		// 現在のユーザーの認証情報を取得
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        //認証情報がない場合は、ログインページにリダイレクトする
-//        if (authentication == null) {
-//        	 return "redirect:/user/login";
-//        }
- 
-        // 認証されたユーザーのIDを取得
-//        Integer currentUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
+        // 認証されたユーザーID
 		Integer currentUserId = user.getId();
+		model.addAttribute("userId", currentUserId);
 
 		//プロフィール情報を取得
 		Profiles profile = profileService.getProfile(currentUserId);

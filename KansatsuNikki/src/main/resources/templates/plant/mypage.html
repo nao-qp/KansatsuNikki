@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="content">
 	<!--プロフィール-->
-	<div class="row profile">
+	<div class="row profile p-2">
 		<div class="col-md-2">
 			<div class="row">
 				<!--画像-->
@@ -26,47 +26,48 @@
 			</div>
 		</div>
 		
-		<div class="col-md-2">
-			<!--植物数-->
-			<div class="row">
-				<div class="col-12 d-flex justify-content-center">
-					<p th:text="#{plantCount}"></p>
+		<div class="col-md-1 d-flex align-items-center">
+			<div>
+				<!--植物数-->
+				<div class="row">
+					<div class="col-12 d-flex justify-content-center">
+						<p class="mb-0" th:text="#{plantCount}"></p>
+					</div>
+					<div class="col-12 d-flex justify-content-center">
+						<p th:text="${plantCount}"></p>
+					</div>
 				</div>
-				<div class="col-12 d-flex justify-content-center">
-					<p th:text="${plantCount}"></p>
-				</div>
-			</div>
-			<!--観察日記数-->
-			<div class="row">
-				<div class="col-12 d-flex justify-content-center">
-					<p th:text="#{diaryCount}"></p>
-				</div>
-				<div class="col-12 d-flex justify-content-center">
-					<p th:text="${diaryCount}"></p>
+				<!--観察日記数-->
+				<div class="row">
+					<div class="col-12 d-flex justify-content-center">
+						<p class="mb-0" th:text="#{diaryCount}"></p>
+					</div>
+					<div class="col-12 d-flex justify-content-center">
+						<p th:text="${diaryCount}"></p>
+					</div>
 				</div>
 			</div>
 		</div>
 		
 		<div class="col-md-8">
-			<p th:text="${profile.profile}"></p>
+			<p class="m-2" th:text="${profile.profile}"></p>
+		</div>
+		
+		<!-- プロフィール情報編集ボタン -->
+		<div class="col-md-1 p-1 d-flex justify-content-end">
+			<a class="icon-container" th:href="@{/user/edit-profile/{userId}(userId=${userId})}">
+				<img src="/images/editicon.png" alt="#{editIcon}" class="img-fluid">
+			</a>
 		</div>
 		
 	</div>
 	
-	<!--追加ボタン＆検索-->
+	<!--植物追加ボタン-->
 	<div class="row my-2 d-flex justify-content-between">
-		<!-- 植物追加ボタン -->
 		<div class="col-md-1 d-flex align-items-center">
 			<a class="icon-container" th:href="@{/plant/add}">
 				<img src="/images/plusicon.png" alt="#{plusIcon}" class="img-fluid" />
 			</a>
-		</div>
-		<!-- 検索 -->
-		<div class ="col-md-4">
-			<form class="d-flex" role="search">
-		        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-		        <button class="btn btn-outline-success" type="submit">Search</button>
-      		</form>
 		</div>
 	</div>
 	

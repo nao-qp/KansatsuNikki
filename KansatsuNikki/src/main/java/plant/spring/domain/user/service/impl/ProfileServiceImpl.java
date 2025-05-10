@@ -24,5 +24,24 @@ public class ProfileServiceImpl implements ProfileService {
 	public Profiles getProfile(Integer id) {
 		return mapper.findOne(id);
 	}
+	
+	/** update **/
+	/** ニックネームプロフィール1件更新 **/
+	@Override
+	public int updNicknameProfile(Integer id, String nickname, String profile) {
+		return mapper.updNicknameProfile(id, nickname, profile);
+	}
+	
+	/** ファイルパスクリア1件更新 **/
+	@Override
+	public int updFilePathClear(Integer id) {
+		return mapper.updFilePathClear(id);
+	}
+	
+	/** ファイルパス1件更新 **/
+	public int updFilePath(Integer id, String filePath) {
+		return mapper.updFilePath(id, filePath);
+	}
+	
 
 }

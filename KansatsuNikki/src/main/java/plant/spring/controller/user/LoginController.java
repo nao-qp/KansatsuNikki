@@ -14,6 +14,9 @@ public class LoginController {
 	//ログインページ表示
 	@GetMapping("/user/login")
 	public String getLogin(Model model, LoginForm form, Locale locale) {
+		// ヘッダーのログアウトボタン表示判定に使用
+		model.addAttribute("page", "login");
+		 
 		return "user/login";
 	}
 

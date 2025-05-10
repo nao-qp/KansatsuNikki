@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import lombok.extern.slf4j.Slf4j;
 import plant.spring.application.service.UserApplicationService;
 import plant.spring.domain.user.model.Users;
-import plant.spring.domain.user.service.UserService;
 import plant.spring.form.SignupForm;
 
 @Controller
@@ -25,16 +24,14 @@ public class SignupController {
 
 	@Autowired
 	private ModelMapper modelMapper;
-
-	@Autowired
-	private UserService userService;
-
 	@Autowired
 	private UserApplicationService userApplicationService;
 
 	//新規登録ページ表示
 	@GetMapping("/user/signup")
 	public String getSignup(Model model, SignupForm form, Locale locale) {
+		// ヘッダーにログアウトボタンを表示するか判定用に設定
+		model.addAttribute("page", "signup");
 		return "user/signup";
 	}
 
@@ -57,29 +54,8 @@ public class SignupController {
 
 		//ユーザー登録
 		try {
-			//新規登録、プロフィール初期データ登録、認証、マイページ表示
+			//新規登録
 			return registerUser(user, locale);
-
-			//※自動認証後、mypage表示が失敗するため後で確認。
-
-
-			//////////認証情報確認//////////
-			// 現在のユーザーの認証情報を取得
-//			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//			if (authentication != null && authentication.isAuthenticated()) {
-//			    // 認証されているユーザーの情報を取得
-//			    String username = authentication.getName(); // ユーザー名
-////			    Object principal = authentication.getPrincipal(); // ユーザーの詳細情報
-//			    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities(); // 権限
-//
-//			    System.out.println(username);
-//
-//			    // 権限の表示
-//			    authorities.forEach(authority -> System.out.println("Authority: " + authority.getAuthority()));
-//			}
-			//////////////////////////////
-
 
 		} catch (DataIntegrityViolationException e) {
 			//accountが重複した場合
@@ -88,16 +64,12 @@ public class SignupController {
 			return getSignup(model, form, locale);
 		}
 
-
 	}
-
-	//新規登録、プロフィール初期データ登録、認証、マイページ表示
+	//新規登録
 	public String registerUser(Users user, Locale locale) {
 		userApplicationService.registerNewUser(user, locale);
-		//作成されたユーザーデータのIDを取得
-		Integer usersId = userService.getLoginUser(user.getAccount()).getId();
 
-		return "redirect:/plant/mypage/" + usersId;
+		return "redirect:/user/login";
 	}
 
 }

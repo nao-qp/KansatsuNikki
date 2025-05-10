@@ -66,7 +66,7 @@
 	</div>
 	
 	<!-- 戻るボタン -->
-	<div class="row d-flex justify-content-center">
+	<div class="row d-flex justify-content-center width-100">
 		<a th:href="@{/plant/mypage}" th:text="＜戻る"></a>
 	</div>
 	
@@ -80,8 +80,9 @@
 	</div>
 	<!-- 観察日記一覧 -->
 	<div class="row">
-		<a class="diary" th:href="@{/diary/detail/{plantId}/{diaryId}(plantId=${plant.id}, diaryId=${diary.id})}" th:each="diary : ${diaryViewDtoList}">
-			<div class="row p-0 mb-3 border position-relative">
+		<a class="diary" th:href="@{/diary/detail/{plantId}/{diaryId}(plantId=${plant.id}, diaryId=${diary.id})}" 
+				th:each="diary : ${diaryViewDtoList}">
+			<div class="row p-0 mb-3 border position-relative diary-list">
 				<!-- 削除ボタン(削除確認モーダル表示) -->
 				<img class="delete-icon" th:data-name="${diary.observationDate}" 
 						th:onclick="'showDeleteModal(' + ${diary.id} + ', ' + this.dataset.observationDate + '); event.preventDefault();'" 

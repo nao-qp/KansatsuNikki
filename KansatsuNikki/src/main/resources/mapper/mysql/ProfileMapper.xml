@@ -5,20 +5,12 @@
 <!-- Mapperとxmlのマッピング -->
 <mapper namespace="plant.spring.repository.ProfileMapper">
 
-<!-- プロフィール初期データ1件作成 -->
-<insert id="insertOne">
-	insert into profiles (
-		users_id
-		,nickname)
-		values (
-			#{id}
-			,#{nickname})
-</insert>
-
+<!-- select -->
 <!-- プロフィール情報1件取得 -->
 <select id="findOne" resultType="Profiles">
  	select
- 		profiles.nickname
+ 		profiles.id
+ 		,profiles.nickname
  		,profiles.profile
  		,profiles.file_path
  	from
@@ -30,4 +22,45 @@
  	where
  		users.id = #{id}
 </select>
+
+<!-- insert -->
+<!-- プロフィール初期データ1件作成 -->
+<insert id="insertOne">
+	insert into profiles (
+		users_id
+		,nickname)
+		values (
+			#{id}
+			,#{nickname})
+</insert>
+
+<!-- update -->
+<!-- ニックネームプロフィール1件更新 -->
+<update id="updNicknameProfile">
+	update profiles
+	set
+		nickname = #{nickname}
+		,profile = #{profile}
+	where
+		id = #{id}
+</update>
+
+<!-- ファイルパスクリア1件更新 -->
+<update id="updFilePathClear">
+	update profiles
+	set
+		file_path = ""
+	where
+		id = #{id}
+</update>
+
+<!-- ファイルパス1件更新 -->
+<update id="updFilePath">
+	update profiles
+	set
+		file_path = #{filePath}
+	where
+		id = #{id}
+</update>
+
 </mapper>

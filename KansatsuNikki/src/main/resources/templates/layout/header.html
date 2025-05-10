@@ -11,9 +11,11 @@
 	<div>
     	<a class="navbar-brand fs-3 py-0 text-success fw-semibold width-200" th:href="@{/plant/mypage}">植物観察日記</a>
     </div>
-	<form class="d-flex" role="search">
-	  <input class="form-control me-2 width-200" type="search" placeholder="Search" aria-label="Search">
-	  <button class="btn btn-outline-success" type="submit">検索</button>
+    <!-- ログアウトボタン -->
+    <form th:if="${page != 'login' && page != 'signup'}" method="post" th:action="@{/logout}">
+        <button class="btn btn-secondary ms-3" type="submit">
+          ログアウト
+        </button>
 	</form>
   </div>
 </nav>

@@ -1,7 +1,9 @@
 @charset "UTF-8";
 
 .profile {
-	background-color: #CCFF99;
+/*	background-color: #CCFF99;*/
+	background-color: #F0FFF0;
+	border-radius: 6px;
 }
 
 a {
@@ -183,6 +185,12 @@ fileplus-area img {
 		background-color: #F0FFF0;
 	}
 }
+
+.diary-list {
+	overflow: hidden;	/* 枠からはみ出た部分を隠す */
+	border-radius: 6px;	/* hiddenで丸い角からはみ出した部分も隠れる */
+}
+
 /* 子要素を画面中央に配置 */
 .container-center {
 	display: flex;
@@ -196,8 +204,16 @@ fileplus-area img {
 
 
 /* 幅調整 */
+.width-100 {
+	width: 100px;
+}
+
 .width-200 {
 	width: 200px;
+}
+
+.width-900 {
+	width: 900px;
 }
 
 

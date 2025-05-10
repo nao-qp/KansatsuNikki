@@ -15,11 +15,9 @@ public class SignupForm {
 	private String account;
 
 	@NotBlank
-	@Length(min = 6, max = 30)
 	private String pass;
 
 	@NotBlank
-	@Length(min = 6, max = 30)
 	private String confirmPass;
 }
 
