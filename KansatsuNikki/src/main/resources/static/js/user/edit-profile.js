@@ -71,7 +71,7 @@ container.addEventListener('click', function (e) {
   if (e.target.closest('.remove-btn')) {
     const slot = e.target.closest('.photo-slot');
     const filePath = slot.getAttribute('data-filePath');
-    if (id && !id.startsWith('temp-')) {
+    if (filePath && !filePath.startsWith('temp-')) {
       deletedFilePaths.push(filePath); // 既存データなら削除リストへ
     }
     slot.remove();

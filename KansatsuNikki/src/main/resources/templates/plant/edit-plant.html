@@ -63,10 +63,17 @@
 			
 		<!--入力欄-->
 		<div class="row d-flex justify-content-center">
-			
 				<!--植物の名前-->
-				<label th:for="name" th:text="#{plantName}"></label>
-				<input type="text" class="form-control mb-3 mt-1" th:field="*{name}" th:placeholder="#{plantNamePlaceholder}">
+				<div class="row">
+					<div class="width-120 p-0">
+						<label th:for="name" th:text="#{plantName}"></label>
+					</div>
+					<!-- エラー表示 -->
+					<div id="name-error" class="col-auto text-danger text-start" style="display: none;"></div>
+				</div>
+				<input type="text" class="form-control mb-3 mt-1" th:field="*{name}" 
+					th:placeholder="#{plantNamePlaceholder}"
+					onkeydown="if(event.key === 'Enter') event.preventDefault();">
 				<!--詳細-->
 				<label th:for="detial" th:text="#{plantDetail}"></label>
 				<textarea class="form-control mb-4 mt-1" th:field="*{detail}" th:placeholder="#{plantDetailPlaceholder}"

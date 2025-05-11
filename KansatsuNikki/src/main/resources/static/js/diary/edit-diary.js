@@ -125,10 +125,18 @@ for (const [key, value] of formData.entries()) {
     // 成功時のリダイレクト処理
     if (!response.ok) {
 	  if (response.status === 400) {
+		// ボタンを有効に戻す
+		updateButton.disabled = false;
+		updateButton.textContent = '更新';
+	
 	    // バリデーションエラー処理
 	    console.error('バリデーションエラー:', result.errors);
-	    //TODO: 各項目にエラーメッセージを表示するなど
-	    
+		  const errors = result.errors;
+		  if (errors.observationDate) {
+		    const errorDiv = document.getElementById('observationDate-error');
+		    errorDiv.textContent = errors.observationDate;
+		    errorDiv.style.display = 'block';
+		  }
 	  } else if (response.status === 401 && result.redirectUrl) {
 	    // 認証エラー
 	    // 自身のデータではないデータを編集しようとした場合は、ログインページへリダイレクトする

@@ -66,16 +66,19 @@
 	</div>
 	
 	<!-- 戻るボタン -->
-	<div class="row d-flex justify-content-center width-100">
+	<div class="row mb-3 d-flex justify-content-center width-100">
 		<a th:href="@{/plant/mypage}" th:text="＜戻る"></a>
 	</div>
 	
 	<!-- 観察日記追加ボタン -->
-	<div class="row mb-2 d-flex justify-content-end">
-		<div class="d-flex pe-4 align-items-center justify-content-end">
-			<a class="icon-container" th:href="@{/diary/add/{id}(id=${plant.id})}">
-				<img src="/images/plusicon.png" alt="#{plusIcon}" class="img-fluid">
-			</a>
+	<div class="row">
+		<p class="col text-start fs-4" th:text="観察日記"></p>
+		<div class="col mb-2 d-flex justify-content-end">
+			<div class="d-flex align-items-center justify-content-end">
+				<a class="icon-container" th:href="@{/diary/add/{id}(id=${plant.id})}">
+					<img src="/images/plusicon.png" alt="#{plusIcon}" class="img-fluid">
+				</a>
+			</div>
 		</div>
 	</div>
 	<!-- 観察日記一覧 -->

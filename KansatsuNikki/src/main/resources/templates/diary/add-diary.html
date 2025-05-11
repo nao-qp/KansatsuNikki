@@ -58,8 +58,14 @@
 		<!--入力欄-->
 		<div class="row d-flex justify-content-center">
 			<!-- 観察日 -->
-			<label th:for="observationDate" th:text="#{observationDate}"></label>
-			<input type="date" class="form-control mb-3 mt-1" th:field="*{observationDate}">
+			<div class="row p-0 d-flex align-items-center">
+				<div class="p-0 width-300">
+					<label th:for="observationDate" th:text="#{observationDate}"></label>
+					<input type="date" class="form-control mb-3 mt-1" th:field="*{observationDate}">
+				</div>
+				<!-- エラー表示 -->
+				<div id="observationDate-error" class="col-auto text-danger text-center mt-2" style="display: none;"></div>
+			</div>
 			<!--記録-->
 			<label th:for="detial" th:text="#{record}"></label>
 			<textarea class="form-control mb-4 mt-1" th:field="*{detail}" th:placeholder="#{record}"
@@ -70,13 +76,6 @@
 			  <a th:href="@{/plant/detail/{plantId}(plantId=${plant.id})}" 
 			  	class="btn btn-outline-secondary custom-hover width-200">キャンセル</a>
 			</div>
-			
-			
-			<!--登録ボタン-->
-<!--			<div class="mb-3 row d-flex justify-content-center">-->
-<!--				<button id="update-btn" type="button" class="btn btn-success" th:text="#{plantRegister}"></button>-->
-<!--			</div>-->
-
 			<!-- 植物IDをJavaScript側に送るためにセット -->
 			<input type="hidden" id="plant-id" th:value="${plant.id}">
 		</div>

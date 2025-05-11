@@ -122,7 +122,12 @@ for (const [key, value] of formData.entries()) {
 	  if (response.status === 400) {
 	    // バリデーションエラー処理
 	    console.error('バリデーションエラー:', result.errors);
-	    //TODO: 各項目にエラーメッセージを表示するなど
+	    const errors = result.errors;
+	    if (errors.name) {
+		    const errorDiv = document.getElementById('name-error');
+		    errorDiv.textContent = errors.name;
+		    errorDiv.style.display = 'block';
+		  }
 	    
 	  } else {
 	    // その他のエラー

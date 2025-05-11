@@ -78,8 +78,7 @@ new Sortable(container, { animation: 150 });
 
 // 更新ボタン押下時
 updateButton.addEventListener('click', async () => {
-	 console.log('更新ボタンが押されました'); // ← これ表示されるか確認
-	
+	 console.log('更新ボタンが押されました'); 
 	// ボタンを無効化して「処理中」に変更
 	updateButton.disabled = true;
 	updateButton.textContent = '処理中';
@@ -126,7 +125,18 @@ for (const [key, value] of formData.entries()) {
 	  if (response.status === 400) {
 	    // バリデーションエラー処理
 	    console.error('バリデーションエラー:', result.errors);
-	    //TODO: 各項目にエラーメッセージを表示するなど
+	    // ボタンを有効に戻す
+		updateButton.disabled = false;
+		updateButton.textContent = '更新';
+		
+	    // バリデーションエラー処理
+	    console.error('バリデーションエラー:', result.errors);
+		const errors = result.errors;
+	    if (errors.name) {
+		    const errorDiv = document.getElementById('name-error');
+		    errorDiv.textContent = errors.name;
+		    errorDiv.style.display = 'block';
+		  }
 	    
 	  } else if (response.status === 401 && result.redirectUrl) {
 	    // 認証エラー

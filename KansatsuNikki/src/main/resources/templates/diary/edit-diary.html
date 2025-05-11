@@ -68,8 +68,14 @@
 		<!--入力欄-->
 		<div class="row d-flex justify-content-center">
 			<!-- 観察日 -->
-			<label th:for="observationDate" th:text="#{observationDate}"></label>
-			<input type="date" class="form-control mb-3 mt-1" th:field="*{observationDate}">
+			<div class="row p-0 d-flex align-items-center">
+				<div class="p-0 width-300">
+					<label th:for="observationDate" th:text="#{observationDate}"></label>
+					<input type="date" class="form-control mb-3 mt-1" th:field="*{observationDate}">
+				</div>
+				<!-- エラー表示 -->
+				<div id="observationDate-error" class="col-auto text-danger text-center mt-2" style="display: none;"></div>
+			</div>
 			<!--記録-->
 			<label th:for="detial" th:text="#{record}"></label>
 			<textarea class="form-control mb-4 mt-1" th:field="*{detail}" th:placeholder="#{record}"
