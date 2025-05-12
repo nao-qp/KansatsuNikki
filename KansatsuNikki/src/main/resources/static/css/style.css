@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 .profile {
-/*	background-color: #CCFF99;*/
 	background-color: #F0FFF0;
 	border-radius: 6px;
 }
@@ -10,13 +9,8 @@ a {
 	text-decoration: none;
 }
 
-
-
 /* 画像を中央に表示する */
 .image-container {
-/*	width: 100%;*/
-/*	height: auto;*/
-/*	object-fit: contain;*/
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -36,22 +30,17 @@ a {
 
 /* 丸画像 */
 /* マイページプロフィール画像 */
-
 .prof-img-container {
 	width: 100px; /* 円の直径 */
     height: 100px; /* 円の直径 */
-    
     overflow: hidden; /* コンテナからはみ出した部分を隠す */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .prof-img-container img {
-/*    max-width: 100%;*/
-/*    max-height: 100%;*/
     object-fit: cover;
 }
-
 
 /* プラスアイコン */
 .icon-container {
@@ -82,7 +71,6 @@ fileplus-area img {
 }
 
 /**** マイページ ****/
-
 /* 植物削除ゴミ箱アイコン */
 .delete-icon {
 	width: 25px;
@@ -107,9 +95,6 @@ fileplus-area img {
     position: static !important;
 }
 
-
-
-
 /* 植物デフォルト画像 */
 .img-70 {
 	width: 70%;
@@ -117,7 +102,6 @@ fileplus-area img {
 	display: block;
     margin: 0 auto; /* 中央に配置 */
 }
-
 
 
 /**** 植物追加・編集画面 ****/
@@ -199,7 +183,6 @@ fileplus-area img {
 	width: 100%;
 }
 
-
 /* 幅調整 */
 .width-100 {
 	width: 100px;
@@ -221,10 +204,8 @@ fileplus-area img {
 	width: 900px;
 }
 
-
 /* キャンセルボタンホバー 色を調整 */
 .custom-hover:hover {
   background-color: #EEEEEE;
   color: #6c757d;
 }
-

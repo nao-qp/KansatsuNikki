@@ -138,11 +138,6 @@ public class EditDiaryController {
 
 		//formをクラスに変換
 		Diaries diary = modelMapper.map(form, Diaries.class);
-//
-//		//認証情報からidを取得し、植物データに追加
-//		diary.setUsersId(user.getId());
-//		//植物IDをリクエストパラメータから設定
-//		diary.setPlantsId(plantId);
 
 		//観察日記更新
 		diaryService.updDateDetail(diaryId, diary.getObservationDate(), diary.getDetail());

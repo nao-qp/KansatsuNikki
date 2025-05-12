@@ -55,23 +55,5 @@ public class AuthenticationAspect {
 
 	    return joinPoint.proceed();
 	}
-//	
-//  @Around("@annotation(plant.spring.aop.annotation.Authenticated)") // 上記のPointcutを適用
-//  public Object checkAuthentication(MethodInvocationProceedingJoinPoint joinPoint) throws Throwable {
-//	  
-//      // 認証チェックを行う
-//      boolean isAuthenticated = checkUserAuthentication(); // 認証状態を確認するロジックを呼び出し
-//      
-//      if (!isAuthenticated) {
-//      	return "redirect:/user/login";		// 認証情報がない場合は、ログインページにリダイレクトする
-//      }
-//      // 認証されている場合は、メソッドを実行
-//      return joinPoint.proceed(); // メソッド実行を進める
-//  }
-//
-//  private boolean checkUserAuthentication() {    	
-//  	// 現在のユーザーの認証情報を取得
-//      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//      return authentication != null ? true : false;
-//  }
+
 }

@@ -52,11 +52,6 @@ public class PlantDetailController {
         Integer UserId = plantService.getUserId(id);
         model.addAttribute("UserId", UserId);
         
-      //TODO:現在ログインしているユーザーかどうかで編集ボタンを表示するかどうか判定する
-     // 現在のユーザーの認証情報を取得
-//      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//      Integer currentUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
-         
 		//ニックネーム
         Profiles profile = profileService.getProfile(UserId);
         model.addAttribute("profile", profile);
@@ -124,7 +119,6 @@ public class PlantDetailController {
 		
         //観察日記削除（deleteフラグを1に更新）
         diaryService.deleteDiary(id);
-        
         
 		//削除実行後、植物詳細画面へリダイレクト
 		return "redirect:/plant/detail/{plantsId}";

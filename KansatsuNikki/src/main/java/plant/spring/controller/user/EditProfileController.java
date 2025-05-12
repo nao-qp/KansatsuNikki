@@ -77,6 +77,7 @@ public class EditProfileController {
 
 	
 	// プロフィール更新処理
+	@Authenticated
 	@PostMapping("/user/edit-profile/{userId}")
 	public ResponseEntity<Map<String, Object>> postEditPlant(Model model,
 			@AuthenticationPrincipal CustomUserDetails user, Locale locale,

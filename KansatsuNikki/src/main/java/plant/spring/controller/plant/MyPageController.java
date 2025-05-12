@@ -5,10 +5,7 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,74 +72,17 @@ public class MyPageController {
 		
 		return "plant/mypage";
 	}
-
-	//植物一覧表示（他ユーザー参照用）
-	@Authenticated
-	@GetMapping("/plant/other/{id}")
-	public String getOtherPage(Model model, @PathVariable("id") Integer id, Locale locale, 
-			@AuthenticationPrincipal CustomUserDetails user) {
-
-		// 現在のユーザーの認証情報を取得
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // TODO: 権限確認方法見直し
-        if (authentication != null && authentication.isAuthenticated()
-        		&& !(authentication instanceof AnonymousAuthenticationToken)) {
-
-        	// 認証されたユーザーのIDを取得
-            Integer currentUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
-
-            // IDを比較
-            // ログイン中のアカウントのIDだった場合、mypageへリダイレクト
-            if (currentUserId.equals(id)) {
-                return "redirect:/plant/mypage";
-            }
-        }
-
-		//プロフィール情報を取得
-		Profiles profile = profileService.getProfile(id);
-		model.addAttribute("profile", profile);
-		//プロフィール画像保存先ディレクトリ設定
-		model.addAttribute("uploadDirProfile", uploadDirProfilel);
-				
-		//ユーザーの植物数取得
-		Integer plantCount = plantService.getCount(id);
-		model.addAttribute("plantCount", plantCount);
-
-		//ユーザーの観察日記数取得
-		Integer diaryCount = diaryService.getCount(id);
-		model.addAttribute("diaryCount", diaryCount);
-
-		//ユーザーの植物一覧データを取得
-		List<Plants> plantList = plantService.findMany(id);
-		model.addAttribute("plantList", plantList);
-		//植物画像保存先ディレクトリ設定
-		model.addAttribute("uploadDirPlant", uploadDirPlant);
-
-		return "plant/mypage";
-	}
 	
 	//植物削除処理
 	@Authenticated
 	@PostMapping("/plant/delete/{id}")
 	public String deletePlant(Model model, @PathVariable("id") Integer id, Locale locale) {
 		
-		////削除処理前に、認証情報を確認////
-		// 現在のユーザーの認証情報を取得
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//        //認証情報がない場合は、ログインページにリダイレクトする
-//        if (authentication == null) {
-//        	 return "redirect:/user/login";
-//        }
-		
         //植物削除（deleteフラグを1に更新）
         plantService.deletePlant(id);
-        
         
 		//削除実行後、植物一覧へリダイレクト
 		return "redirect:/plant/mypage";
 	}
-	
 
 }
