@@ -11,7 +11,7 @@
 	<div class="row d-flex align-items-center">
 		<!-- プロフアイコン -->
 		<div class="col-3 px-0 prof-img-container-mini">
-			<a class="image-container"th:href="@{/plant/other/{id}(id=${UserId})}">
+			<a class="image-container"th:href="@{/plant/mypage}">
 				<img class="circular-image" th:src="${profile.filePath != null && !profile.filePath.trim().isEmpty()} ? 
 							@{${uploadDirProfile} + ${profile.filePath}} : '/images/profileImage.png'" alt="ProfileImage">
 			</a>
@@ -42,8 +42,12 @@
 	</div>
 	
 	<!-- 戻るボタン -->
-	<div class="row ms-2 mt-3 mb-2 d-flex justify-content-center width-100">
-		<a th:href="@{/plant/detail/{plantId}(plantId=${diary.plantsId})}" th:text="＜戻る"></a>
+	<div class="d-flex justify-content-center ">
+		<div class="col-10 ms-3">
+			<div class="ms-2 mt-3 mb-2 d-flex justify-content-center width-100">
+				<a th:href="@{/plant/detail/{plantId}(plantId=${diary.plantsId})}" th:text="＜戻る"></a>
+			</div>
+	</div>
 	</div>
 	
 	<!-- 日付情報 -->

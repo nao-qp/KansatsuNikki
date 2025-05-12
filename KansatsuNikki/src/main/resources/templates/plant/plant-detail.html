@@ -13,7 +13,7 @@
 	<div class="row d-flex align-items-center">
 		<!-- プロフアイコン -->
 		<div class="col-3 px-0 prof-img-container-mini">
-			<a class="image-container"th:href="@{/plant/other/{id}(id=${UserId})}">
+			<a class="image-container"th:href="@{/plant/mypage}">
 				<img class="circular-image" th:src="${profile.filePath != null && !profile.filePath.trim().isEmpty()} ? 
 							@{${uploadDirProfile} + ${profile.filePath}} : '/images/profileImage.png'" alt="ProfileImage">
 			</a>
@@ -121,8 +121,7 @@
 	        	<button type="button" class="btn-close m-2 position-absolute end-0" data-bs-dismiss="modal" aria-label="Close"></button>
 	      	</div>
 	      <div class="modal-body">
-	        <p th:text="#{deleteMessage1}" class="text-center"></p>
-	        <p th:text="#{deleteMessage2}" class="text-center"></p>
+	        <p th:text="#{deleteMessageDiary}" class="text-center"></p>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
