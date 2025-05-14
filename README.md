@@ -1,8 +1,12 @@
 # KansatsuNikki
-植物観察日記アプリ
+## 植物観察日記アプリ
 
     植物を育てる楽しさと記録の便利さを兼ね備えた、植物管理＆観察日記アプリです。
     植物ごとの情報や成長の様子を写真付きで記録でき、コレクションとしても楽しめます。
+
+- [コード](https://github.com/nao-qp/KansatsuNikki/tree/main/KansatsuNikki)
+- [植物観察アプリ画面、操作紹介](https://github.com/nao-qp/KansatsuNikki/blob/main/doc/%E6%A4%8D%E7%89%A9%E8%A6%B3%E5%AF%9F%E6%97%A5%E8%A8%98%E3%82%A2%E3%83%97%E3%83%AA.pdf)
+
 
 ## 使用技術
 - **言語：** Java / JavaScript / HTML / CSS
